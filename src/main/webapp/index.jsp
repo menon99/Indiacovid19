@@ -11,6 +11,12 @@
   <!-- India State Map  -->
   <title>India Map</title>
 
+  <!-- CDN Links -->
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
   <!--  Styles  -->
   <style type="text/css">
     body {
@@ -60,18 +66,30 @@
   </style>
 </head>
 
-<body>
-  <div id="chart"></div>
-
+<body onload = "sizeChange()">
+	<nav class="navbar navbar-dark bg-dark justify-content-between">
+	  <a class="navbar-brand"><span style = "color: white">COVID-19 Analysis</span></a>
+	  <form class="form-inline">
+	    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	  </form>
+	</nav>
+	<div class = "container">
+		<center>
+			<div id="chart"></div>
+		</center>	
+	</div>
+	
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
 
   <script src="<c:url value="/resources/js/d3.geo.min.js" />"></script>
   
   <script type="text/javascript">
-    var w = 650;
-    var h = 650;
-    var proj = d3.geo.mercator();
+  	d3.select(window).on("resize", sizeChange);
+    var w = 800;
+    var h = 800;
+    var proj = d3.geo.mercator().scale(1100);
     var path = d3.geo.path().projection(proj);
     var t = proj.translate(); // the projection's default translation
     var s = proj.scale() // the projection's default scale
@@ -175,6 +193,11 @@
       proj.scale(6700);
       proj.translate([-1240, 750]);
     }
+    
+    function sizeChange() {
+	    d3.select("g").attr("transform", "scale(" + $("#container").width()/900 + ")");
+	    $("svg").height($("#container").width()*0.618);
+	}
 
 
   </script>
