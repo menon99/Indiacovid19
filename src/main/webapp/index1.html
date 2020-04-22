@@ -88,7 +88,7 @@
       .style("opacity", 0);
 
 
-    d3.json("india_states_final.json", function (json) {
+    d3.json("resources/json/india_states_final.json", function (json) {
 
       var maxTotal = d3.max(json.features, function (d) { return d.cases });
 
