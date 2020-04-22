@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"  isELIgnored="false"%>
+
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +12,6 @@
   <title>India Map</title>
 
   <!--  Styles  -->
-  <link type="text/css" rel="stylesheet" href="zcolorbrewer.css" />
   <style type="text/css">
     body {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -61,7 +66,7 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
 
-  <script type="text/javascript" src="d3.geo.min.js"></script>
+  <script src="<c:url value="/resources/js/d3.geo.min.js" />"></script>
   
   <script type="text/javascript">
     var w = 650;
@@ -87,8 +92,7 @@
       .attr("class", "tooltip")
       .style("opacity", 0);
 
-
-    d3.json("india_states_final.json", function (json) {
+    d3.json("<c:url value="/resources/json/india_states_final.json"/>", function (json) {
 
       var maxTotal = d3.max(json.features, function (d) { return d.cases });
 
