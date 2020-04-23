@@ -16,9 +16,6 @@ public class UpdateIndiaStates {
 	public void updateIndiaStates(JSONObject latest, ServletContext ctx) throws IOException {
 		
 		String path = ctx.getRealPath("/resources/json/india_states_final.json"); //Deployment
-//		String path = "/home/akash/eclipse-workspace/Indiacovid19/src/main"
-//				+ "/webapp/resources/json/india_states_final.json";
-//		System.out.println(path);
 		
 		File file = new File(path);
 		String content = FileUtils.readFileToString(file, "utf-8");
@@ -39,13 +36,6 @@ public class UpdateIndiaStates {
 				}
 			}
 		}
-		
-//		for(int i = 0 ; i < statesArray.length(); i++) {
-//			System.out.println(indiaStates.getJSONArray("features").getJSONObject(i).
-//					getJSONObject("properties").getString("st_nm"));
-//			System.out.println(indiaStates.getJSONArray("features").
-//					getJSONObject(i).get("cases"));
-//		}
 		
 		BufferedWriter writer = Files.newBufferedWriter(Paths.get(path));
 	    indiaStates.write(writer);

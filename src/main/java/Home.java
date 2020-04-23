@@ -41,16 +41,11 @@ public class Home extends HttpServlet {
 		String today = LocalDate.now().toString();
 		
 		String path = ctx.getRealPath("/resources/json/lastUpdated.txt"); //Deployment
-//		String path = "/home/akash/eclipse-workspace/Indiacovid19/src/main"
-//				+ "/webapp/resources/json/lastUpdated.txt";
-//		System.out.println("path is " + path);
 		
 		FileReader fr = new FileReader(path);
 		BufferedReader br = new BufferedReader(fr);
 		String lastUpdated = br.readLine();
 		br.close();
-		
-//		System.out.println("lastUpdated is " + lastUpdated);
 
 		if (lastUpdated == null || !lastUpdated.equalsIgnoreCase(today)) {
 			
@@ -64,7 +59,6 @@ public class Home extends HttpServlet {
 		}
 		
 		request.setAttribute("tableData", j1.getJSONArray("statewise"));
-		request.setAttribute("name", "akash");
 		
 		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
