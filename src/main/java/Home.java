@@ -35,6 +35,8 @@ public class Home extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		System.out.println("j1 is " + j1);
+		
 		ServletContext ctx = request.getServletContext();
 		String today = LocalDate.now().toString();
 		
@@ -60,7 +62,10 @@ public class Home extends HttpServlet {
 			fileWriter.flush();
 			fileWriter.close();
 		}
-
+		
+		request.setAttribute("tableData", j1.getJSONArray("statewise"));
+		request.setAttribute("name", "akash");
+		
 		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
 	}

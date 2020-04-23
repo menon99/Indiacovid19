@@ -16,7 +16,8 @@
   	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
+  	<link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator.min.css" rel="stylesheet">
+	<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
   <!--  Styles  -->
   <style type="text/css">
     body {
@@ -79,11 +80,27 @@
 			<div id="chart"></div>
 		</center>	
 	</div>
+	<div id="example-table"></div>
 	
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
 
   <script src="<c:url value="/resources/js/d3.geo.min.js" />"></script>
+  
+  <script type="text/javascript">
+  var tabledata = ${tableData} ;
+  var table = new Tabulator("#example-table", {
+	  // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+	 	data:tabledata, //assign data to table
+	 	layout:"fitColumns", //fit columns to width of table (optional)
+	 	columns:[ //Define Table Columns
+		 	{title:"State/UT", field:"state", hozAlign:"center"},
+		 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
+		 	{title:"Active", field:"active",hozAlign:"center"},
+		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
+		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
+	 	]});
+  </script>
   
   <script type="text/javascript">
   	d3.select(window).on("resize", sizeChange);
