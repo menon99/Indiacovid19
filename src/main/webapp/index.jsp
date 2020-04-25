@@ -25,9 +25,6 @@
   <link rel = "stylesheet" href = "<c:url value="/resources/css/index.css" />">
   
   <!-- Fonts -->
-  <link rel="preload" importance="low" href="<c:url value="/resources/fonts/archia-bold-webfont.woff2" />" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" importance="low" href="<c:url value="/resources/fonts/archia-semibold-webfont.woff2" />" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" importance="low" href="<c:url value="/resources/fonts/archia-bold-webfont.woff2" />" as="font" type="font/woff2" crossorigin="anonymous">
 </head>
 
 <body onload = "resizefunc()">
@@ -47,12 +44,38 @@
 		</div>
 	</div>
 	<div class = "container">
+		<div class = "row">
+			<div class = "col-sm-6">
+				<canvas id = "line-confirmed"></canvas>
+			</div>
+			<div class = "col-sm-6">
+				<canvas id = "line-active"></canvas>
+			</div>
+		</div>
+		<div class = "row">
+			<div class = "col-sm-6">
+				<canvas id = "line-recovered"></canvas>
+			</div>
+			<div class = "col-sm-6">
+				<canvas id = "line-death"></canvas>
+			</div>
+		</div>
+		<div class = "row">
+			
+		</div>
+	</div>
+	
+	<div class = "container">
 		<div id="covid-table"></div>
-	</div> 
+	</div>
+	
 	
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   <script src="<c:url value="/resources/js/d3.geo.min.js" />"></script>
+  <script src="<c:url value="/resources/js/index.js" />"></script>
   <script type="text/javascript">
   var tabledata = ${tableData} ;
   var table = new Tabulator("#covid-table", {
@@ -67,6 +90,6 @@
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	]});
   </script>
-	<script src="<c:url value="/resources/js/index.js" />"></script>
+	
 </body>
 </html>
