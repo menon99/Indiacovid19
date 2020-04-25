@@ -36,10 +36,42 @@
 	  </form>
 	</nav>
 	<div class = "row">
-		<div class = "col-sm-4" id = "contentbox">
+		<div class = "col-sm-6" id = "contentbox">
 			
 		</div>
-		<div class = "col-sm-8" id = "mapbox">
+		<div class = "col-sm-6" id = "mapbox">
+			<div class = "container" style = "padding: 1%">
+				<div id = "info">
+					<h2 style = "font-family: archia">COVID-19 Cases</h2>
+					<h2 style = "font-family: archia; font-size: 25px; padding: 1px; font-weight: bold" id = "stateid">Hover over a State</h2>
+					<div class= "row">
+						<div class = "col-sm-3">
+							<div style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; ">
+							    <h5 style = "font-family: archia; color: #800000; opacity: 1; text-align: center; font-weight: bold">Cases Confirmed: </h5>
+							    <h5 id = "span-confirmed"  style = "font-family: archia; color: #800000; text-align: center;"></h5>
+							</div>
+						</div>
+						<div class = "col-sm-3">
+							<div style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px;">
+							    <h5 style = "font-family: archia; color:#000066; text-align: center; font-weight: bold">Active Cases: </h5>
+							    <h5 id = "span-active"  style = "font-family: archia; color: #000066; text-align: center;"></h5>
+							</div>
+						</div>
+						<div class = "col-sm-3">
+							<div style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px;">
+							    <h5 style = "font-family: archia; color: #006600; text-align: center; font-weight: bold">Recovered Cases: </h5>
+							    <h5 id = "span-recovered"  style = "font-family: archia; color: #006600; text-align: center;"></h5>
+							</div>
+						</div>
+						<div class = "col-sm-3">
+							<div style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px;">
+							    <h5 style = "font-family: archia; color: #333333; text-align: center; font-weight: bold">Death Cases: </h5>
+							    <h5 id = "span-death"  style = "font-family: archia; color: #333333; text-align: center;"></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div id = "map"></div>
 		</div>
 	</div>
@@ -75,7 +107,7 @@
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   <script src="<c:url value="/resources/js/d3.geo.min.js" />"></script>
-  <script src="<c:url value="/resources/js/index.js" />"></script>
+  
   <script type="text/javascript">
   var tabledata = ${tableData} ;
   var table = new Tabulator("#covid-table", {
@@ -90,6 +122,6 @@
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	]});
   </script>
-	
+	<script src="<c:url value="/resources/js/index.js" />"></script>
 </body>
 </html>
