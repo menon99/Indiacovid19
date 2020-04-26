@@ -209,46 +209,149 @@
 		});
 	}
    
-   /*
-   Coordinates for each state to be used for view setting:
-   
-   note: zoom value most probably 7 for all... if no, then zoom value will be given near the state coordinates
-   
-   Andaman and Nicobar Islands : 10.498614480162155,92.548828125
-   Andhra Pradesh : 15.982453522973508,81
-   Arunachal Pradesh : 28.14950321154457,95.185546875
-   Assam : 25.8,93.01025390625
-   Bihar : 25.849336891707605,86.06689453125
-   Chandigarh : 30.730031843442763,76.77932739257812 ; 12
-	Chattisgarh : 21,83.0458984375
-	Dadra and Nagar Haveli : 20.188746184002486,73.0810546875 ; 12 - this one is acting a bit weird, showing chattisgarh map everytime but there is no map marking for it... leave this one 
-	Delhi : 28.65323575209858,77.1295166015625 ; 10
-	Goa : 15.343788940043282,74.04098510742188 ; 10
-	Gujarat : 22.857194700969636,72.24609375
-	Haryana : 29.084976575985912,76.387939453125
-	Himachal Pradesh : 32.091882620021806,77.266845703125
-	Jammu and Kashmir : 33.687781758439364,74.87182617187499
-	Jharkhand : 23.53377298325595,85.660400390625
-	Karnataka : 14.836738848907621,76.53076171875
-	Kerala : 9.784851250750604,76.75048828125
-	Ladakh : 34.27083595165,76.7724609375
-	Lakshadweep : 10.784851250750604,73.004150390625 ; 9 - barely visible, so don't mind
-	Madhya Pradesh : 23.53377298325595,79.211669921875
-	Maharashtra : 19.145168196205297,77
-	Manipur : 24.8,93.91113281249999 ; 9
-	Meghalaya : 25.48295117535531,91.5 ; 8
-	Mizoram : 23.33216830631147,92.83447265624999 ; 8
-	Nagaland : 26.244156283890756,94.58129882812499 ; 8
-	Orissa : 20.324023603422518,84.803466796875
-	Puducherry : 11.361567960696178,79.771728515625 ; 9
-	Punjab : 30.9,75.531005859375 ; 8
-	Rajasthan : 26.667095801104814,74.168701171875
-	Sikkim : 27.595934774495056,88.48388671874999 ; 9
-	Tamil Nadu : 10.5,78.67 ; 7
-	Telangana : 17.936928637549443,79.1015625
-	Tripura : 23.71998271844965,91.77703857421875 ; 9
-	Uttarakhand : 30.240086360983426,79.22241210937499 ; 8
-	Uttar Pradesh : 26.88288045572338,80.74951171875
-	West Bengal : 23.8,88.077392578125
-          
-   */
+   var state_coords_zoom = {
+		   "Andaman and Nicobar Islands" : {
+			    "coords": [10.498614480162155,92.548828125],
+			    "zoom": 7
+			    },
+			"Andhra Pradesh" : {
+			    "coords": [15.982453522973508,81],
+			    "zoom": 7
+			    },
+			"Arunachal Pradesh" : {
+			    "coords": [28.14950321154457,95.185546875],
+			    "zoom": 7
+			    },
+			"Assam" : {
+			    "coords": [25.8,93.01025390625],
+			    "zoom": 7
+			    },
+			"Bihar" : {
+			    "coords": [25.849336891707605,86.06689453125],
+			    "zoom": 7
+			    },
+			"Chandigarh" : {
+			    "coords": [30.730031843442763,76.77932739257812],
+			    "zoom": 12
+			    },
+			"Chattisgarh" : {
+			    "coords": [21,83.0458984375],
+			    "zoom": 7
+			    },
+			"Dadra and Nagar Haveli" : {
+			    "coords": [20.188746184002486,73.0810546875],
+			    "zoom": 12
+			    },
+			"Delhi" : {
+			    "coords": [28.65323575209858,77.1295166015625],
+			    "zoom": 10
+			    },
+			"Goa" : {
+			    "coords": [15.343788940043282,74.04098510742188],
+			    "zoom": 10
+			    },
+			"Gujarat" : {
+			    "coords": [22.857194700969636,72.24609375],
+			    "zoom": 7
+			    },
+			"Haryana" : {
+			    "coords": [29.084976575985912,76.387939453125],
+			    "zoom": 7
+			    },
+			"Himachal Pradesh" : {
+			    "coords": [32.091882620021806,77.266845703125],
+			    "zoom": 7
+			    },
+			"Jammu and Kashmir" : {
+			    "coords": [33.687781758439364,74.87182617187499],
+			    "zoom": 7
+			    },
+			"Jharkhand" : {
+			    "coords": [23.53377298325595,85.660400390625],
+			    "zoom": 7
+			    },
+			"Karnataka" : {
+			    "coords": [14.836738848907621,76.53076171875],
+			    "zoom": 7
+			    },
+			"Kerala" : {
+			    "coords": [9.784851250750604,76.75048828125],
+			    "zoom": 7
+			    },
+			"Ladakh" : {
+			    "coords": [34.27083595165,76.7724609375],
+			    "zoom": 7
+			    },
+			"Lakshadweep" : {
+			    "coords": [10.784851250750604,73.004150390625],
+			    "zoom": 9
+			    },
+			"Madhya Pradesh" : {
+			    "coords": [23.53377298325595,79.211669921875],
+			    "zoom": 7
+			    },
+			"Maharashtra" : {
+			    "coords": [19.145168196205297,77],
+			    "zoom": 7
+			    },
+			"Manipur" : {
+			    "coords": [24.8,93.91113281249999],
+			    "zoom": 9
+			    },
+			"Meghalaya" : {
+			    "coords": [25.48295117535531,91.5],
+			    "zoom": 8
+			    },
+			"Mizoram" : {
+			    "coords": [23.33216830631147,92.83447265624999],
+			    "zoom": 8
+			    },
+			"Nagaland" : {
+			    "coords": [26.244156283890756,94.58129882812499],
+			    "zoom": 8
+			    },
+			"Orissa" : {
+			    "coords": [20.324023603422518,84.803466796875],
+			    "zoom": 7
+			    },
+			"Puducherry" : {
+			    "coords": [11.361567960696178,79.771728515625],
+			    "zoom": 9
+			    },
+			"Punjab" : {
+			    "coords": [30.9,75.531005859375],
+			    "zoom": 8
+			    },
+			"Rajasthan" : {
+			    "coords": [26.667095801104814,74.168701171875],
+			    "zoom": 7
+			    },
+			"Sikkim" : {
+			    "coords": [27.595934774495056,88.48388671874999],
+			    "zoom": 9
+			    },
+			"Tamil Nadu" : {
+			    "coords": [10.5,78.67],
+			    "zoom": 7
+			    },
+			"Telangana" : {
+			    "coords": [17.936928637549443,79.1015625],
+			    "zoom": 7
+			    },
+			"Tripura" : {
+			    "coords": [23.71998271844965,91.77703857421875],
+			    "zoom": 9
+			    },
+			"Uttarakhand" : {
+			    "coords": [30.240086360983426,79.22241210937499],
+			    "zoom": 8
+			    },
+			"Uttar Pradesh" : {
+			    "coords": [26.88288045572338,80.74951171875],
+			    "zoom": 7
+			    },
+			"West Bengal" : {
+			    "coords": [23.8,88.077392578125],
+			    "zoom": 7
+			    },
+			}
