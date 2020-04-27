@@ -121,7 +121,236 @@
 		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	]});
+  	document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
+  	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
+  	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
+  	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
+  	
+  	var coords = [23.0, 80.1015625];
+    function resizefunc(){
+          if(screen.width>900){
+              document.getElementById("contentbox").removeAttribute("class");
+              document.getElementById("mapbox").removeAttribute("class");
+              document.getElementById("contentbox").setAttribute("class","col-sm-6");
+              document.getElementById("mapbox").setAttribute("class","col-sm-6");
+              coords = [23.0, 80.1015625];
+          }
+          else{
+              document.getElementById("contentbox").removeAttribute("class");
+              document.getElementById("mapbox").removeAttribute("class");
+              coords = [23,82.1];
+              document.getElementById("contentbox").setAttribute("class","col-sm-3");
+              document.getElementById("mapbox").setAttribute("class","col-sm-9");
+          }
+      }
+  // initialize the map and other variables
+    
+     var map = L.map('map',{
+  	   center:coords, 
+  	   zoom:5, 
+  	   scrollWheelZoom: false
+  	   });
+     var geojson;
+     var info;
+     map.dragging.disable();
+     //updating json data to the map
+     d3.json("./resources/json/india_states_final.json", function (json){
+         console.log(json);
+    	 geojson = L.geoJson(json, {
+             style: style,
+             onEachFeature: onEachFeature
+         });
+         geojson.addTo(map);
+     });
+
+     //getting the color values for filling the map
+     function getColor(d) {
+         return d > 5000 ? '#800026' :
+             d > 4000  ? '#BD0026' :
+             d > 3000  ? '#E31A1C' :
+             d > 2000  ? '#FC4E2A' :
+             d > 1000   ? '#FD8D3C' :
+             d > 500   ? '#FEB24C' :
+             d > 250   ? '#FED976' :
+                         '#FFEDA0';
+     }
+
+     //styling map
+     function style(features) {
+         return {
+             fillColor: getColor(features.cases),
+             weight: 2,
+             opacity: 1,
+             color: 'white',
+             dashArray: '3',
+             fillOpacity: 0.7
+         };
+     }
+
+     var data_cases = { "Karnataka" :{ 
+  	   'y-confirmed' :[1,2,3,6,8,14,30,50,80,89],
+  	   'y-active' :[1,2,3,6,7,11,23,35,68,79],
+  	   'y-recovered' :[0,1,2,2,4,5,7,13,16,30],
+  	   'y-death' :[1,2,3,6,8,14,30,50,80,89],
+     		}, 
+  	   "Jammu and Kashmir" :{ 
+  		   'y-confirmed' :[7,9,13,16,28,34,40,58,78,90],
+  		   'y-active' :[1,2,3,6,8,14,30,50,80,89],
+  		   'y-recovered' :[3,4,7,7,8,10,16,20,30,40],
+  		   'y-death' :[3,3,4,5,8,8,20,30,38,50],
+     		},
+     		"Total" :{ 
+   		 'y-confirmed' :[17,29,39,56,78,94,114,135,178,250], 
+   		 'y-active' :[15,26,35,55,78,94,112,125,168,230],
+   		 'y-recovered' :[1,2,3,6,8,14,30,50,80,89],
+   		 'y-death' :[13,12,13,36,48,54,73,105,118,138],
+      	}
+     		};
+     //highlighting the features in map
+     function highlightFeature(e) {
+         var layer = e.target;
+         //console.log(layer.feature.properties.st_nm.length);
+         //console.log(e.target); e.target.feature.cases
+         document.getElementById("stateid").innerHTML = "State: "+e.target.feature.properties.st_nm;
+         for(i in tabledata){
+        	 if(tabledata[i]['state'] == e.target.feature.properties.st_nm){
+        		 document.getElementById("span-confirmed").innerHTML = tabledata[i]['confirmed'];
+        		 document.getElementById("span-active").innerHTML = tabledata[i]['active'];
+        		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'];
+        		 document.getElementById("span-death").innerHTML = tabledata[i]['deaths'];
+        	 }
+         }
+         
+         lineChart(layer.feature.properties.st_nm,data_cases);
+
+         layer.setStyle({
+             weight: 5,
+             color: '#ff3300',
+             dashArray: '',
+             fillOpacity: 0.7
+         });
+
+         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+             layer.bringToFront();
+         }
+     }
+     //reset function for highlight
+     function resetHighlight(e) {
+         geojson.resetStyle(e.target);
+         document.getElementById("stateid").innerHTML ="Hover over a State";
+         document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
+       	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
+       	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
+       	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
+     }
+
+     //leaflet zoom feature on click function
+     function zoomToFeature(e) {
+         map.fitBounds(e.target.getBounds());
+     }
+
+     //function governing each feature
+     function onEachFeature(feature, layer) {
+         layer.on({
+             mouseover: highlightFeature,
+             mouseout: resetHighlight,
+             //click: highlightFeature  //--  with this, we will redirect to the individual state map
+         });
+     }
+
+     //adding legend to the map
+     var legend = L.control({position: 'bottomright'});
+     legend.onAdd = function (map) {
+
+         var div = L.DomUtil.create('div', 'info legend'),
+             grades = [0, 250, 500, 1000, 2000, 3000, 4000, 5000],
+             labels = [];
+
+         // loop through our density intervals and generate a label with a colored square for each interval
+         for (var i = 0; i < grades.length; i++) {
+             div.innerHTML +=
+                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+         }
+
+         return div;
+     };
+     legend.addTo(map);
+     
+     
+     //generic line chart making function
+     function lineChart(state_name,data_cases){
+  	   
+  	   var dates=["03/19/2020","03/20/2020","03/21/2020","03/23/2020","03/24/2020","03/27/2020","03/30/2020","04/01/2020","04/14/2020","04/19/2020"];
+  	   
+  	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-confirmed']:data_cases["Total"]['y-confirmed'];
+  	   //for i in 
+  	   genericlinechart("line-confirmed",dates,dataset_y_confirmed,"#ff0000","Confirmed Cases");
+  	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-active']:data_cases["Total"]['y-active'];
+  	   genericlinechart("line-active",dates,dataset_y_active,"#0000ff","Active Cases");
+  	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-recovered']:data_cases["Total"]['y-recovered'];
+  	   genericlinechart("line-recovered",dates ,dataset_y_recovered, "#00ff99","Recovered Cases" );
+  	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-death']:data_cases["Total"]['y-death'];
+  	   genericlinechart("line-death",dates,dataset_y_death,"#bfbfbf","Death Cases");
+  	   //confirmed cases #ff0000
+  	   
+     }
+     
+     //generic function for line chart
+     function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label){
+  		var myLineChart = new Chart(document.getElementById(canvasid), {
+  		    type: 'line',
+  		    data: {
+  		    	labels: dataset_x,
+  		    	datasets:[{
+  		    		label: label,
+  		    		data: dataset_y,
+  		    		fill: false,
+  		    		lineTension: 0.1,
+  	                borderColor: bordercolor,
+  	                borderWidth: 1
+  		    	}]
+  		    },
+  		    options: {
+  		    	responsive: true,
+  	            maintainAspectRatio: false,
+  	            scales: {
+  	                xAxes: [{
+  	                	gridLines:{
+  	                		color: "rgba(0, 0, 0, 0)",
+  	                	},
+  	                    type: 'time',
+  	                    ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  	                    distribution: 'linear',
+  	                    time: {
+  	                    	unit: 'day',
+  	                        displayFormats: {
+  	                            day: 'MMM D'
+  	                        }
+  	                    }
+  	                }],
+  		    		yAxes: [{
+  		    			gridLines:{
+  		    				color: "rgba(0, 0, 0, 0)",
+  		    			}
+  		    		}],
+  		    		tooltips:{
+  		    			callbacks:{
+  		    				beforeLabel: "Date: ",
+  		    				label: function(tooltipItem){
+  		    					console.log(tooltipItem);
+  		    					return tooltipItem;
+  		    				}
+  		    			}
+  		    		}
+  	            }
+  		    }
+  		});
+  	}
   </script>
-	<script src="<c:url value="/resources/js/index.js" />"></script>
+	<!-- <script src="<c:url value="/resources/js/index.js" />" tabledata = ${tableData}></script> -->
 </body>
 </html>
