@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -10,14 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import utils.CallbackFuture;
 import utils.GetJSON;
-import utils.UpdateIndiaStates;
 
 public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,29 +31,16 @@ public class Home extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		System.out.println("j1 is " + j1);
-		
 		ServletContext ctx = request.getServletContext();
-		String today = LocalDate.now().toString();
 		
-		String path = ctx.getRealPath("/resources/json/lastUpdated.txt"); //Deployment
+		String path = ctx.getRealPath("/resources/json/india_states_final.json"); //Deployment
 		
-		FileReader fr = new FileReader(path);
-		BufferedReader br = new BufferedReader(fr);
-		String lastUpdated = br.readLine();
-		br.close();
-
-		if (lastUpdated == null || !lastUpdated.equalsIgnoreCase(today)) {
-			
-			UpdateIndiaStates up = new UpdateIndiaStates();
-			up.updateIndiaStates(j1, ctx);
-			
-			Writer fileWriter = new FileWriter(path);
-			fileWriter.write(today);
-			fileWriter.flush();
-			fileWriter.close();
-		}
+		File file = new File(path);
+		String content = FileUtils.readFileToString(file, "utf-8");
 		
+		JSONObject indiaStates = new JSONObject(content);
+		
+		request.setAttribute("india", indiaStates);
 		request.setAttribute("tableData", j1.getJSONArray("statewise"));
 		
 		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
