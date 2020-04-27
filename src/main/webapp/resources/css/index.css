@@ -1,35 +1,65 @@
 body {
       font-family: archia;
     }
-	.leaflet-container{
-         background: #fff;
-     }
-     #map{ 
-         height: 750px;
-         width: 100%;
-     }
-     .info {
-         padding: 6px 8px;
-         font: 14px/16px archia, Arial, Helvetica, sans-serif;
-         background: white;
-         background: rgba(255,255,255,0.8);
-         box-shadow: 0 0 15px rgba(0,0,0,0.2);
-         border-radius: 5px;
-     }
-     .info h4 {
-         margin: 0 0 5px;
-         color: #777;
-     }
-     .legend {
-         line-height: 18px;
-         color: #555;
-         border-color: black;
-         font-family: archia;
-     }
-     .legend i {
-         width: 18px;
-         height: 18px;
-         float: left;
-         margin-right: 8px;
-         opacity: 0.7;
-     }
+.leaflet-container{
+        background: #fff;
+    }
+#map{ 
+    height: 750px;
+    width: 100%;
+}
+#info {
+    padding: 6px 8px;
+    font: archia, Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    /*box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;*/
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.legend {
+    line-height: 18px;
+    color: #555;
+    border-color: black;
+    font-family: archia;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+/*Theme the Tabulator element*/
+#covid-table{
+    background-color:#ccc;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+/*Theme the header*/
+#covid-table .tabulator-header {
+    background-color:#333;
+    color:#fff;
+}
+
+/*Allow column header names to wrap lines*/
+#covid-table .tabulator-header .tabulator-col,
+#covid-table .tabulator-header .tabulator-col-row-handle {
+    white-space: normal;
+}
+
+/*Color the table rows*/
+#covid-table .tabulator-tableHolder .tabulator-table .tabulator-row{
+    color:#fff;
+    background-color: #666;
+}
+
+/*Color even rows*/
+    #covid-table .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(even) {
+    background-color: #444;
+}
