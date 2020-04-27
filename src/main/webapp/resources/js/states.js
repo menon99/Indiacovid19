@@ -26,7 +26,7 @@
    //updating json data to the map
    d3.json("./resources/json/tamilnadu_testing.json", function (json){
 	   state_json = json;
-	   console.log(state_json.features.cases);
+	   console.log(state_json.features[0].cases);
 	   geojson = L.geoJson(json, {
            style: style,
            onEachFeature: onEachFeature
