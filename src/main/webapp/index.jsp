@@ -106,10 +106,11 @@
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-  <script src="<c:url value="/resources/js/d3.geo.min.js" />"></script>
   
   <script type="text/javascript">
   var tabledata = ${tableData} ;
+  var json = ${india};
+  
   var table = new Tabulator("#covid-table", {
 	  	height: 450,
 	 	data:tabledata, 
@@ -150,19 +151,14 @@
   	   zoom:5, 
   	   scrollWheelZoom: false
   	   });
-     var geojson;
+     var geojson = L.geoJson(json, {
+         style: style,
+         onEachFeature: onEachFeature
+     });
+     geojson.addTo(map);
      var info;
      map.dragging.disable();
      //updating json data to the map
-     d3.json("./resources/json/india_states_final.json", function (json){
-         console.log(json);
-    	 geojson = L.geoJson(json, {
-             style: style,
-             onEachFeature: onEachFeature
-         });
-         geojson.addTo(map);
-     });
-
      //getting the color values for filling the map
      function getColor(d) {
          return d > 5000 ? '#800026' :
@@ -351,6 +347,5 @@
   		});
   	}
   </script>
-	<!-- <script src="<c:url value="/resources/js/index.js" />" tabledata = ${tableData}></script> -->
 </body>
 </html>
