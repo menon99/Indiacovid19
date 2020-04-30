@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import utils.CallbackFuture;
 import utils.GetJSON;
+import utils.GetTrends;
 
 public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -42,11 +43,6 @@ public class Home extends HttpServlet {
 		
 		JSONArray tabledata = j1.getJSONArray("statewise");
 		JSONArray testingData = j2.getJSONArray("states_tested_data");
-		
-//		System.out.println("table data is ");
-//		System.out.println(tabledata);
-//		System.out.println("Testing data is ");
-//		System.out.println(testingData);
 		
 		int k = 0; long total = 0;
 		while(k != testingData.length()) {
@@ -90,6 +86,13 @@ public class Home extends HttpServlet {
 		
 		request.setAttribute("india", indiaStates);
 		request.setAttribute("tableData", tabledata);
+		
+		GetTrends gt = new GetTrends();
+		JSONObject trends = gt.getTrends();
+		JSONArray dates = gt.getDates();
+		
+		request.setAttribute("trends", trends);
+		request.setAttribute("dates", dates);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
