@@ -20,88 +20,201 @@
 	<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
   
   <!--  Styles  -->
   <link rel = "stylesheet" href = "<c:url value="/resources/css/index.css" />">
   
-  <!-- Fonts -->
+  <style>
+  	#covid-table{
+	    background-color:#ccc;
+	    border: none;
+	    border-radius: 10px;
+	}
+  	/*Theme the header*/
+	#covid-table .tabulator-header {
+	    background-color:#ffffff;
+	    color:#000;
+	}
+	
+	.tabulator-col-title{
+		text-align: center;
+	}
+	
+	/*Allow column header names to wrap lines*/
+	#covid-table .tabulator-header .tabulator-col,
+	#covid-table .tabulator-header .tabulator-col-row-handle {
+	    white-space: normal;
+	}
+	
+	/*Color the table rows*/
+	#covid-table .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(odd){
+	    color:#fff;
+	    background-color: #666;
+	}
+	
+	#covid-table .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(odd):hover{
+		color: white;
+		opacity: 0.4;
+		
+	}
+	
+	/*Color even rows*/
+	    #covid-table .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(even) {
+	    color: #fff;
+	    background-color: #444;
+	}
+	
+	#covid-table .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(even):hover{
+		color: white;
+		opacity: 0.4;
+		
+	}
+	
+	#covid-table .tabulator-tableHolder .tabulator-table{
+		padding-bottom: 0px;
+	}
+	
+	.tabulator-col.tabulator-sortable, .tabulator-cell{
+		border-radius:10px;
+	}
+	
+  </style>
 </head>
 
 <body onload = "resizefunc()">
-	<nav class="navbar navbar-dark bg-dark justify-content-between">
-	  <a class="navbar-brand"><span style = "color: white">COVID-19 Analysis</span></a>
-	  <form class="form-inline">
-	    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-	    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-	  </form>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	  <h2><a class="navbar-brand"><span style = "color: white; font-family: 'Source Sans Pro', sans-serif; font-size: 24px;">COVID-19 Analysis</span></a></h2>
+	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navb">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="" style = "font-family: 'Source Sans Pro', sans-serif; font-size: 20px;">About Us</a>
+	      </li>
+	    </ul>
+	    <form class="form-inline my-2 my-lg-0">
+	      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+	      <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
+	    </form>
+	  </div>
 	</nav>
 	<div class = "row">
-		<div class = "col-sm-6" id = "contentbox">
-			
+		<div class = "col-sm-6" id = "contentbox" style = "margin-right: -5%; margin-left: 5%">
+			<div class = "container">
+				<div class = "row" style = "padding: 2%">
+					<div class = "col-sm-2" id = "div-static-confirmed">
+						<div style = "opacity: 1; border-radius: 10px; ">
+						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
+						    <h5 id = "span-static-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
+						</div>
+					</div>
+					<div class = "col-sm-2">
+						<div style = "opacity: 1; border-radius: 10px;">
+						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
+						    <h5 id = "span-static-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
+						</div>
+					</div>
+					<div class = "col-sm-2" id = "div-static-recovered">
+						<div style = "opacity: 1; border-radius: 10px;">
+						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
+						    <h5 id = "span-static-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
+						</div>
+					</div>
+					<div class = "col-sm-2">
+						<div style = "opacity: 1; border-radius: 10px;">
+						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
+						    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
+						</div>
+					</div>
+					<div class = "col-sm-2">
+						<div style = "opacity: 1; border-radius: 10px;">
+						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
+						    <h5 id = "span-static-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
+						</div>
+					</div>
+				</div>
+				<div id="covid-table" style = "font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
+			</div>
 		</div>
-		<div class = "col-sm-6" id = "mapbox">
+		<div class = "col-sm-6" id = "mapbox" style = "margin-left: -3%">
 			<div class = "container" style = "padding: 1%">
 				<div id = "info">
-					<h2 style = "font-family: archia">COVID-19 Cases</h2>
-					<h2 style = "font-family: archia; font-size: 25px; padding: 1px; font-weight: bold" id = "stateid">Hover over a State</h2>
-					<div class= "row">
-						<div class = "col-sm-3">
+					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">INDIA Map</h1>
+					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%;" id = "stateid">Hover over a State</h2>
+					<div class= "row" style = "padding: 1%">
+						<div class = "col-sm-2" id = "div-confirmed">
 							<div style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; ">
-							    <h5 style = "font-family: archia; color: #800000; opacity: 1; text-align: center; font-weight: bold">Cases Confirmed: </h5>
-							    <h5 id = "span-confirmed"  style = "font-family: archia; color: #800000; text-align: center;"></h5>
+							    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
+							    <h5 id = "span-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
 							</div>
 						</div>
-						<div class = "col-sm-3">
+						<div class = "col-sm-2">
 							<div style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px;">
-							    <h5 style = "font-family: archia; color:#000066; text-align: center; font-weight: bold">Active Cases: </h5>
-							    <h5 id = "span-active"  style = "font-family: archia; color: #000066; text-align: center;"></h5>
+							    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
+							    <h5 id = "span-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
 							</div>
 						</div>
-						<div class = "col-sm-3">
+						<div class = "col-sm-2" id = "div-recovered">
 							<div style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px;">
-							    <h5 style = "font-family: archia; color: #006600; text-align: center; font-weight: bold">Recovered Cases: </h5>
-							    <h5 id = "span-recovered"  style = "font-family: archia; color: #006600; text-align: center;"></h5>
+							    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
+							    <h5 id = "span-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
 							</div>
 						</div>
-						<div class = "col-sm-3">
+						<div class = "col-sm-2">
 							<div style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px;">
-							    <h5 style = "font-family: archia; color: #333333; text-align: center; font-weight: bold">Death Cases: </h5>
-							    <h5 id = "span-death"  style = "font-family: archia; color: #333333; text-align: center;"></h5>
+							    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
+							    <h5 id = "span-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
+							</div>
+						</div>
+						<div class = "col-sm-2">
+							<div style = "opacity: 1; background-color: rgba(32,26,162,.12549); border-radius: 10px;">
+							    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
+							    <h5 id = "span-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id = "map"></div>
+			<div id = "map" style = "margin-top: 5%"></div>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%;">
+				<div class = "col-sm-6" style = "width: 500px;">
+					<canvas id = "line-confirmed" ></canvas>
+				</div>
+				<div class = "col-sm-6" style = "width: 500px;">
+					<canvas id = "line-active"></canvas>
+				</div>
+					
+			</div>
+			<div class = "row" style = "margin-right: 5%; margin-top: 2%">
+				<div class = "col-sm-6" style = "width: 500px;">
+					<canvas id = "line-recovered"></canvas>
+				</div>
+				<div class = "col-sm-6" style = "width: 500px;">
+					<canvas id = "line-death"></canvas>
+				</div>
+			</div>
+			<div class = "row" style = "width: 500px;">
+				<canvas id = "line-testing"></canvas> <!-- this canvas is the holder for testing line chart -->
+			</div>
 		</div>
 	</div>
 	<div class = "container">
 		<div class = "row">
-			<div class = "col-sm-6">
-				<canvas id = "line-confirmed"></canvas>
+			<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Analysis and Forecasts</h1>
+			<div class = "row">
+				<div class = "col-sm-6">
+					<canvas id = "arima-graph"></canvas>
+				</div>
+				<div class = "col-sm-6">
+					<canvas id = "2nd-graph"></canvas>
+				</div>
 			</div>
-			<div class = "col-sm-6">
-				<canvas id = "line-active"></canvas>
-			</div>
-		</div>
-		<div class = "row">
-			<div class = "col-sm-6">
-				<canvas id = "line-recovered"></canvas>
-			</div>
-			<div class = "col-sm-6">
-				<canvas id = "line-death"></canvas>
-			</div>
-		</div>
-		<div class = "row">
-			
 		</div>
 	</div>
-	
-	<div class = "container">
-		<div id="covid-table"></div>
-	</div>
-	
-	
+
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -110,22 +223,28 @@
   <script type="text/javascript">
   var tabledata = ${tableData} ;
   var json = ${india};
-  
   var table = new Tabulator("#covid-table", {
-	  	height: 450,
+	  	height: 1490,
 	 	data:tabledata, 
-	 	layout:"fitColumns", 
+	 	movableColumns:false,
+	 	responsiveLayout:true,
+	 	layout:"fitDataFill", 
 	 	columns:[ 
-		 	{title:"State/UT", field:"state", hozAlign:"center"},
+		 	{title:"State/UT", field:"state", hozAlign:"center", width: 300},
 		 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	]});
+ 	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
+ 	document.getElementById("span-static-active").innerHTML = tabledata[0]['active'];
+  	document.getElementById("span-static-recovered").innerHTML = tabledata[0]['recovered'];
+  	document.getElementById("span-static-death").innerHTML = tabledata[0]['deaths'];
   	document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
   	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
   	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
   	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
+  	//document.getElementById("span-testing").innerHTML = tabledata[0]['deaths']; - this is where we need to put testing data
   	
   	var coords = [23.0, 80.1015625];
     function resizefunc(){
@@ -139,18 +258,27 @@
           else{
               document.getElementById("contentbox").removeAttribute("class");
               document.getElementById("mapbox").removeAttribute("class");
+              document.getElementById("div-confirmed").removeAttribute("class");
+              document.getElementById("div-recovered").removeAttribute("class");
               coords = [23,82.1];
-              document.getElementById("contentbox").setAttribute("class","col-sm-3");
-              document.getElementById("mapbox").setAttribute("class","col-sm-9");
+              document.getElementById("contentbox").setAttribute("class","col-sm-12");
+              document.getElementById("mapbox").setAttribute("class","col-sm-12");
+              document.getElementById("mapbox").style.marginTop = "7%";
+              document.getElementById("div-confirmed").setAttribute("class","col-sm-3");
+              document.getElementById("div-recovered").setAttribute("class","col-sm-3");
+              document.getElementById("div-static-confirmed").setAttribute("class","col-sm-3");
+              document.getElementById("div-static-recovered").setAttribute("class","col-sm-3");
+              document.getElementById("contentbox").removeAttribute("style");
           }
       }
-  // initialize the map and other variables
     
      var map = L.map('map',{
   	   center:coords, 
   	   zoom:5, 
   	   scrollWheelZoom: false
   	   });
+  
+     //updating json data to the map
      var geojson = L.geoJson(json, {
          style: style,
          onEachFeature: onEachFeature
@@ -158,7 +286,8 @@
      geojson.addTo(map);
      var info;
      map.dragging.disable();
-     //updating json data to the map
+     
+     
      //getting the color values for filling the map
      function getColor(d) {
          return d > 5000 ? '#800026' :
@@ -214,6 +343,7 @@
         		 document.getElementById("span-active").innerHTML = tabledata[i]['active'];
         		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'];
         		 document.getElementById("span-death").innerHTML = tabledata[i]['deaths'];
+        		 //document.getElementById("span-testing").innerHTML = tabledata[i]['deaths'];- need to update testing data for each state
         	 }
          }
          
@@ -238,6 +368,7 @@
        	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
        	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
        	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
+       	//document.getElementById("span-testing").innerHTML = tabledata[0]['deaths']; - need testing data here too
      }
 
      //leaflet zoom feature on click function
@@ -250,7 +381,7 @@
          layer.on({
              mouseover: highlightFeature,
              mouseout: resetHighlight,
-             //click: highlightFeature  //--  with this, we will redirect to the individual state map
+             click: highlightFeature  //with this, we will redirect to the individual state map
          });
      }
 
@@ -281,19 +412,22 @@
   	   
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-confirmed']:data_cases["Total"]['y-confirmed'];
   	   //for i in 
-  	   genericlinechart("line-confirmed",dates,dataset_y_confirmed,"#ff0000","Confirmed Cases");
+  	   genericlinechart("line-confirmed",dates,dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
   	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-active']:data_cases["Total"]['y-active'];
-  	   genericlinechart("line-active",dates,dataset_y_active,"#0000ff","Active Cases");
+  	   genericlinechart("line-active",dates,dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
   	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-recovered']:data_cases["Total"]['y-recovered'];
-  	   genericlinechart("line-recovered",dates ,dataset_y_recovered, "#00ff99","Recovered Cases" );
+  	   genericlinechart("line-recovered",dates ,dataset_y_recovered, "#00ff99","Recovered Cases","rgba(40,167,69,.12549)");
   	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-death']:data_cases["Total"]['y-death'];
-  	   genericlinechart("line-death",dates,dataset_y_death,"#bfbfbf","Death Cases");
-  	   //confirmed cases #ff0000
+  	   genericlinechart("line-death",dates,dataset_y_death,"#bfbfbf","Death Cases","rgba(108,117,125,.0627451)");
   	   
+  	   //genericlinechart("line-testing") - for testing graph...
      }
      
      //generic function for line chart
-     function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label){
+     function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
+    	var x = document.getElementById(canvasid);
+    	x.height = 230;
+    	x.style.backgroundColor = backgroundcolor;
   		var myLineChart = new Chart(document.getElementById(canvasid), {
   		    type: 'line',
   		    data: {
@@ -330,8 +464,12 @@
   	                }],
   		    		yAxes: [{
   		    			gridLines:{
-  		    				color: "rgba(0, 0, 0, 0)",
-  		    			}
+  		    				//color: "rgba(0, 0, 0, 0)",
+  		    			},
+  		    			ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
   		    		}],
   		    		tooltips:{
   		    			callbacks:{
@@ -346,6 +484,10 @@
   		    }
   		});
   	}
+     
+    var arimaChart = new Chart(document.getElementById(),{
+    	
+    });
   </script>
 </body>
 </html>

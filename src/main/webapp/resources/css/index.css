@@ -33,33 +33,3 @@ body {
     margin-right: 8px;
     opacity: 0.7;
 }
-
-/*Theme the Tabulator element*/
-#covid-table{
-    background-color:#ccc;
-    border: 1px solid #333;
-    border-radius: 10px;
-}
-
-/*Theme the header*/
-#covid-table .tabulator-header {
-    background-color:#333;
-    color:#fff;
-}
-
-/*Allow column header names to wrap lines*/
-#covid-table .tabulator-header .tabulator-col,
-#covid-table .tabulator-header .tabulator-col-row-handle {
-    white-space: normal;
-}
-
-/*Color the table rows*/
-#covid-table .tabulator-tableHolder .tabulator-table .tabulator-row{
-    color:#fff;
-    background-color: #666;
-}
-
-/*Color even rows*/
-    #covid-table .tabulator-tableHolder .tabulator-table .tabulator-row:nth-child(even) {
-    background-color: #444;
-}
