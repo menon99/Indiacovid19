@@ -246,11 +246,6 @@
   	
   	var coords = [23.0, 80.1015625];
   	
-  	var status = "beginning";
-  	function check(e){
- 		status = e;
-  	}
-  	
     function resizefunc(){
           if(screen.width>900){
               document.getElementById("contentbox").removeAttribute("class");
@@ -318,6 +313,13 @@
 	
      var data_cases = ${trends};
      
+     var status = "beginning";
+   	var cur_state = "total";
+   	function check(e){
+  		status = e;
+  		lineChart(cur_state,data_cases);
+   	}
+     
      document.getElementById("line-confirmed-class").innerHTML = "";
      document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
      document.getElementById("line-active-class").innerHTML = "";
@@ -352,7 +354,7 @@
          document.getElementById("line-death-class").innerHTML = "";
          document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
          
-         
+         cur_state = layer.feature.properties.st_nm;
          lineChart(layer.feature.properties.st_nm,data_cases);
 
          layer.setStyle({
