@@ -48,7 +48,7 @@ public class Home extends HttpServlet {
 //		System.out.println("Testing data is ");
 //		System.out.println(testingData);
 		
-		int k = 0;
+		int k = 0; long total = 0;
 		while(k != testingData.length()) {
 			
 			String state = testingData.getJSONObject(k).getString("state");
@@ -60,6 +60,7 @@ public class Home extends HttpServlet {
 				}catch (NumberFormatException e){
 					//
 				}
+				total += totalTested;
 				k++;
 			}
 			
@@ -76,6 +77,7 @@ public class Home extends HttpServlet {
 			k++;
 		}
 		
+		tabledata.getJSONObject(0).put("tested", total); 
 		
 		ServletContext ctx = request.getServletContext();
 		

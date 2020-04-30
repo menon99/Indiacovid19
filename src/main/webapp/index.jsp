@@ -179,27 +179,21 @@
 				</div>
 			</div>
 			<div id = "map" style = "margin-top: 5%"></div>
-			<div class = "row" style = "margin-top: 5%; margin-right: 5%;">
-				<div class = "col-sm-6" style = "width: 500px;">
-					<canvas id = "line-confirmed" ></canvas>
-				</div>
-				<div class = "col-sm-6" style = "width: 500px;">
-					<canvas id = "line-active"></canvas>
-				</div>
-					
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
+				<canvas id = "line-confirmed" ></canvas>
 			</div>
-			<div class = "row" style = "margin-right: 5%; margin-top: 2%">
-				<div class = "col-sm-6" style = "width: 500px;">
-					<canvas id = "line-recovered"></canvas>
-				</div>
-				<div class = "col-sm-6" style = "width: 500px;">
-					<canvas id = "line-death"></canvas>
-				</div>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
+				<canvas id = "line-active" ></canvas>
 			</div>
-			<div class = "row" style = "width: 500px;">
-				<canvas id = "line-testing"></canvas> <!-- this canvas is the holder for testing line chart -->
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
+				<canvas id = "line-recovered" ></canvas>
 			</div>
-		</div>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
+				<canvas id = "line-death" ></canvas>
+			</div>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
+				<canvas id = "line-testing" ></canvas>
+			</div>
 	</div>
 	<div class = "container">
 		<div class = "row">
@@ -222,6 +216,7 @@
   
   <script type="text/javascript">
   var tabledata = ${tableData} ;
+  console.log(tabledata);
   var json = ${india};
   var table = new Tabulator("#covid-table", {
 	  	height: 1490,
@@ -244,7 +239,7 @@
   	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
   	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
   	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
-  	//document.getElementById("span-testing").innerHTML = tabledata[0]['deaths']; - this is where we need to put testing data
+  	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
   	
   	var coords = [23.0, 80.1015625];
     function resizefunc(){
@@ -311,7 +306,7 @@
              fillOpacity: 0.7
          };
      }
-
+	//something like this... for each state... and total.... and for the dates... hmm i will send dates also here in json. dates differ for states, i see, cool, no probs,that 's why i had a dataset_x being passed in generic chart, thinking this might happen...
      var data_cases = { "Karnataka" :{ 
   	   'y-confirmed' :[1,2,3,6,8,14,30,50,80,89],
   	   'y-active' :[1,2,3,6,7,11,23,35,68,79],
@@ -323,6 +318,7 @@
   		   'y-active' :[1,2,3,6,8,14,30,50,80,89],
   		   'y-recovered' :[3,4,7,7,8,10,16,20,30,40],
   		   'y-death' :[3,3,4,5,8,8,20,30,38,50],
+  		   'dates' : [] //okay? yea, coolk. k i will do tat n tell. cum tv then
      		},
      		"Total" :{ 
    		 'y-confirmed' :[17,29,39,56,78,94,114,135,178,250], 
@@ -343,7 +339,7 @@
         		 document.getElementById("span-active").innerHTML = tabledata[i]['active'];
         		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'];
         		 document.getElementById("span-death").innerHTML = tabledata[i]['deaths'];
-        		 //document.getElementById("span-testing").innerHTML = tabledata[i]['deaths'];- need to update testing data for each state
+        		 document.getElementById("span-testing").innerHTML = tabledata[i]['tested'];
         	 }
          }
          
@@ -368,7 +364,7 @@
        	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
        	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
        	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
-       	//document.getElementById("span-testing").innerHTML = tabledata[0]['deaths']; - need testing data here too
+       	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
      }
 
      //leaflet zoom feature on click function
@@ -408,6 +404,7 @@
      //generic line chart making function
      function lineChart(state_name,data_cases){
   	   
+    //this is where i need the dates... so if possible we have to change this too... based on the data we get for y axis, got it?
   	   var dates=["03/19/2020","03/20/2020","03/21/2020","03/23/2020","03/24/2020","03/27/2020","03/30/2020","04/01/2020","04/14/2020","04/19/2020"];
   	   
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-confirmed']:data_cases["Total"]['y-confirmed'];
@@ -416,14 +413,14 @@
   	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-active']:data_cases["Total"]['y-active'];
   	   genericlinechart("line-active",dates,dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
   	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-recovered']:data_cases["Total"]['y-recovered'];
-  	   genericlinechart("line-recovered",dates ,dataset_y_recovered, "#00ff99","Recovered Cases","rgba(40,167,69,.12549)");
+  	   genericlinechart("line-recovered",dates ,dataset_y_recovered, "#006600","Recovered Cases","rgba(40,167,69,.12549)");
   	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-death']:data_cases["Total"]['y-death'];
-  	   genericlinechart("line-death",dates,dataset_y_death,"#bfbfbf","Death Cases","rgba(108,117,125,.0627451)");
+  	   genericlinechart("line-death",dates,dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
   	   
   	   //genericlinechart("line-testing") - for testing graph...
      }
      
-     //generic function for line chart
+     //generic function for line chart, so we can pass date for each state and get its output, no worries...ok super
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
     	var x = document.getElementById(canvasid);
     	x.height = 230;
