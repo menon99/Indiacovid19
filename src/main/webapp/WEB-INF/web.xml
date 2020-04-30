@@ -12,7 +12,7 @@
   </servlet>
   <servlet>
   	<servlet-name>StateServlet</servlet-name>
-  	<display-name>/home/*</display-name>
+  	<display-name>StateServlet</display-name>
   	<description></description>
   	<servlet-class>StateServlet</servlet-class>
   </servlet>
@@ -22,6 +22,6 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>StateServlet</servlet-name>
-  	<url-pattern>/StateServlet</url-pattern>
+  	<url-pattern>/state</url-pattern>
   </servlet-mapping>
 </web-app>

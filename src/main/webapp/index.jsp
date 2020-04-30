@@ -360,6 +360,25 @@
              layer.bringToFront();
          }
      }
+     
+     function redirect(e){
+    	 
+    	 let state  = e.target.feature.properties.st_nm;
+    	 console.log("reached here state is " ,state);
+    	 var form = document.createElement("form");
+    	 var element1 = document.createElement("input"); 
+    	 
+    	 form.method = "GET";
+    	 form.action = "state";   
+
+    	 element1.value = state;
+    	 element1.name = "state";
+    	 form.appendChild(element1);
+
+    	 document.body.appendChild(form);
+
+    	 form.submit();
+     }
      //reset function for highlight
      function resetHighlight(e) {
          geojson.resetStyle(e.target);
@@ -381,7 +400,7 @@
          layer.on({
              mouseover: highlightFeature,
              mouseout: resetHighlight,
-             //click: highlightFeature  //with this, we will redirect to the individual state map
+             click: redirect,  //with this, we will redirect to the individual state map
          });
      }
 
