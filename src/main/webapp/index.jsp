@@ -191,12 +191,13 @@
                         <canvas id="line-death"></canvas>
                     </div>
                     <div class="row" style="transform: translate(50%,0); margin-top: 3%">
-                        <button class="btn btn-outline-primary" onclick="check('beginning')" id="beginning" style="margin-right: 2%">Beginning</button>
-                        <button class="btn btn-outline-primary" onclick="check('1-month')" id="1-month" style="margin-right: 2%">1 Month</button>
-                        <button class="btn btn-outline-primary" onclick="check('2-weeks')" id="2-weeks" style="margin-right: 2%">2 Weeks</button>
-                        <button class="btn btn-outline-primary" onclick="check('1-week')" id="1-week" style="margin-right: 2%">1 Week</button>
+                        <button class="btn btn-outline-primary" onclick="check('beginning',this)" id="beginning" style="margin-right: 2%">Beginning</button>
+                        <button class="btn btn-outline-primary" onclick="check('1-month',this)" id="1-month" style="margin-right: 2%">1 Month</button>
+                        <button class="btn btn-outline-primary" onclick="check('2-weeks',this)" id="2-weeks" style="margin-right: 2%">2 Weeks</button>
+                        <button class="btn btn-outline-primary" onclick="check('1-week',this)" id="1-week" style="margin-right: 2%">1 Week</button>
                     </div>
                 </div>
+            </div>
                 <div class="container">
                     <div class="row">
                         <h1 style="font-family: 'Source Sans Pro', sans-serif; text-align: center;">Analysis and Forecasts</h1>
@@ -330,7 +331,7 @@
                     var status = "beginning";
                     var cur_state = "total";
 
-                    function check(e) {
+                    function check(e,f) {
                         status = e;
                         if(f.innerHTML == 'Beginning'){
                             document.getElementById('1-week').removeAttribute('class');
