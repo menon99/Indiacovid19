@@ -24,7 +24,7 @@
             <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
 
             <!--  Styles  -->
-            <link rel="stylesheet" href="<c:url value=" /resources/css/index.css " />">
+            <link rel="stylesheet" href="<c:url value="/resources/css/index.css " />">
 
             <style>
                 #covid-table {
@@ -217,13 +217,9 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 
                 <script type="text/javascript">
-                    var tabledata = $ {
-                        tableData
-                    };
+                    var tabledata = ${tableData};
                     console.log(tabledata);
-                    var json = $ {
-                        india
-                    };
+                    var json = ${india};
                     var table = new Tabulator("#covid-table", {
                         height: 1490,
                         data: tabledata,
@@ -329,9 +325,7 @@
                         };
                     }
 
-                    var data_cases = $ {
-                        trends
-                    };
+                    var data_cases = ${trends};
 
                     var status = "beginning";
                     var cur_state = "total";
@@ -519,9 +513,7 @@
                     //generic line chart making function
                     function lineChart(state_name, data_cases) {
 
-                        var dates = $ {
-                            dates
-                        };
+                        var dates = ${dates};
 
                         var dataset_y_confirmed = data_cases.hasOwnProperty(state_name) ? trimData(data_cases[state_name]['y-confirmed']) : trimData(data_cases["Total"]['y-confirmed']);
                         genericlinechart("line-confirmed", trimData(dates), dataset_y_confirmed, "#ff0000", "Confirmed Cases", "rgba(255,7,58,.12549)");
