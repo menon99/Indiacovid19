@@ -518,8 +518,129 @@
   	}
      
     var arimaChart = new Chart(document.getElementById(),{
-    	
+    	type: 'line',
+        data: {
+            labels: [1, 2, 3, 4],
+            datasets: [{
+                label: "Min",
+                backgroundColor: 'rgba(55, 173, 221,  0.6)',
+                borderColor: 'rgba(55, 173, 221, 1.0)',
+                fill: false,  //no fill here
+                data: [5, 5, 3, 2] // data with the low values will come here
+            },
+            {
+                label: "Max",
+                backgroundColor: 'rgba(55, 173, 221, 0.6)',
+                borderColor: 'rgba(55, 173, 221, 1.0)',
+                fill: '-1', //fill until previous dataset
+                data: [8, 7, 6, 5] // data with high values will come here
+            },
+            {
+                type:'line',
+                label:'Line Dataset',
+                data:[2,3,7,6], // data with the optimal values will come here, also for the optimal values thing, i can even change the color of point based on the value...
+                fill:'none',
+                borderColor:'black',
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            spanGaps: false,
+            elements: {
+                line: {
+                    tension: 0.000001
+                }
+            },
+            plugins: {
+                filler: {
+                    propagate: false
+                }
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false
+                    }
+                }]
+            }
+        }
     });
+    
+    //i'll put code for chart with changing colors based on value of point in comments, so then we can use it for changing to our liking later
+    /*
+    
+    var colors = [];
+	    var myLineChart = new Chart(document.getElementById("line-confirmed"), {
+		    type: 'line',
+		    data: {
+		    	labels: data_cases["Total"]['x'],
+		    	datasets:[{
+                    label:'cases',
+		    		data: data_cases["Total"]['y'],
+		    		lineTension: 0.1,
+                    borderColor: "#00ff00",
+					pointBackgroundColor: colors,
+                    borderWidth: 1,
+					fill: false
+		    	}]
+		    },
+		    options: {
+                responsive: true,
+                maintainAspectRatio: false,
+				scales: {
+  	                xAxes: [{
+  	                	gridLines:{
+  	                		color: "rgba(0, 0, 0, 0)",
+  	                	},
+  	                    type: 'time',
+  	                    ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  	                    distribution: 'linear',
+  	                    time: {
+  	                    	unit: 'day',
+  	                        displayFormats: {
+  	                            day: 'MMM D'
+  	                        }
+  	                    }
+  	                }],
+  		    		yAxes: [{
+  		    			gridLines:{
+  		    				//color: "rgba(0, 0, 0, 0)",
+  		    			},
+  		    			ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  		    		}],
+  		    		tooltips:{
+  		    			title: function(tooltipItems, data){
+							  console.log(tooltipItems);
+							  return 'Date: '+tooltipItems.xLabel;
+						  }
+  		    		}
+  	            }
+		    }
+		});
+		for(let i = 0; i<myLineChart.data.datasets[0].data.length; i++){
+			if(myLineChart.data.datasets[0].data[i]>180){
+				colors.push("#ff3333");
+			}
+			else if(myLineChart.data.datasets[0].data[i]>100 && myLineChart.data.datasets[0].data[i]<180){
+				colors.push("#ff6666");
+			}
+			else if(myLineChart.data.datasets[0].data[i]>50 && myLineChart.data.datasets[0].data[i]<100){
+				colors.push("#ff9999");
+			}
+			else{
+				colors.push("#ffcccc");
+			}
+		}
+
+		myLineChart.update();
+    
+    */
   </script>
 </body>
 </html>
