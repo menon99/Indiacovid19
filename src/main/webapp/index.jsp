@@ -194,6 +194,20 @@
 			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
 				<canvas id = "line-testing" ></canvas>
 			</div>
+			<div class = "row">
+				<div class = "col-sm-3">
+					<button class = "btn btn-outline-primary" onclick = "check()" id = "beginning">Beginning</button>
+				</div>
+				<div class = "col-sm-3">
+					<button class = "btn btn-outline-primary" onclick = "check()" id = "1-month">1 Month</button>
+				</div>
+				<div class = "col-sm-3">
+					<button class = "btn btn-outline-primary" onclick = "check()" id = "2-weeks">2 Weeks</button>
+				</div>
+				<div class = "col-sm-3">
+					<button class = "btn btn-outline-primary" onclick = "check()" id = "1-week">1 Week</button>
+				</div>
+			</div>
 	</div>
 	<div class = "container">
 		<div class = "row">
@@ -242,6 +256,22 @@
   	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
   	
   	var coords = [23.0, 80.1015625];
+  	
+  	var status = "beginning";
+  	function check(){
+  		document.getElementById("beginning").onclick = function(){
+  			status = "beginning";
+  		}
+  		document.getElementById("1-month").onclick = function(){
+  			status = "1-month";
+  		}
+  		document.getElementById("2-weeks").onclick = function(){
+  			status = "2-weeks";
+  		}
+  		document.getElementById("1-week").onclick = function(){
+  			status = "1-week";
+  		}
+  	}
     function resizefunc(){
           if(screen.width>900){
               document.getElementById("contentbox").removeAttribute("class");
@@ -306,7 +336,7 @@
              fillOpacity: 0.7
          };
      }
-	//something like this... for each state... and total.... and for the dates... hmm i will send dates also here in json. dates differ for states, i see, cool, no probs,that 's why i had a dataset_x being passed in generic chart, thinking this might happen...
+	
      var data_cases = { "Karnataka" :{ 
   	   'y-confirmed' :[1,2,3,6,8,14,30,50,80,89],
   	   'y-active' :[1,2,3,6,7,11,23,35,68,79],
@@ -318,7 +348,6 @@
   		   'y-active' :[1,2,3,6,8,14,30,50,80,89],
   		   'y-recovered' :[3,4,7,7,8,10,16,20,30,40],
   		   'y-death' :[3,3,4,5,8,8,20,30,38,50],
-  		   'dates' : [] //okay? yea, coolk. k i will do tat n tell. cum tv then
      		},
      		"Total" :{ 
    		 'y-confirmed' :[17,29,39,56,78,94,114,135,178,250], 
@@ -330,8 +359,7 @@
      //highlighting the features in map
      function highlightFeature(e) {
          var layer = e.target;
-         //console.log(layer.feature.properties.st_nm.length);
-         //console.log(e.target); e.target.feature.cases
+         
          document.getElementById("stateid").innerHTML = "State: "+e.target.feature.properties.st_nm;
          for(i in tabledata){
         	 if(tabledata[i]['state'] == e.target.feature.properties.st_nm){
@@ -343,6 +371,7 @@
         	 }
          }
          
+         //var trimmedData = trimDataset(data_cases);
          lineChart(layer.feature.properties.st_nm,data_cases);
 
          layer.setStyle({
@@ -377,7 +406,7 @@
          layer.on({
              mouseover: highlightFeature,
              mouseout: resetHighlight,
-             click: highlightFeature  //with this, we will redirect to the individual state map
+             //click: highlightFeature  //with this, we will redirect to the individual state map
          });
      }
 
@@ -400,27 +429,40 @@
      };
      legend.addTo(map);
      
-     
+     function trimData(data){
+    	 if(status == "1-month"){
+    		 return data.slice(data.length-30,data.length);
+    	 }
+    	 if(status == "2-weeks"){
+    		 return data.slice(data.length-14,data.length);
+    	 }
+    	 else if(status == "1-week"){
+    		 return data.slice(data.length-7,data.length);
+    	 }
+    	 else{
+    		 return data.slice(0,data.length);
+    	 }
+     }
      //generic line chart making function
      function lineChart(state_name,data_cases){
   	   
-    //this is where i need the dates... so if possible we have to change this too... based on the data we get for y axis, got it?
   	   var dates=["03/19/2020","03/20/2020","03/21/2020","03/23/2020","03/24/2020","03/27/2020","03/30/2020","04/01/2020","04/14/2020","04/19/2020"];
   	   
-  	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-confirmed']:data_cases["Total"]['y-confirmed'];
-  	   //for i in 
-  	   genericlinechart("line-confirmed",dates,dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
-  	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-active']:data_cases["Total"]['y-active'];
-  	   genericlinechart("line-active",dates,dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
-  	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-recovered']:data_cases["Total"]['y-recovered'];
-  	   genericlinechart("line-recovered",dates ,dataset_y_recovered, "#006600","Recovered Cases","rgba(40,167,69,.12549)");
-  	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?data_cases[state_name]['y-death']:data_cases["Total"]['y-death'];
-  	   genericlinechart("line-death",dates,dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
+  	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
+  	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
+  	   
+  	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-active']):trimData(data_cases["Total"]['y-active']);
+  	   genericlinechart("line-active",trimData(dates),dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
+  	   
+  	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-recovered']):trimData(data_cases["Total"]['y-recovered']);
+  	   genericlinechart("line-recovered",trimData(dates),dataset_y_recovered, "#006600","Recovered Cases","rgba(40,167,69,.12549)");
+  	   
+  	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-death']):trimData(data_cases["Total"]['y-death']);
+  	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
   	   
   	   //genericlinechart("line-testing") - for testing graph...
      }
      
-     //generic function for line chart, so we can pass date for each state and get its output, no worries...ok super
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
     	var x = document.getElementById(canvasid);
     	x.height = 230;
