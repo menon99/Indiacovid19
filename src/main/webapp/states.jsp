@@ -9,7 +9,7 @@
 
 <head>
   <!-- India State Map  -->
-  <title>India Map</title>
+  <title>Covid19 ${sname}</title>
 
   <!-- CDN Links -->
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -217,6 +217,9 @@
   
   <script type="text/javascript">
   var tabledata = ${tabledata} ;
+  
+  console.log('table data is' ,tabledata);
+  var json = ${stateCoords};
   console.log(tabledata);
   var table = new Tabulator("#covid-table", {
 	  	height: false,

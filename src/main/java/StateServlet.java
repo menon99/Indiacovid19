@@ -1,14 +1,15 @@
+import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -67,6 +68,8 @@ public class StateServlet extends HttpServlet {
 				total.put("recovered", r);
 				total.put("confirmed", c);
 				total.put("deceased", d);
+				
+				districts.put(total);
 				break;
 			}
 		}
@@ -82,6 +85,23 @@ public class StateServlet extends HttpServlet {
 		
 		request.setAttribute("dates", dates);
 		request.setAttribute("trends", trends.getJSONObject(state));
+		
+		String [] parts = state.toLowerCase().split(" ");
+		String jsonName = String.join("", parts) + ".json";
+		
+		System.out.println("json name is "+ jsonName);
+		
+		ServletContext ctx = request.getServletContext();
+		
+		String path = ctx.getRealPath("/resources/json/" + jsonName); //Deployment
+		
+		File file = new File(path);
+		String content = FileUtils.readFileToString(file, "utf-8");
+		
+		JSONObject stateCoord = new JSONObject(content);
+		
+		request.setAttribute("stateCoords", stateCoord);
+		request.setAttribute("sname", state);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("states.jsp");
 		rd.forward(request, response);
