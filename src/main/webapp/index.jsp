@@ -425,10 +425,6 @@
                         map.fitBounds(e.target.getBounds());
                     }
 
-                    function statemap(e) {
-                        console.log(e.target.feature.properties.st_nm);
-                    }
-
                     //function governing each feature
                     function onEachFeature(feature, layer) {
                         layer.on({
