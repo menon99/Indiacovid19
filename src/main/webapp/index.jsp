@@ -191,7 +191,7 @@
 			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto" id = "line-death-class">
 				<canvas id = "line-death"></canvas>
 			</div>
-			<div class = "row" style = "transform: translate(50%,0)">
+			<div class = "row" style = "transform: translate(50%,0); margin-top: 3%">
 				<button class = "btn btn-outline-primary" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
 				<button class = "btn btn-outline-primary" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
 				<button class = "btn btn-outline-primary" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
@@ -453,7 +453,7 @@
      
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
     	var x = document.getElementById(canvasid);
-    	x.height = 230;
+    	x.height = 270;
     	x.style.backgroundColor = backgroundcolor;
     	var myLineChart;
     	if(myLineChart){
