@@ -194,19 +194,11 @@
 			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
 				<canvas id = "line-testing" ></canvas>
 			</div>
-			<div class = "row">
-				<div class = "col-sm-3">
-					<button class = "btn btn-outline-primary" onclick = "check()" id = "beginning">Beginning</button>
-				</div>
-				<div class = "col-sm-3">
-					<button class = "btn btn-outline-primary" onclick = "check()" id = "1-month">1 Month</button>
-				</div>
-				<div class = "col-sm-3">
-					<button class = "btn btn-outline-primary" onclick = "check()" id = "2-weeks">2 Weeks</button>
-				</div>
-				<div class = "col-sm-3">
-					<button class = "btn btn-outline-primary" onclick = "check()" id = "1-week">1 Week</button>
-				</div>
+			<div class = "row" style = "transform: translate(50%,0)">
+				<button class = "btn btn-outline-primary" onclick = "check()" id = "beginning" style = "margin-right: 2%">Beginning</button>
+				<button class = "btn btn-outline-primary" onclick = "check()" id = "1-month" style = "margin-right: 2%">1 Month</button>
+				<button class = "btn btn-outline-primary" onclick = "check()" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
+				<button class = "btn btn-outline-primary" onclick = "check()" id = "1-week" style = "margin-right: 2%">1 Week</button>
 			</div>
 	</div>
 	<div class = "container">
@@ -371,6 +363,7 @@
         	 }
          }
          
+         check();
          //var trimmedData = trimDataset(data_cases);
          lineChart(layer.feature.properties.st_nm,data_cases);
 
