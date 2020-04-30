@@ -330,25 +330,7 @@
          };
      }
 	
-     var data_cases = { "Karnataka" :{ 
-  	   'y-confirmed' :[1,2,3,6,8,14,30,50,80,89],
-  	   'y-active' :[1,2,3,6,7,11,23,35,68,79],
-  	   'y-recovered' :[0,1,2,2,4,5,7,13,16,30],
-  	   'y-death' :[1,2,3,6,8,14,30,50,80,89],
-     		}, 
-  	   "Jammu and Kashmir" :{ 
-  		   'y-confirmed' :[7,9,13,16,28,34,40,58,78,90],
-  		   'y-active' :[1,2,3,6,8,14,30,50,80,89],
-  		   'y-recovered' :[3,4,7,7,8,10,16,20,30,40],
-  		   'y-death' :[3,3,4,5,8,8,20,30,38,50],
-     		},
-     		"Total" :{ 
-   		 'y-confirmed' :[17,29,39,56,78,94,114,135,178,250], 
-   		 'y-active' :[15,26,35,55,78,94,112,125,168,230],
-   		 'y-recovered' :[1,2,3,6,8,14,30,50,80,89],
-   		 'y-death' :[13,12,13,36,48,54,73,105,118,138],
-      	}
-     		};
+     var data_cases = ${trends};
      //highlighting the features in map
      function highlightFeature(e) {
          var layer = e.target;
@@ -439,7 +421,7 @@
      //generic line chart making function
      function lineChart(state_name,data_cases){
   	   
-  	   var dates=["03/19/2020","03/20/2020","03/21/2020","03/23/2020","03/24/2020","03/27/2020","03/30/2020","04/01/2020","04/14/2020","04/19/2020"];
+  	   var dates = ${dates};
   	   
   	   check();
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
