@@ -264,6 +264,7 @@
   			status = "1-week";
   		}
   	}
+  	
     function resizefunc(){
           if(screen.width>900){
               document.getElementById("contentbox").removeAttribute("class");
@@ -363,7 +364,6 @@
         	 }
          }
          
-         check();
          //var trimmedData = trimDataset(data_cases);
          lineChart(layer.feature.properties.st_nm,data_cases);
 
@@ -441,6 +441,7 @@
   	   
   	   var dates=["03/19/2020","03/20/2020","03/21/2020","03/23/2020","03/24/2020","03/27/2020","03/30/2020","04/01/2020","04/14/2020","04/19/2020"];
   	   
+  	   check();
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
   	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
   	   
