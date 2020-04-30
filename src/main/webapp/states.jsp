@@ -216,9 +216,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   
   <script type="text/javascript">
-  var tabledata = ${tableData} ;
+  var tabledata = ${tabledata} ;
   console.log(tabledata);
-  var json = ${india};
   var table = new Tabulator("#covid-table", {
 	  	height: 1490,
 	 	data:tabledata, 
@@ -226,10 +225,10 @@
 	 	responsiveLayout:true,
 	 	layout:"fitDataFill", 
 	 	columns:[ 
-		 	{title:"State/UT", field:"state", hozAlign:"center", width: 300},
+		 	{title:"State/UT", field:"district", hozAlign:"center", width: 300},
 		 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
 		 	{title:"Active", field:"active",hozAlign:"center"},
-		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
+		 	{title:"Deaths", field:"deceased",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	]});
  	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
