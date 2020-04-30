@@ -179,26 +179,23 @@
 				</div>
 			</div>
 			<div id = "map" style = "margin-top: 5%"></div>
-			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
-				<canvas id = "line-confirmed" ></canvas>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto" id = "line-confirmed-class">
+				<canvas id = "line-confirmed"></canvas>
 			</div>
-			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
-				<canvas id = "line-active" ></canvas>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto" id = "line-active-class">
+				<canvas id = "line-active"></canvas>
 			</div>
-			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
-				<canvas id = "line-recovered" ></canvas>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto" id = "line-recovered-class">
+				<canvas id = "line-recovered"></canvas>
 			</div>
-			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
-				<canvas id = "line-death" ></canvas>
-			</div>
-			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto">
-				<canvas id = "line-testing" ></canvas>
+			<div class = "row" style = "margin-top: 5%; margin-right: 5%; width: auto" id = "line-death-class">
+				<canvas id = "line-death"></canvas>
 			</div>
 			<div class = "row" style = "transform: translate(50%,0)">
-				<button class = "btn btn-outline-primary" onclick = "check()" id = "beginning" style = "margin-right: 2%">Beginning</button>
-				<button class = "btn btn-outline-primary" onclick = "check()" id = "1-month" style = "margin-right: 2%">1 Month</button>
-				<button class = "btn btn-outline-primary" onclick = "check()" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
-				<button class = "btn btn-outline-primary" onclick = "check()" id = "1-week" style = "margin-right: 2%">1 Week</button>
+				<button class = "btn btn-outline-primary" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
+				<button class = "btn btn-outline-primary" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
+				<button class = "btn btn-outline-primary" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
+				<button class = "btn btn-outline-primary" onclick = "check('1-week')" id = "1-week" style = "margin-right: 2%">1 Week</button>
 			</div>
 	</div>
 	<div class = "container">
@@ -250,19 +247,8 @@
   	var coords = [23.0, 80.1015625];
   	
   	var status = "beginning";
-  	function check(){
-  		document.getElementById("beginning").onclick = function(){
-  			status = "beginning";
-  		}
-  		document.getElementById("1-month").onclick = function(){
-  			status = "1-month";
-  		}
-  		document.getElementById("2-weeks").onclick = function(){
-  			status = "2-weeks";
-  		}
-  		document.getElementById("1-week").onclick = function(){
-  			status = "1-week";
-  		}
+  	function check(e){
+ 		status = e;
   	}
   	
     function resizefunc(){
@@ -331,6 +317,16 @@
      }
 	
      var data_cases = ${trends};
+     
+     document.getElementById("line-confirmed-class").innerHTML = "";
+     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+     document.getElementById("line-active-class").innerHTML = "";
+     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+     document.getElementById("line-recovered-class").innerHTML = "";
+     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+     document.getElementById("line-death-class").innerHTML = "";
+     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+     lineChart("total",data_cases);
      //highlighting the features in map
      function highlightFeature(e) {
          var layer = e.target;
@@ -347,6 +343,16 @@
          }
          
          //var trimmedData = trimDataset(data_cases);
+         document.getElementById("line-confirmed-class").innerHTML = "";
+         document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+         document.getElementById("line-active-class").innerHTML = "";
+         document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+         document.getElementById("line-recovered-class").innerHTML = "";
+         document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+         document.getElementById("line-death-class").innerHTML = "";
+         document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+         
+         
          lineChart(layer.feature.properties.st_nm,data_cases);
 
          layer.setStyle({
@@ -369,19 +375,25 @@
        	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
        	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
        	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
+       	//lineChart("total",data_cases);
      }
 
      //leaflet zoom feature on click function
      function zoomToFeature(e) {
          map.fitBounds(e.target.getBounds());
      }
+     
+     function statemap(e){
+    	 console.log(e.target.feature.properties.st_nm);
+     }
 
      //function governing each feature
      function onEachFeature(feature, layer) {
          layer.on({
+        	 
              mouseover: highlightFeature,
              mouseout: resetHighlight,
-             //click: highlightFeature  //with this, we will redirect to the individual state map
+             click: statemap
          });
      }
 
@@ -423,7 +435,6 @@
   	   
   	   var dates = ${dates};
   	   
-  	   check();
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
   	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
   	   
@@ -436,14 +447,17 @@
   	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-death']):trimData(data_cases["Total"]['y-death']);
   	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
   	   
-  	   //genericlinechart("line-testing") - for testing graph...
      }
      
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
     	var x = document.getElementById(canvasid);
     	x.height = 230;
     	x.style.backgroundColor = backgroundcolor;
-  		var myLineChart = new Chart(document.getElementById(canvasid), {
+    	var myLineChart;
+    	if(myLineChart){
+       		myLineChart.destroy();
+       	}
+    	myLineChart = new Chart(document.getElementById(canvasid), {
   		    type: 'line',
   		    data: {
   		    	labels: dataset_x,
@@ -499,7 +513,7 @@
   		    }
   		});
   	}
-     
+    /* 
     var arimaChart = new Chart(document.getElementById(),{
     	type: 'line',
         data: {
@@ -548,7 +562,7 @@
             }
         }
     });
-    
+    */
     //i'll put code for chart with changing colors based on value of point in comments, so then we can use it for changing to our liking later
     /*
     
