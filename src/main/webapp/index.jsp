@@ -206,13 +206,12 @@
   
   <script type="text/javascript">
   var tabledata = ${tableData} ;
-  console.log(tabledata);
+  var data_cases = ${trends};
   var json = ${india};
   var table = new Tabulator("#covid-table", {
 	  	height: 1490,
 	 	data:tabledata, 
 	 	movableColumns:false,
-	 	responsiveLayout:true,
 	 	layout:"fitDataFill", 
 	 	columns:[ 
 		 	{title:"State/UT", field:"state", hozAlign:"center", width: 300},
@@ -220,7 +219,40 @@
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
-	 	]});
+	 	],
+	    rowClick:function(e, row){
+		    //e - the click event object
+		    //row - row component
+		    document.getElementById("line-confirmed-class").innerHTML = "";
+	  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+	  	     document.getElementById("line-active-class").innerHTML = "";
+	  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+	  	     document.getElementById("line-recovered-class").innerHTML = "";
+	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+	  	     document.getElementById("line-death-class").innerHTML = "";
+	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+			if(row._row.data.state == 'Total')
+				lineChart(row._row.data.state.toLowerCase(),data_cases);
+			else
+				lineChart(row._row.data.state,data_cases);
+		    e.preventDefault(); // prevent the browsers default context menu form appearing.
+		    },
+		rowTap:function(e,row){
+			document.getElementById("line-confirmed-class").innerHTML = "";
+	  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+	  	     document.getElementById("line-active-class").innerHTML = "";
+	  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+	  	     document.getElementById("line-recovered-class").innerHTML = "";
+	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+	  	     document.getElementById("line-death-class").innerHTML = "";
+	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+	  	   if(row._row.data.state == 'Total')
+				lineChart(row._row.data.state.toLowerCase(),data_cases);
+			else
+				lineChart(row._row.data.state,data_cases);
+			e.preventDefault();
+		}
+  	});
  	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
  	document.getElementById("span-static-active").innerHTML = tabledata[0]['active'];
   	document.getElementById("span-static-recovered").innerHTML = tabledata[0]['recovered'];
@@ -254,6 +286,9 @@
               document.getElementById("timeline-charts").removeAttribute("style");
               document.getElementById("timeline-charts").style.marginTop = "3%";
               document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
+              document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
+              document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.width = "250%";
+              document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
           }
       }
     
@@ -296,8 +331,6 @@
              fillOpacity: 0.7
          };
      }
-	
-     var data_cases = ${trends};
      
      var status = "beginning";
    	var cur_state = "total";
