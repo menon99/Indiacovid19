@@ -203,14 +203,16 @@
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
   
   <script type="text/javascript">
   var tabledata = ${tableData} ;
+  console.log(tabledata);
   var data_cases = ${trends};
   var json = ${india};
   var table = new Tabulator("#covid-table", {
-	  	height: 1490,
-	 	data:tabledata, 
+	  	height: 1450,
+	 	data:tabledata.slice(1,tabledata.length), 
 	 	movableColumns:false,
 	 	layout:"fitDataFill", 
 	 	columns:[ 
@@ -231,10 +233,15 @@
 	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
 	  	     document.getElementById("line-death-class").innerHTML = "";
 	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-			if(row._row.data.state == 'Total')
+	  	   
+	  	     if(row._row.data.state == 'Total')
 				lineChart(row._row.data.state.toLowerCase(),data_cases);
 			else
 				lineChart(row._row.data.state,data_cases);
+	  	   //document.getElementById("line-confirmed-class").scrollIntoView();
+		  	 $('html, body').animate({
+		         scrollTop: $("#line-confirmed-class").offset().top
+		     }, 1000);
 		    e.preventDefault(); // prevent the browsers default context menu form appearing.
 		    },
 		rowTap:function(e,row){
@@ -250,6 +257,11 @@
 				lineChart(row._row.data.state.toLowerCase(),data_cases);
 			else
 				lineChart(row._row.data.state,data_cases);
+	  	   
+	  	 $('html, body').animate({
+	         scrollTop: $("#line-confirmed-class").offset().top
+	     }, 1000);
+	  	 //document.getElementById("line-confirmed").scrollIntoView();
 			e.preventDefault();
 		}
   	});
@@ -287,7 +299,7 @@
               document.getElementById("timeline-charts").style.marginTop = "3%";
               document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
               document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
-              document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.width = "250%";
+              document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
               document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
           }
       }
