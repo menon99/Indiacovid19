@@ -563,7 +563,7 @@
   		    		fill: false,
   		    		lineTension: 0.1,
   	                borderColor: bordercolor,
-  	                borderWidth: 1
+  	                borderWidth: 3
   		    	}]
   		    },
   		    options: {
@@ -596,16 +596,18 @@
   	                        maxTicksLimit: 6
   	                    },
   		    		}],
-  		    		tooltips:{
-  		    			callbacks:{
-  		    				beforeLabel: "Date: ",
-  		    				label: function(tooltipItem){
-  		    					console.log(tooltipItem);
-  		    					return tooltipItem;
-  		    				}
-  		    			}
-  		    		}
-  	            }
+  	            },
+	  		  tooltips:{
+	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
+	    			/*callbacks:{
+	    				beforeLabel: "Date: ",
+	    				label: function(tooltipItem){
+	    					console.log(tooltipItem);
+	    					return tooltipItem;
+	    				}
+	    			}*/
+	    		},
   		    }
   		});
   	}
