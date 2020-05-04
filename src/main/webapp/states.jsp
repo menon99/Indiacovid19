@@ -185,19 +185,40 @@
 			</div>
 	</div>
 	</div>
+	<div class = "row" style = "margin-top: 3%">
+		<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(150%,0);" id = "analysis-title">Analysis and Forecasts</h1>
+		<br>
+		<h2 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(175%,0); margin-top: 4%" id = "analysis-sub-title">Growth Rate</h2>
+		<br>
+		<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
+			<div style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
+			</div>
+			<div style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
+			</div>
+			<div style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
+			</div>
+		</div>
+		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
+			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(250%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
+			<canvas id = "arima-graph"></canvas>
+		</div>
+	</div>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript">
   var tabledata = ${tabledata} ;
   
   console.log('table data is' ,tabledata);
   var json = ${stateCoords};
-  /*var state_name_arr = document.getElementsByTagName('title')[0].text.split(' ');
-  state_name_arr.shift();
-  var state_name = state_name_arr.join(' ');*/
   var state_name = '${sname}';
   $("#map-title").html = state_name+" Map"
   console.log(tabledata);
@@ -452,6 +473,9 @@
             document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
+            document.getElementById("analysis-title").style.transform = "translate(80%,0)";
+            document.getElementById("analysis-sub-title").style.transform = "translate(20%,0)";
+            document.getElementById("arima-graph-title").style.transform = "translate(170%,0)";
         }
     }
     
@@ -485,8 +509,14 @@
 
      //styling map
      function style(features) {
+    	 var color;
+    	 for(i in tabledata){
+    		 if(tabledata[i].district == features.properties.district){
+    	 		color = parseInt(tabledata[i].confirmed);
+    		 }
+    	 }
          return {
-             fillColor: getColor(features.cases),
+             fillColor: getColor(color),
              weight: 2,
              opacity: 1,
              color: 'white',
@@ -612,9 +642,13 @@
      
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
     	var x = document.getElementById(canvasid);
-    	x.height = 230;
+    	x.height = 270;
     	x.style.backgroundColor = backgroundcolor;
-  		var myLineChart = new Chart(document.getElementById(canvasid), {
+    	var myLineChart;
+    	if(myLineChart){
+       		myLineChart.destroy();
+       	}
+    	myLineChart = new Chart(document.getElementById(canvasid), {
   		    type: 'line',
   		    data: {
   		    	labels: dataset_x,
@@ -623,8 +657,11 @@
   		    		data: dataset_y,
   		    		fill: false,
   		    		lineTension: 0.1,
+  		    		backgroundColor: bordercolor,
   	                borderColor: bordercolor,
-  	                borderWidth: 1
+  	                borderWidth: 3,
+  	              	pointRadius: 2,
+  					pointRadiusOnHover: 3,
   		    	}]
   		    },
   		    options: {
@@ -657,23 +694,129 @@
   	                        maxTicksLimit: 6
   	                    },
   		    		}],
-  		    		tooltips:{
-  		    			callbacks:{
-  		    				beforeLabel: "Date: ",
-  		    				label: function(tooltipItem){
-  		    					console.log(tooltipItem);
-  		    					return tooltipItem;
-  		    				}
-  		    			}
-  		    		}
-  	            }
+  	            },
+	  		  tooltips:{
+	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
+	    			callbacks:{
+	    				title: function(tooltipItem, data){
+	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+	    				},
+	    				label: function(tooltipItem,data){
+	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
+	    					return data.datasets[0].label+": "+tooltipItem.yLabel;
+	    				}
+	    			}
+	    		},
   		    }
   		});
   	}
+     $.getJSON('https://covid19-api-django.herokuapp.com/growth/'+state_name,function(data){
+    	 $("#g1-value").html(data.g1.toFixed(3));
+    	 $("#g2-value").html(data.g2.toFixed(3));
+    	 $("#current-value").html(data.current.toFixed(3));
+      });
      
-    /*var arimaChart = new Chart(document.getElementById(),{
-    	
-    });*/
+     $.getJSON("https://covid19-api-django.herokuapp.com/arima/"+state_name,function(data){
+     	var dates_analysis = data.dates;
+     	for(i in data.dp)
+     		dates_analysis.push(data.dp[i]);
+     	var x = document.getElementById("arima-graph");
+     	x.height = 500;
+     	var temp = data.pred;
+     	var max_val = temp.reduce(function(a, b) {
+     	    return Math.max(a, b);
+     	});
+     	var predict_coords = [];
+     	var actual_coords = [];
+     	for(i in data.pred){
+     		predict_coords[i] = {'x': data.dp[i], 'y' : data.pred[i] };
+     	}
+     	for(i in data.actual){
+     		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
+     	}
+     	var arimaChart = new Chart(x,{
+     		type: 'line',
+     		data: {
+     			label: dates_analysis,
+     			datasets: [{
+     				label: 'Prediction for next 15 Days',
+     				data: predict_coords,
+     				fill: false,
+     				lineTension: 0.1,
+     				borderWidth: 3,
+     				backgroundColor: '#9967FF',
+     				borderColor: '#9967FF',
+     				pointRadius: 1.5,
+     				pointRadiusOnHover: 3,
+     			},{
+     				label: 'Actual',
+     				data: actual_coords,
+     				fill: false,
+     				lineTension: 0.1,
+     				borderWidth: 3,
+     				backgroundColor: '#F26384',
+     				borderColor: '#F26384',
+     				pointRadius: 1.5,
+     				pointRadiusOnHover: 3,
+     			}]
+     		},
+     		options: {
+   		    	responsive: true,
+   	            maintainAspectRatio: false,
+   	            scales: {
+   	                xAxes: [{
+   	                	gridLines:{
+   	                		color: "rgba(0, 0, 0, 0)",
+   	                	},
+   	                    type: 'time',
+   	                    ticks: {
+   	                        autoSkip: true,
+   	                        maxTicksLimit: 6
+   	                    },
+   	                    distribution: 'linear',
+   	                    time: {
+   	                    	unit: 'day',
+   	                        displayFormats: {
+   	                            day: 'MMM D'
+   	                        }
+   	                    }
+   	                }],
+   		    		yAxes: [{
+   		    			gridLines:{
+   		    				//color: "rgba(0, 0, 0, 0)",
+   		    			},
+   		    			ticks: {
+   	                        autoSkip: true,
+   	                     	stepSize: max_val/4,
+   	                     	precision: 0,
+   	                     	suggestedMax: max_val+5
+   	                    },
+   		    		}],
+   		    		title: {
+   		              display: true,
+   		              text: 'ARIMA Predictions',
+   		              position: 'top',
+   		          }
+   	            },
+ 	  		  tooltips:{
+ 	    			titleFontSize: 20,
+ 	    			bodyFontSize: 20,
+ 	    			callbacks:{
+ 	    				title: function(tooltipItem, data){
+ 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+ 	    				},
+ 	    				label: function(tooltipItem,data){
+ 	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
+ 	    					var y = tooltipItem.yLabel;
+ 	    					y = y.toFixed(0); 
+ 	    					return "Cases Count: "+y;
+ 	    				}
+ 	    			}
+ 	    		},
+   		    }
+     	});
+      });
   </script>
 </body>
 </html>
