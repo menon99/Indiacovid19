@@ -185,17 +185,28 @@
 			</div>
 	</div>
 	</div>
-	<div class = "container">
-		<div class = "row" style = "margin-top: 3%">
-			<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(70%,0);">Analysis and Forecasts</h1>
-			<div class = "row">
-				<div class = "col-sm-6">
-					<canvas id = "arima-graph"></canvas>
-				</div>
-				<div class = "col-sm-6">
-					<canvas id = "2nd-graph"></canvas>
-				</div>
+	<div class = "row" style = "margin-top: 3%">
+		<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(150%,0);" id = "analysis-title">Analysis and Forecasts</h1>
+		<br>
+		<h2 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(175%,0); margin-top: 4%" id = "analysis-sub-title">Growth Rate</h2>
+		<br>
+		<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
+			<div style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
 			</div>
+			<div style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
+			</div>
+			<div style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
+			</div>
+		</div>
+		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
+			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(250%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
+			<canvas id = "arima-graph"></canvas>
 		</div>
 	</div>
 
@@ -203,9 +214,14 @@
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   
   <script type="text/javascript">
+  $.getJSON('https://covid19-api-django.herokuapp.com/growth/india',function(data){
+	 $("#g1-value").html(data.g1.toFixed(3));
+	 $("#g2-value").html(data.g2.toFixed(3));
+	 $("#current-value").html(data.current.toFixed(3));
+  });
   var tabledata = ${tableData} ;
   console.log(tabledata);
   var data_cases = ${trends};
@@ -301,6 +317,9 @@
               document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
               document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
               document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
+              document.getElementById("analysis-title").style.transform = "translate(80%,0)";
+              document.getElementById("analysis-sub-title").style.transform = "translate(20%,0)";
+              document.getElementById("arima-graph-title").style.transform = "translate(170%,0)";
           }
       }
     
@@ -530,6 +549,7 @@
      function lineChart(state_name,data_cases){
   	   
   	   var dates = ${dates};
+  	   //console.log(dates);
   	   
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
   	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
@@ -562,8 +582,11 @@
   		    		data: dataset_y,
   		    		fill: false,
   		    		lineTension: 0.1,
+  		    		backgroundColor: bordercolor,
   	                borderColor: bordercolor,
-  	                borderWidth: 3
+  	                borderWidth: 3,
+  	              	pointRadius: 2,
+  					pointRadiusOnHover: 3,
   		    	}]
   		    },
   		    options: {
@@ -600,70 +623,147 @@
 	  		  tooltips:{
 	    			titleFontSize: 20,
 	    			bodyFontSize: 20,
-	    			/*callbacks:{
-	    				beforeLabel: "Date: ",
-	    				label: function(tooltipItem){
-	    					console.log(tooltipItem);
-	    					return tooltipItem;
+	    			callbacks:{
+	    				title: function(tooltipItem, data){
+	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+	    				},
+	    				label: function(tooltipItem,data){
+	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
+	    					return data.datasets[0].label+": "+tooltipItem.yLabel;
 	    				}
-	    			}*/
+	    			}
 	    		},
   		    }
   		});
   	}
-    /* 
-    var arimaChart = new Chart(document.getElementById(),{
-    	type: 'line',
-        data: {
-            labels: [1, 2, 3, 4],
-            datasets: [{
-                label: "Min",
-                backgroundColor: 'rgba(55, 173, 221,  0.6)',
-                borderColor: 'rgba(55, 173, 221, 1.0)',
-                fill: false,  //no fill here
-                data: [5, 5, 3, 2] // data with the low values will come here
-            },
-            {
-                label: "Max",
-                backgroundColor: 'rgba(55, 173, 221, 0.6)',
-                borderColor: 'rgba(55, 173, 221, 1.0)',
-                fill: '-1', //fill until previous dataset
-                data: [8, 7, 6, 5] // data with high values will come here
-            },
-            {
-                type:'line',
-                label:'Line Dataset',
-                data:[2,3,7,6], // data with the optimal values will come here, also for the optimal values thing, i can even change the color of point based on the value...
-                fill:'none',
-                borderColor:'black',
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            spanGaps: false,
-            elements: {
-                line: {
-                    tension: 0.000001
-                }
-            },
-            plugins: {
-                filler: {
-                    propagate: false
-                }
-            },
-            scales: {
-                xAxes: [{
-                    ticks: {
-                        autoSkip: false
-                    }
-                }]
-            }
-        }
-    });
-    */
-    //i'll put code for chart with changing colors based on value of point in comments, so then we can use it for changing to our liking later
-    /*
     
+     //arima graph
+     $.getJSON("https://covid19-api-django.herokuapp.com/arima/india",function(data){
+    	var dates_analysis = data.dates;
+    	for(i in data.d2)
+    		dates_analysis.push(data.d2[i]);
+    	dates_analysis.push(data.db[data.db.length-1]);
+    	var x = document.getElementById("arima-graph");
+    	x.height = 500;
+    	var predict_coords = [];
+    	var predict_coords1 = [];
+    	var predict_coords_current = [];
+    	var actual_coords = [];
+    	for(i in data.pb){
+    		predict_coords[i] = {'x': data.db[i], 'y' : data.pb[i] };
+    	}
+    	for(i in data.p1){
+    		predict_coords1[i] = {'x': data.d1[i], 'y' : data.p1[i] };
+    	}
+    	for(i in data.p2){
+    		predict_coords_current[i] = {'x': data.d2[i], 'y' : data.p2[i] };
+    	}
+    	for(i in data.actual){
+    		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
+    	}
+    	console.log(predict_coords);
+    	var arimaChart = new Chart(x,{
+    		type: 'line',
+    		data: {
+    			label: dates_analysis,
+    			datasets: [{
+    				label: 'Prediction before lockdown',
+    				data: predict_coords,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#9967FF',
+    				borderColor: '#9967FF',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			},{
+    				label: 'Prediction after lockdown 1',
+    				data: predict_coords1,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#42A2EB',
+    				borderColor: '#42A2EB',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			},{
+    				label: 'Current Prediction',
+    				data: predict_coords_current,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#4BC0C0',
+    				borderColor: '#4BC0C0',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			},{
+    				label: 'Actual',
+    				data: actual_coords,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#F26384',
+    				borderColor: '#F26384',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			}]
+    		},
+    		options: {
+  		    	responsive: true,
+  	            maintainAspectRatio: false,
+  	            scales: {
+  	                xAxes: [{
+  	                	gridLines:{
+  	                		color: "rgba(0, 0, 0, 0)",
+  	                	},
+  	                    type: 'time',
+  	                    ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  	                    distribution: 'linear',
+  	                    time: {
+  	                    	unit: 'day',
+  	                        displayFormats: {
+  	                            day: 'MMM D'
+  	                        }
+  	                    }
+  	                }],
+  		    		yAxes: [{
+  		    			gridLines:{
+  		    				//color: "rgba(0, 0, 0, 0)",
+  		    			},
+  		    			ticks: {
+  	                        autoSkip: false,
+  	                      	stepSize: 50000,
+  	                        maxTicksLimit: 6
+  	                    },
+  		    		}],
+  		    		title: {
+  		              display: true,
+  		              text: 'ARIMA Predictions',
+  		              position: 'top',
+  		          }
+  	            },
+	  		  tooltips:{
+	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
+	    			callbacks:{
+	    				title: function(tooltipItem, data){
+	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+	    				},
+	    				label: function(tooltipItem,data){
+	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
+	    					var y = tooltipItem.yLabel;
+	    					y = y.toFixed(0); 
+	    					return data.datasets[0].label+": "+y;
+	    				}
+	    			}
+	    		},
+  		    }
+    	});
+     });
+    /*
     var colors = [];
 	    var myLineChart = new Chart(document.getElementById("line-confirmed"), {
 		    type: 'line',
