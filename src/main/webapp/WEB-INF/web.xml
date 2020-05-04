@@ -8,13 +8,13 @@
   	<servlet-name>Home</servlet-name>
   	<display-name>Home</display-name>
   	<description></description>
-  	<servlet-class>Home</servlet-class>
+  	<servlet-class>servlet.Home</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>StateServlet</servlet-name>
   	<display-name>StateServlet</display-name>
   	<description></description>
-  	<servlet-class>StateServlet</servlet-class>
+  	<servlet-class>servlet.StateServlet</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>Home</servlet-name>
