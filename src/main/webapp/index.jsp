@@ -353,8 +353,15 @@
 
      //styling map
      function style(features) {
+    	 //console.log(features.properties.st_nm);
+    	 var color;
+    	 for(i in tabledata){
+    		 if(tabledata[i].state == features.properties.st_nm){
+    	 		color = parseInt(tabledata[i].confirmed);
+    		 }
+    	 }
          return {
-             fillColor: getColor(features.cases),
+             fillColor: getColor(color),
              weight: 2,
              opacity: 1,
              color: 'white',
@@ -661,7 +668,6 @@
     	for(i in data.actual){
     		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
     	}
-    	console.log(predict_coords);
     	var arimaChart = new Chart(x,{
     		type: 'line',
     		data: {
@@ -756,7 +762,7 @@
 	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
 	    					var y = tooltipItem.yLabel;
 	    					y = y.toFixed(0); 
-	    					return data.datasets[0].label+": "+y;
+ 	    					return "Cases Count: "+y;
 	    				}
 	    			}
 	    		},
