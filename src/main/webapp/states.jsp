@@ -178,7 +178,7 @@
 				<canvas id = "line-death"></canvas>
 			</div>
 			<div class = "row" style = "transform: translate(40%,0); margin-top: 3%" id = "timeline-charts">
-				<button class = "btn btn-outline-primary" onclick = "check('beginning',this)" id = "beginning" style = "margin-right: 2%">Beginning</button>
+				<button class = "btn btn-primary" onclick = "check('beginning',this)" id = "beginning" style = "margin-right: 2%">Beginning</button>
 				<button class = "btn btn-outline-primary" onclick = "check('1-month',this)" id = "1-month" style = "margin-right: 2%">1 Month</button>
 				<button class = "btn btn-outline-primary" onclick = "check('2-weeks',this)" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
 				<button class = "btn btn-outline-primary" onclick = "check('1-week',this)" id = "1-week" style = "margin-right: 2%">1 Week</button>
@@ -206,7 +206,29 @@
 		</div>
 		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
 			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(250%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
-			<canvas id = "arima-graph"></canvas>
+			<div class = "col-sm-12" style = "width: 100%;">
+				<canvas id = "arima-graph" height = '500'></canvas>
+			</div>
+		</div>
+		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
+			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(380%,0); margin-bottom: 1%;" id = "line-area-title">Real-time R0</h3>
+			<div class = "col-sm-12" style = "width: 100%;">
+				<canvas id = "line-area-graph" height = '500'></canvas>
+			</div>
+			<div id = "custom-legend" class = "row" style = "font-family: 'Source Sans Pro', sans-serif; transform: translate(800%,-570%); width: 10%; margin-top: 2%; margin-bottom: 1%">
+				<div style = "margin-right: 5%">
+					<div style = "width: 20px; height: 20px; background-color: #ff3333;"></div><div style = "margin-top: -23px; margin-left: 30px">1.5+</div>
+				</div>
+				<div style = "margin-right: 5%">
+					<div style = "width: 20px; height: 20px; background-color: #ff6666;"></div><div style = "margin-top: -23px; margin-left: 30px">1.5-1</div>
+				</div>
+				<div style = "margin-right: 5%">
+					<div style = "width: 20px; height: 20px; background-color: #ff9999;"></div><div style = "margin-top: -23px; margin-left: 30px">1-0.5</div>
+				</div>
+				<div style = "margin-right: 5%">
+					<div style = "width: 20px; height: 20px; background-color: #ffcccc;"></div><div style = "margin-top: -23px; margin-left: 30px">0.5-0</div>
+				</div>
+			</div>
 		</div>
 	</div>
   <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -226,7 +248,7 @@
 	  	height: false,
 	 	data:tabledata.slice(0,tabledata.length-1), 
 	 	movableColumns:false,
-	 	responsiveLayout:true,
+	 	responsiveLayout:false,
 	 	layout:"fitDataFill", 
 	 	columns:[ 
 		 	{title:"District", field:"district", hozAlign:"center", width: 300},
@@ -476,6 +498,7 @@
             document.getElementById("analysis-title").style.transform = "translate(80%,0)";
             document.getElementById("analysis-sub-title").style.transform = "translate(20%,0)";
             document.getElementById("arima-graph-title").style.transform = "translate(170%,0)";
+            document.getElementById("line-area-title").style.transform = "translate(250%,0)";
         }
     }
     
@@ -722,7 +745,6 @@
      	for(i in data.dp)
      		dates_analysis.push(data.dp[i]);
      	var x = document.getElementById("arima-graph");
-     	x.height = 500;
      	var temp = data.pred;
      	var max_val = temp.reduce(function(a, b) {
      	    return Math.max(a, b);
@@ -750,7 +772,7 @@
      				pointRadius: 1.5,
      				pointRadiusOnHover: 3,
      			},{
-     				label: 'Actual',
+     				label: 'Actual Cases',
      				data: actual_coords,
      				fill: false,
      				lineTension: 0.1,
@@ -810,13 +832,127 @@
  	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
  	    					var y = tooltipItem.yLabel;
  	    					y = y.toFixed(0); 
- 	    					return "Cases Count: "+y;
+ 	    					return data.datasets[tooltipItem.datasetIndex].label+": "+y;
  	    				}
  	    			}
  	    		},
    		    }
      	});
       });
+     
+     $.getJSON('https://covid19-api-django.herokuapp.com/rnaught/'+state_name,function(data){
+         var ctx = document.getElementById('line-area-graph');
+         ctx.height = 500;
+		 var colors = [];
+         var temp = data.high;
+         var max_val = temp.reduce(function(a, b) {
+      	    return Math.max(a, b);
+      	});
+         var config = {              
+             type: 'line',
+             data: {
+                 labels: data.date,
+                 datasets: [{
+                     label: "Min",
+                     backgroundColor: 'rgba(211,211,211,  0.2)',
+                     borderColor: 'rgba(211,211,211, 0.2)',
+                     pointBackgroundColor: 'rgba(211,211,211, 0.2)',
+                     fill: false,  //no fill here
+                     data: data.low,
+                 },
+                 {
+                     label: "Max",
+                     backgroundColor: 'rgba(211,211,211, 0.2)',
+                     borderColor: 'rgba(211,211,211, 0.2)',
+                     pointBackgroundColor: 'rgba(211,211,211, 0.2)',
+                     fill: '-1', //fill until previous dataset
+                     data: data.high,
+                 },
+                 {
+                     type:'line',
+                     label:'Most Likely',
+                     data:data.ml,
+                     pointBackgroundColor: colors,
+                     fill:'none',
+                     borderColor:'rgba(0,0,0,0.7)',
+                     backgroundColor:'rgba(0,0,0,0.7)',
+                     borderWidth:3,
+                     pointRadius: 5,
+      				 pointRadiusOnHover: 6,
+                 }]
+             },
+             options: {
+ 		    	responsive: true,
+ 	            maintainAspectRatio: false,
+ 	            scales: {
+ 	                xAxes: [{
+ 	                	gridLines:{
+ 	                		color: "rgba(0, 0, 0, 0)",
+ 	                	},
+ 	                    type: 'time',
+ 	                    ticks: {
+ 	                        autoSkip: true,
+ 	                        maxTicksLimit: 6
+ 	                    },
+ 	                    distribution: 'linear',
+ 	                    time: {
+ 	                    	unit: 'day',
+ 	                        displayFormats: {
+ 	                            day: 'MMM D'
+ 	                        }
+ 	                    }
+ 	                }],
+ 		    		yAxes: [{
+ 		    			gridLines:{
+ 		    				//color: "rgba(0, 0, 0, 0)",
+ 		    			},
+ 		    			ticks: {
+ 	                        autoSkip: true,
+ 	                     	stepSize: max_val/4,
+ 	                     	precision: 0,
+ 	                    },
+ 		    		}],
+ 		    		title: {
+ 		              display: true,
+ 		              text: 'ARIMA Predictions',
+ 		              position: 'top',
+ 		          }
+ 	            },
+	  		  tooltips:{
+	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
+	    			callbacks:{
+	    				title: function(tooltipItem, data){
+	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+	    				},
+	    				label: function(tooltipItem,data){
+	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
+	    					var y = tooltipItem.yLabel;
+	    					y = y.toFixed(3); 
+	    					return data.datasets[tooltipItem.datasetIndex].label+" Value: "+y;
+	    				}
+	    			}
+	    		}
+         	}
+         };
+         
+         var chart = new Chart(ctx, config);
+         for(let i = 0; i<chart.data.datasets[0].data.length; i++){
+				if(chart.data.datasets[2].data[i]>1.5){
+					colors.push("#ff3333");
+				}
+				else if(chart.data.datasets[2].data[i]>1 && chart.data.datasets[2].data[i]<1.5){
+					colors.push("#ff6666");
+				}
+				else if(chart.data.datasets[2].data[i]>0.5 && chart.data.datasets[2].data[i]<1){
+					colors.push("#ff9999");
+				}
+				else{
+					colors.push("#ffcccc");
+				}
+			}
+         chart.update();
+     });
   </script>
 </body>
 </html>
