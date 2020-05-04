@@ -1,26 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.covid</groupId>
-  <artifactId>Indiacovid19</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <groupId>com.heroku.sample</groupId>
+  <artifactId>embeddedTomcatSample</artifactId>
+  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-
-  <name>Indiacovid19 Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
+  <name>embeddedTomcatSample Maven Webapp</name>
   <url>http://maven.apache.org</url>
-
   <properties>
     <tomcat.version>8.5.38</tomcat.version>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
   </properties>
-
   <dependencies>
-     <dependency>
+    <dependency>
         <groupId>org.apache.tomcat.embed</groupId>
         <artifactId>tomcat-embed-core</artifactId>
         <version>${tomcat.version}</version>
@@ -45,13 +38,7 @@
         <artifactId>tomcat-jsp-api</artifactId>
         <version>${tomcat.version}</version>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
+	<dependency>
 	<groupId>javax.servlet</groupId>
 	<artifactId>javax.servlet-api</artifactId>
 	<version>3.1.0</version>
@@ -87,11 +74,9 @@
 	    <version>2.6</version>
 	</dependency>
   </dependencies>
-
   <build>
-    <finalName>Indiacovid19</finalName>
-    <pluginManagement>
-	<plugins>
+    <finalName>embeddedTomcatSample</finalName>
+    <plugins>
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>appassembler-maven-plugin</artifactId>
@@ -115,6 +100,5 @@
             </executions>
         </plugin>
     </plugins>
-    </pluginManagement>
   </build>
 </project>

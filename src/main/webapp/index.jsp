@@ -209,6 +209,10 @@
 			<canvas id = "arima-graph"></canvas>
 		</div>
 	</div>
+	<br>
+	<br>
+	<br>
+	<br>
 
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -599,6 +603,11 @@
   		    options: {
   		    	responsive: true,
   	            maintainAspectRatio: false,
+  	            legend:{
+  	            	labels:{
+  	            		fontSize: 20, //now try...
+  	            	}
+  	            },
   	            scales: {
   	                xAxes: [{
   	                	gridLines:{
@@ -650,6 +659,7 @@
     		dates_analysis.push(data.d2[i]);
     	dates_analysis.push(data.db[data.db.length-1]);
     	var x = document.getElementById("arima-graph");
+    	x.height = 600;
     	var predict_coords = [];
     	var predict_coords1 = [];
     	var predict_coords_current = [];
@@ -715,6 +725,11 @@
     		options: {
   		    	responsive: true,
   	            maintainAspectRatio: false,
+  	            legend:{
+	            	labels:{
+	            		fontSize: 20, //now try...
+	            	}
+	            },
   	            scales: {
   	                xAxes: [{
   	                	gridLines:{

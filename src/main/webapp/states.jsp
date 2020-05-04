@@ -111,25 +111,21 @@
 		<div class = "col-sm-6" id = "contentbox"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
 			<div class = "container">
 				<div class = "row" style = "margin-top: 3%">
-					<div style = "opacity: 1; border-radius: 10px; width: 15%; margin-left: 5%; margin-right: 1.5%; ">
+					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 5%; margin-right: 2%; ">
 					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
 					    <h5 id = "span-static-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
 					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 15%; margin-left: 1.5%; margin-right: 1.5%; ">
+					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%; ">
 					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
 					    <h5 id = "span-static-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
 					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 15%; margin-left: 1.5%; margin-right: 1.5%; ">
+					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%; ">
 					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
 					    <h5 id = "span-static-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
 					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 15%; margin-left: 1.5%; margin-right: 1.5%; ">
+					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 5%; ">
 					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
 					    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
-					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 20%; margin-left: 1.5%; margin-right: 1%; ">
-					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
-					    <h5 id = "span-static-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 					</div>
 				</div>
 				<div id="covid-table" style = "font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
@@ -141,25 +137,21 @@
 					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff " id = "map-title"></h1>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%;" id = "districtid">Hover over a District</h2>
 					<div class= "row" style = "padding: 1%">
-						<div style = "opacity: 1; background-color: rgba(255,7,58,.12549); width: 15%; margin-left: 1%; margin-right: 1.5%; border-radius: 10px; ">
+						<div style = "opacity: 1; background-color: rgba(255,7,58,.12549); width: 18%; margin-left: 1%; margin-right: 2%; border-radius: 10px; ">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
 						    <h5 id = "span-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px; width: 15%; margin-left: 1.5%; margin-right: 1.5%;">
+						<div style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
 						    <h5 id = "span-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px; width: 15%; margin-left: 1.5%; margin-right: 1.5%;">
+						<div style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
 						    <h5 id = "span-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px; width: 15%; margin-left: 1.5%; margin-right: 1.5%;">
+						<div style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
 						    <h5 id = "span-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
-						</div>
-						<div style = "opacity: 1; background-color: rgba(32,26,162,.12549); border-radius: 10px; width: 20%; margin-left: 1.5%; margin-right: 1%;">
-						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
-						    <h5 id = "span-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 						</div>
 					</div>
 				</div>
@@ -231,6 +223,10 @@
 			</div>
 		</div>
 	</div>
+	<br>
+	<br>
+	<br>
+	<br>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -265,7 +261,6 @@
 	document.getElementById("span-active").innerHTML = tabledata[tabledata.length-1]['active']==null?0:tabledata[tabledata.length-1]['active'];
 	document.getElementById("span-recovered").innerHTML = tabledata[tabledata.length-1]['recovered']==null?0:tabledata[tabledata.length-1]['recovered'];
 	document.getElementById("span-death").innerHTML = tabledata[tabledata.length-1]['deceased']==null?0:tabledata[tabledata.length-1]['deceased'];
-	document.getElementById("span-testing").innerHTML = tabledata[tabledata.length-1]['tested']==null?0:tabledata[tabledata.length-1]['tested'];
   	
   	var status = "beginning";
   	var data_cases = ${trends};
@@ -688,6 +683,11 @@
   		    	}]
   		    },
   		    options: {
+  		    	legend:{
+  	            	labels:{
+  	            		fontSize: 20, //now try...
+  	            	}
+  	            },
   		    	responsive: true,
   	            maintainAspectRatio: false,
   	            scales: {
@@ -784,6 +784,11 @@
      			}]
      		},
      		options: {
+     			legend:{
+  	            	labels:{
+  	            		fontSize: 20, //now try...
+  	            	}
+  	            },
    		    	responsive: true,
    	            maintainAspectRatio: false,
    	            scales: {
@@ -882,6 +887,11 @@
                  }]
              },
              options: {
+            	 legend:{
+   	            	labels:{
+   	            		fontSize: 20, //now try...
+   	            	}
+   	            },
  		    	responsive: true,
  	            maintainAspectRatio: false,
  	            scales: {
