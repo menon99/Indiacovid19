@@ -178,7 +178,7 @@
 				<canvas id = "line-death"></canvas>
 			</div>
 			<div class = "row" style = "transform: translate(40%,0); margin-top: 3%" id = "timeline-charts">
-				<button class = "btn btn-outline-primary" onclick = "check('beginning',this)" id = "beginning" style = "margin-right: 2%">Beginning</button>
+				<button class = "btn btn-primary" onclick = "check('beginning',this)" id = "beginning" style = "margin-right: 2%">Beginning</button>
 				<button class = "btn btn-outline-primary" onclick = "check('1-month',this)" id = "1-month" style = "margin-right: 2%">1 Month</button>
 				<button class = "btn btn-outline-primary" onclick = "check('2-weeks',this)" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
 				<button class = "btn btn-outline-primary" onclick = "check('1-week',this)" id = "1-week" style = "margin-right: 2%">1 Week</button>
@@ -635,8 +635,7 @@
 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
 	    				},
 	    				label: function(tooltipItem,data){
-	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
-	    					return data.datasets[0].label+": "+tooltipItem.yLabel;
+	    					return data.datasets[tooltipItem.datasetIndex].label+": "+tooltipItem.yLabel;
 	    				}
 	    			}
 	    		},
@@ -651,7 +650,6 @@
     		dates_analysis.push(data.d2[i]);
     	dates_analysis.push(data.db[data.db.length-1]);
     	var x = document.getElementById("arima-graph");
-    	x.height = 500;
     	var predict_coords = [];
     	var predict_coords1 = [];
     	var predict_coords_current = [];
@@ -762,86 +760,13 @@
 	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
 	    					var y = tooltipItem.yLabel;
 	    					y = y.toFixed(0); 
- 	    					return "Cases Count: "+y;
+ 	    					return data.datasets[tooltipItem.datasetIndex].label+" value: "+y;
 	    				}
 	    			}
 	    		},
   		    }
     	});
      });
-    /*
-    var colors = [];
-	    var myLineChart = new Chart(document.getElementById("line-confirmed"), {
-		    type: 'line',
-		    data: {
-		    	labels: data_cases["Total"]['x'],
-		    	datasets:[{
-                    label:'cases',
-		    		data: data_cases["Total"]['y'],
-		    		lineTension: 0.1,
-                    borderColor: "#00ff00",
-					pointBackgroundColor: colors,
-                    borderWidth: 1,
-					fill: false
-		    	}]
-		    },
-		    options: {
-                responsive: true,
-                maintainAspectRatio: false,
-				scales: {
-  	                xAxes: [{
-  	                	gridLines:{
-  	                		color: "rgba(0, 0, 0, 0)",
-  	                	},
-  	                    type: 'time',
-  	                    ticks: {
-  	                        autoSkip: true,
-  	                        maxTicksLimit: 6
-  	                    },
-  	                    distribution: 'linear',
-  	                    time: {
-  	                    	unit: 'day',
-  	                        displayFormats: {
-  	                            day: 'MMM D'
-  	                        }
-  	                    }
-  	                }],
-  		    		yAxes: [{
-  		    			gridLines:{
-  		    				//color: "rgba(0, 0, 0, 0)",
-  		    			},
-  		    			ticks: {
-  	                        autoSkip: true,
-  	                        maxTicksLimit: 6
-  	                    },
-  		    		}],
-  		    		tooltips:{
-  		    			title: function(tooltipItems, data){
-							  console.log(tooltipItems);
-							  return 'Date: '+tooltipItems.xLabel;
-						  }
-  		    		}
-  	            }
-		    }
-		});
-		for(let i = 0; i<myLineChart.data.datasets[0].data.length; i++){
-			if(myLineChart.data.datasets[0].data[i]>180){
-				colors.push("#ff3333");
-			}
-			else if(myLineChart.data.datasets[0].data[i]>100 && myLineChart.data.datasets[0].data[i]<180){
-				colors.push("#ff6666");
-			}
-			else if(myLineChart.data.datasets[0].data[i]>50 && myLineChart.data.datasets[0].data[i]<100){
-				colors.push("#ff9999");
-			}
-			else{
-				colors.push("#ffcccc");
-			}
-		}
-
-		myLineChart.update();
-    
-    */
   </script>
 </body>
 </html>
