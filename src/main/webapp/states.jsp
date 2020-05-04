@@ -203,7 +203,7 @@
   console.log(tabledata);
   var table = new Tabulator("#covid-table", {
 	  	height: false,
-	 	data:tabledata, 
+	 	data:tabledata.slice(0,tabledata.length-1), 
 	 	movableColumns:false,
 	 	responsiveLayout:true,
 	 	layout:"fitDataFill", 
@@ -498,7 +498,7 @@
      //highlighting the features in map
      function highlightFeature(e) {
          var layer = e.target;
-         
+         var flag = 0;
          document.getElementById("districtid").innerHTML = "District: "+e.target.feature.properties.district;
          for(i in tabledata){
         	 if(tabledata[i]['district'] == e.target.feature.properties.district){
@@ -507,8 +507,16 @@
         		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'] == null ? 0 : tabledata[i]['recovered'];
         		 document.getElementById("span-death").innerHTML = tabledata[i]['deceased'] == null ? 0 : tabledata[i]['deceased'];
         		 document.getElementById("span-testing").innerHTML = tabledata[i]['tested'] == null ? 0 : tabledata[i]['tested'];
+        		 flag = 1;
         	 }
          }
+         if(flag == 0){
+    		 document.getElementById("span-confirmed").innerHTML = "NA";
+    		 document.getElementById("span-active").innerHTML = "NA";
+    		 document.getElementById("span-recovered").innerHTML = "NA";
+    		 document.getElementById("span-death").innerHTML = "NA";
+    		 document.getElementById("span-testing").innerHTML = "NA";
+    	 }
          
          //var trimmedData = trimDataset(data_cases);
          //lineChart(layer.feature.properties.st_nm,data_cases);
