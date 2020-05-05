@@ -1551,7 +1551,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 489,
-          "district": "The Dangs",
+          "district": "Dang",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -6257,7 +6257,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 731,
-          "district": "Chota Udaipur",
+          "district": "Chhota Udaipur",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "update2014"
@@ -12775,7 +12775,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 469,
-          "district": "Banas Kantha",
+          "district": "Banaskantha",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -14785,7 +14785,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 471,
-          "district": "Mahesana",
+          "district": "Mehsana",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -16307,7 +16307,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 474,
-          "district": "Ahmadabad",
+          "district": "Ahmedabad",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -17504,7 +17504,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 484,
-          "district": "Panch Mahals",
+          "district": "Panchmahal",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -18113,7 +18113,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 485,
-          "district": "Dohad",
+          "district": "Dahod",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -19680,7 +19680,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 472,
-          "district": "Sabar Kantha",
+          "district": "Sabarkantha",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"
@@ -20511,7 +20511,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 468,
-          "district": "Kachchh",
+          "district": "Kutch",
           "st_nm": "Gujarat",
           "st_code": 24,
           "year": "2011_c"

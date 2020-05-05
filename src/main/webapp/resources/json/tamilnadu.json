@@ -2455,7 +2455,7 @@
       {
         "type": "Feature",
         "properties": {
-          "district": "The Nilgiris",
+          "district": "Nilgiris",
           "st_code": 33,
           "dt_code": 611,
           "year": "2011_c",
@@ -6934,7 +6934,7 @@
       {
         "type": "Feature",
         "properties": {
-          "district": "Kanniyakumari",
+          "district": "Kanyakumari",
           "st_code": 33,
           "dt_code": 629,
           "year": "2011_c",
