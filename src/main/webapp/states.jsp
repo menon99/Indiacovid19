@@ -89,9 +89,9 @@
   </style>
 </head>
 
-<body onload = "resizefunc()">
+<body onload = "resizefunc()" onresize = "resizefunc()">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <h2><a class="navbar-brand"><span style = "color: white; font-family: 'Source Sans Pro', sans-serif; font-size: 24px;">COVID-19 Analysis</span></a></h2>
+	  <h2><a class="navbar-brand" href = "/home"><span style = "color: white; font-family: 'Source Sans Pro', sans-serif; font-size: 24px;">COVID-19 Analysis</span></a></h2>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -128,13 +128,13 @@
 					    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 					</div>
 				</div>
-				<div id="covid-table" style = "font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
+				<div id="covid-table" style = "text-align: center; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
 			</div>
 		</div>
 		<div class = "col-sm-6" id = "mapbox"> <!--  style = "margin-left: -3%" -->
 			<div class = "container" style = "padding: 1%">
 				<div id = "info">
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff " id = "map-title"></h1>
+					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname} Map</h1>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%;" id = "districtid">Hover over a District</h2>
 					<div class= "row" style = "padding: 1%">
 						<div style = "opacity: 1; background-color: rgba(255,7,58,.12549); width: 18%; margin-left: 1%; margin-right: 2%; border-radius: 10px; ">
@@ -177,7 +177,7 @@
 			</div>
 	</div>
 	</div>
-	<div class = "row" style = "margin-top: 3%">
+	<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;">
 		<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(150%,0);" id = "analysis-title">Analysis and Forecasts</h1>
 		<br>
 		<h2 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(175%,0); margin-top: 4%" id = "analysis-sub-title">Growth Rate</h2>
@@ -223,10 +223,6 @@
 			</div>
 		</div>
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -270,7 +266,7 @@
  			    },
  			"Andhra Pradesh" : {
  			    "coords": [15.982453522973508,81],
- 			    "zoom": 7
+ 			    "zoom": 6
  			    },
  			"Arunachal Pradesh" : {
  			    "coords": [28.14950321154457,95.185546875],
@@ -288,7 +284,7 @@
  			    "coords": [30.730031843442763,76.77932739257812],
  			    "zoom": 12
  			    },
- 			"Chattisgarh" : {
+ 			"Chhattisgarh" : {
  			    "coords": [21,83.0458984375],
  			    "zoom": 7
  			    },
@@ -364,7 +360,7 @@
  			    "coords": [26.244156283890756,94.58129882812499],
  			    "zoom": 8
  			    },
- 			"Orissa" : {
+ 			"Odisha" : {
  			    "coords": [20.324023603422518,84.803466796875],
  			    "zoom": 7
  			    },
@@ -386,7 +382,7 @@
  			    },
  			"Tamil Nadu" : {
  			    "coords": [10.5,78.67],
- 			    "zoom": 7
+ 			    "zoom": 7,
  			    },
  			"Telangana" : {
  			    "coords": [17.936928637549443,79.1015625],
@@ -473,6 +469,13 @@
             document.getElementById("mapbox").setAttribute("class","col-sm-6");
             coords = [23.0, 80.1015625];
         }
+        else if(screen.width>1600){
+        	document.getElementById("covid-table").style.marginLeft = "5%";
+        	document.getElementById("analysis-title").style.transform = "translate(190%,0)";
+      	  	document.getElementById("analysis-sub-title").style.transform = "translate(265%,0)";
+      	  	document.getElementById("arima-graph-title").style.transform = "translate(340%,0)";
+      	  	document.getElementById("line-area-title").style.transform = "translate(500%,0)";
+        }
         else{
             document.getElementById("contentbox").removeAttribute("class");
             document.getElementById("mapbox").removeAttribute("class");
@@ -513,13 +516,22 @@
      
      //getting the color values for filling the map
      function getColor(d) {
-         return d > 5000 ? '#800026' :
-             d > 4000  ? '#BD0026' :
-             d > 3000  ? '#E31A1C' :
-             d > 2000  ? '#FC4E2A' :
-             d > 1000   ? '#FD8D3C' :
-             d > 500   ? '#FEB24C' :
-             d > 250   ? '#FED976' :
+    	 var max_confirmed=0;
+    	 for(i in tabledata.slice(0,tabledata.length-1)){
+    		 if(max_confirmed<tabledata[i].confirmed)
+    			 max_confirmed = tabledata[i].confirmed;
+    	 }
+    	 
+    	 var x = Math.log10(max_confirmed);
+    	 x=parseInt(x);
+    	 var y=3**x;
+    	 return d > 7*y ? '#800026' :
+             d > 6*y  ? '#BD0026' :
+             d > 5*y  ? '#E31A1C' :
+             d > 4*y  ? '#FC4E2A' :
+             d > 3*y   ? '#FD8D3C' :
+             d > 2*y   ? '#FEB24C' :
+             d > y   ? '#FED976' :
                          '#FFEDA0';
      }
 
@@ -552,7 +564,6 @@
         		 document.getElementById("span-active").innerHTML = tabledata[i]['active'] == null ? 0 : tabledata[i]['active'];
         		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'] == null ? 0 : tabledata[i]['recovered'];
         		 document.getElementById("span-death").innerHTML = tabledata[i]['deceased'] == null ? 0 : tabledata[i]['deceased'];
-        		 document.getElementById("span-testing").innerHTML = tabledata[i]['tested'] == null ? 0 : tabledata[i]['tested'];
         		 flag = 1;
         	 }
          }
@@ -561,11 +572,7 @@
     		 document.getElementById("span-active").innerHTML = "NA";
     		 document.getElementById("span-recovered").innerHTML = "NA";
     		 document.getElementById("span-death").innerHTML = "NA";
-    		 document.getElementById("span-testing").innerHTML = "NA";
     	 }
-         
-         //var trimmedData = trimDataset(data_cases);
-         //lineChart(layer.feature.properties.st_nm,data_cases);
 
          layer.setStyle({
              weight: 5,
@@ -586,7 +593,6 @@
          document.getElementById("span-active").innerHTML = tabledata[tabledata.length-1]['active']==null?0:tabledata[tabledata.length-1]['active'];
          document.getElementById("span-recovered").innerHTML = tabledata[tabledata.length-1]['recovered']==null?0:tabledata[tabledata.length-1]['recovered'];
          document.getElementById("span-death").innerHTML = tabledata[tabledata.length-1]['deceased']==null?0:tabledata[tabledata.length-1]['deceased'];
-         document.getElementById("span-testing").innerHTML = tabledata[tabledata.length-1]['tested']==null?0:tabledata[tabledata.length-1]['tested'];
      }
 
      //leaflet zoom feature on click function
@@ -599,16 +605,24 @@
          layer.on({
              mouseover: highlightFeature,
              mouseout: resetHighlight,
-             //click: highlightFeature  //with this, we will redirect to the individual state map
+             click: highlightFeature  //with this, we will redirect to the individual state map
          });
      }
 
      //adding legend to the map
      var legend = L.control({position: 'bottomright'});
      legend.onAdd = function (map) {
-
+		 
+    	 var max_confirmed=0;
+    	 for(i in tabledata.slice(0,tabledata.length-1)){
+    		 if(max_confirmed<tabledata[i].confirmed)
+    			 max_confirmed = tabledata[i].confirmed;
+    	 }
+    	 var x = Math.log10(max_confirmed);
+    	 x=parseInt(x);
+    	 var y=3**x;
          var div = L.DomUtil.create('div', 'info legend'),
-             grades = [0, 250, 500, 1000, 2000, 3000, 4000, 5000],
+             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
              labels = [];
 
          // loop through our density intervals and generate a label with a colored square for each interval
@@ -652,9 +666,6 @@
     	   var dataset_y_death = trimData(data_cases['y-death']);
     	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
   	   }
-  	   
-  	   //var dataset_y_tested = trimData(data_cases["Total"]['y-tested']);
-  	   //genericlinechart("line-testing") - for testing graph...
      
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
     	var x = document.getElementById(canvasid);
