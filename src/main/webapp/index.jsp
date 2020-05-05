@@ -89,9 +89,9 @@
   </style>
 </head>
 
-<body onload = "resizefunc()">
+<body onload = "resizefunc()" onresize = "resizefunc()">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <h2><a class="navbar-brand"><span style = "color: white; font-family: 'Source Sans Pro', sans-serif; font-size: 24px;">COVID-19 Analysis</span></a></h2>
+	  <h2><a class="navbar-brand" href = "/home"><span style = "color: white; font-family: 'Source Sans Pro', sans-serif; font-size: 24px;">COVID-19 Analysis</span></a></h2>
 	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -132,7 +132,7 @@
 					    <h5 id = "span-static-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 					</div>
 				</div>
-				<div id="covid-table" style = "font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
+					<div id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
 			</div>
 		</div>
 		<div class = "col-sm-6" id = "mapbox"> <!--  style = "margin-left: -3%" -->
@@ -185,7 +185,7 @@
 			</div>
 	</div>
 	</div>
-	<div class = "row" style = "margin-top: 3%">
+	<div class = "row" style = "margin-top: 3%; margin-bottom: 5%">
 		<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(150%,0);" id = "analysis-title">Analysis and Forecasts</h1>
 		<br>
 		<h2 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(175%,0); margin-top: 4%" id = "analysis-sub-title">Growth Rate</h2>
@@ -209,10 +209,6 @@
 			<canvas id = "arima-graph"></canvas>
 		</div>
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
 	
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
@@ -228,6 +224,7 @@
   console.log(tabledata);
   var data_cases = ${trends};
   var json = ${india};
+  
   var table = new Tabulator("#covid-table", {
 	  	height: 1450,
 	 	data:tabledata.slice(1,tabledata.length), 
@@ -304,6 +301,12 @@
               document.getElementById("mapbox").setAttribute("class","col-sm-6");
               coords = [23.0, 80.1015625];
           }
+          else if(screen.width>1600){
+        	  document.getElementById("covid-table").style.marginLeft = "6%";
+        	  document.getElementById("analysis-title").style.transform = "translate(190%,0)";
+        	  document.getElementById("analysis-sub-title").style.transform = "translate(265%,0)";
+        	  document.getElementById("arima-graph-title").style.transform = "translate(340%,0)";
+          }
           else{
               document.getElementById("contentbox").removeAttribute("class");
               document.getElementById("mapbox").removeAttribute("class");
@@ -343,13 +346,22 @@
      
      //getting the color values for filling the map
      function getColor(d) {
-         return d > 5000 ? '#800026' :
-             d > 4000  ? '#BD0026' :
-             d > 3000  ? '#E31A1C' :
-             d > 2000  ? '#FC4E2A' :
-             d > 1000   ? '#FD8D3C' :
-             d > 500   ? '#FEB24C' :
-             d > 250   ? '#FED976' :
+    	 var max_confirmed=0;
+    	 for(i in tabledata.slice(1,tabledata.length)){
+    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
+    			 max_confirmed = parseInt(tabledata[i].confirmed);
+    	 }
+    	 
+    	 var x = Math.log10(max_confirmed);
+    	 x=parseInt(x);
+    	 var y=5**x;
+         return d > 7*y ? '#800026' :
+             d > 6*y  ? '#BD0026' :
+             d > 5*y  ? '#E31A1C' :
+             d > 4*y  ? '#FC4E2A' :
+             d > 3*y   ? '#FD8D3C' :
+             d > 2*y   ? '#FEB24C' :
+             d > y  ? '#FED976' :
                          '#FFEDA0';
      }
 
@@ -524,9 +536,18 @@
      //adding legend to the map
      var legend = L.control({position: 'bottomright'});
      legend.onAdd = function (map) {
-
+			
+    	 var max_confirmed=0;
+    	 for(i in tabledata.slice(1,tabledata.length)){
+    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
+    			 max_confirmed = parseInt(tabledata[i].confirmed);
+    	 }
+    	 
+    	 var x = Math.log10(max_confirmed);
+    	 x=parseInt(x);
+    	 var y=5**x;
          var div = L.DomUtil.create('div', 'info legend'),
-             grades = [0, 250, 500, 1000, 2000, 3000, 4000, 5000],
+             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
              labels = [];
 
          // loop through our density intervals and generate a label with a colored square for each interval
