@@ -470,13 +470,18 @@
   	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
   		lineChart(data_cases);
    	}
+  	var map = L.map('map',{
+   	   center:coords, 
+   	   zoom:zoom, 
+   	   scrollWheelZoom: false
+   	   });
   	function resizefunc(){
         if(screen.width>900){
             document.getElementById("contentbox").removeAttribute("class");
             document.getElementById("mapbox").removeAttribute("class");
             document.getElementById("contentbox").setAttribute("class","col-sm-6");
             document.getElementById("mapbox").setAttribute("class","col-sm-6");
-            coords = [23.0, 80.1015625];
+            map.dragging.disable();
         }
         else if(screen.width>1600){
         	document.getElementById("covid-table").style.marginLeft = "5%";
@@ -484,18 +489,21 @@
       	  	document.getElementById("analysis-sub-title").style.transform = "translate(265%,0)";
       	  	document.getElementById("arima-graph-title").style.transform = "translate(340%,0)";
       	  	document.getElementById("line-area-title").style.transform = "translate(500%,0)";
+      	  	map.dragging.disable();
         }
         else{
             document.getElementById("contentbox").removeAttribute("class");
             document.getElementById("mapbox").removeAttribute("class");
-            coords = [23,82.1];
             document.getElementById("contentbox").setAttribute("class","col-sm-12");
             document.getElementById("mapbox").setAttribute("class","col-sm-12");
             document.getElementById("mapbox").style.marginTop = "7%";
+            document.getElementById("map").style.marginLeft = "4%";
+            map.dragging.enable();
             document.getElementById("contentbox").removeAttribute("style");
             document.getElementById("covid-table").style.marginLeft = "-5%";
             document.getElementById("timeline-charts").removeAttribute("style");
             document.getElementById("timeline-charts").style.marginTop = "3%";
+            document.getElementById("timeline-charts").style.marginLeft = "35%";
             document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
             document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
@@ -506,12 +514,6 @@
             document.getElementById("line-area-title").style.transform = "translate(250%,0)";
         }
     }
-    
-     var map = L.map('map',{
-  	   center:coords, 
-  	   zoom:zoom, 
-  	   scrollWheelZoom: false
-  	   });
   
      //updating json data to the map
      var geojson = L.geoJson(json, {
@@ -520,7 +522,7 @@
      });
      geojson.addTo(map);
      var info;
-     map.dragging.disable();
+     
      
      
      //getting the color values for filling the map

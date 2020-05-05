@@ -228,220 +228,31 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   
   <script type="text/javascript">
-  $(document).ready(function(){
-	  $.getJSON('https://covid19-api-django.herokuapp.com/growth/india',function(data){
-		 $("#g1-value").html(data.g1.toFixed(3));
-		 $("#g2-value").html(data.g2.toFixed(3));
-		 $("#current-value").html(data.current.toFixed(3));
-	  });
-	  var tabledata = ${tableData} ;
-	  var data_cases = ${trends};
-	  var json = ${india};
-	  
-	  var table = new Tabulator("#covid-table", {
-		  	height: 1450,
-		 	data:tabledata.slice(1,tabledata.length), 
-		 	movableColumns:false,
-		 	layout:"fitDataFill", 
-		 	columns:[ 
-			 	{title:"State/UT", field:"state", hozAlign:"center", width: 300},
-			 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
-			 	{title:"Active", field:"active",hozAlign:"center"},
-			 	{title:"Deaths", field:"deaths",hozAlign:"center"},
-			 	{title:"Recovered", field:"recovered",hozAlign:"center"},
-		 	],
-		    rowClick:function(e, row){
-			    //e - the click event object
-			    //row - row component
-			    document.getElementById("line-confirmed-class").innerHTML = "";
-		  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
-		  	     document.getElementById("line-active-class").innerHTML = "";
-		  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
-		  	     document.getElementById("line-recovered-class").innerHTML = "";
-		  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
-		  	     document.getElementById("line-death-class").innerHTML = "";
-		  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-		  	   
-		  	     if(row._row.data.state == 'Total')
-					lineChart(row._row.data.state.toLowerCase(),data_cases);
-				else
-					lineChart(row._row.data.state,data_cases);
-		  	   //document.getElementById("line-confirmed-class").scrollIntoView();
-			  	 $('html, body').animate({
-			         scrollTop: $("#line-confirmed-class").offset().top
-			     }, 1000);
-			    e.preventDefault(); // prevent the browsers default context menu form appearing.
-			    },
-			rowTap:function(e,row){
-				document.getElementById("line-confirmed-class").innerHTML = "";
-		  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
-		  	     document.getElementById("line-active-class").innerHTML = "";
-		  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
-		  	     document.getElementById("line-recovered-class").innerHTML = "";
-		  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
-		  	     document.getElementById("line-death-class").innerHTML = "";
-		  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-		  	   if(row._row.data.state == 'Total')
-					lineChart(row._row.data.state.toLowerCase(),data_cases);
-				else
-					lineChart(row._row.data.state,data_cases);
-		  	   
-		  	 $('html, body').animate({
-		         scrollTop: $("#line-confirmed-class").offset().top
-		     }, 1000);
-		  	 //document.getElementById("line-confirmed").scrollIntoView();
-				e.preventDefault();
-			}
-	  	});
-	 	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
-	 	document.getElementById("span-static-active").innerHTML = tabledata[0]['active'];
-	  	document.getElementById("span-static-recovered").innerHTML = tabledata[0]['recovered'];
-	  	document.getElementById("span-static-death").innerHTML = tabledata[0]['deaths'];
-	  	document.getElementById("span-static-testing").innerHTML = tabledata[0]['tested'];
-	  	document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
-	  	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
-	  	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
-	  	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
-	  	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
-	  	
-	  	var coords = [23.0, 82.1015625];
-	  	
-	    function resizefunc(){
-	          if(screen.width>900){
-	              document.getElementById("contentbox").removeAttribute("class");
-	              document.getElementById("mapbox").removeAttribute("class");
-	              document.getElementById("contentbox").setAttribute("class","col-sm-6");
-	              document.getElementById("mapbox").setAttribute("class","col-sm-6");
-	              coords = [23.0, 80.1015625];
-	          }
-	          else if(screen.width>1600){
-	        	  document.getElementById("covid-table").style.marginLeft = "6%";
-	        	  document.getElementById("analysis-title").style.transform = "translate(190%,0)";
-	        	  document.getElementById("analysis-sub-title").style.transform = "translate(265%,0)";
-	        	  document.getElementById("arima-graph-title").style.transform = "translate(340%,0)";
-	          }
-	          else{
-	              document.getElementById("contentbox").removeAttribute("class");
-	              document.getElementById("mapbox").removeAttribute("class");
-	              coords = [23,82.1];
-	              document.getElementById("contentbox").setAttribute("class","col-sm-12");
-	              document.getElementById("mapbox").setAttribute("class","col-sm-12");
-	              document.getElementById("mapbox").style.marginTop = "7%";
-	              document.getElementById("contentbox").removeAttribute("style");
-	              document.getElementById("covid-table").style.marginLeft = "-5%";
-	              document.getElementById("timeline-charts").removeAttribute("style");
-	              document.getElementById("timeline-charts").style.marginTop = "3%";
-	              document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
-	              document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
-	              document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
-	              document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
-	              document.getElementById("analysis-title").style.transform = "translate(80%,0)";
-	              document.getElementById("analysis-sub-title").style.transform = "translate(20%,0)";
-	              document.getElementById("arima-graph-title").style.transform = "translate(170%,0)";
-	          }
-	      }
-	    
-	     var map = L.map('map',{
-	  	   center:coords, 
-	  	   zoom:5, 
-	  	   scrollWheelZoom: false
-	  	   });
-	  
-	     //updating json data to the map
-	     var geojson = L.geoJson(json, {
-	         style: style,
-	         onEachFeature: onEachFeature
-	     });
-	     geojson.addTo(map);
-	     var info;
-	     map.dragging.disable();
-	     
-	     
-	     //getting the color values for filling the map
-	     function getColor(d) {
-	    	 var max_confirmed=0;
-	    	 for(i in tabledata.slice(1,tabledata.length)){
-	    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
-	    			 max_confirmed = parseInt(tabledata[i].confirmed);
-	    	 }
-	    	 
-	    	 var x = Math.log10(max_confirmed);
-	    	 x=parseInt(x);
-	    	 var y=5**x;
-	         return d > 7*y ? '#800026' :
-	             d > 6*y  ? '#BD0026' :
-	             d > 5*y  ? '#E31A1C' :
-	             d > 4*y  ? '#FC4E2A' :
-	             d > 3*y   ? '#FD8D3C' :
-	             d > 2*y   ? '#FEB24C' :
-	             d > y  ? '#FED976' :
-	                         '#FFEDA0';
-	     }
-
-	     //styling map
-	     function style(features) {
-	    	 var color;
-	    	 for(i in tabledata){
-	    		 if(tabledata[i].state == features.properties.st_nm){
-	    	 		color = parseInt(tabledata[i].confirmed);
-	    		 }
-	    	 }
-	         return {
-	             fillColor: getColor(color),
-	             weight: 2,
-	             opacity: 1,
-	             color: 'white',
-	             dashArray: '3',
-	             fillOpacity: 0.7
-	         };
-	     }
-	     
-	     var status = "beginning";
-	   	var cur_state = "total";
-	   	
-	   	function check(e){
-	  		status = e;
-	  		if(e == 'beginning'){
-	            document.getElementById('1-week').removeAttribute('class');
-	            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('2-weeks').removeAttribute('class');
-	            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-month').removeAttribute('class');
-	            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('beginning').removeAttribute('class');
-	            document.getElementById('beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
-	        }
-	        else if(e == '1-month'){
-	            document.getElementById('beginning').removeAttribute('class');
-	            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('2-weeks').removeAttribute('class');
-	            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-week').removeAttribute('class');
-	            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-month').removeAttribute('class');
-	            document.getElementById('1-month').setAttribute("class","btn btn-primary waves-effect waves-light");
-	        }
-	        else if(e == '1-week'){
-	            document.getElementById('beginning').removeAttribute('class');
-	            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('2-weeks').removeAttribute('class');
-	            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-month').removeAttribute('class');
-	            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-week').removeAttribute('class');
-	            document.getElementById('1-week').setAttribute("class","btn btn-primary waves-effect waves-light");
-	        }
-	        else if(e == '2-weeks'){
-	            document.getElementById('beginning').removeAttribute('class');
-	            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-week').removeAttribute('class');
-	            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('1-month').removeAttribute('class');
-	            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-	            document.getElementById('2-weeks').removeAttribute('class');
-	            document.getElementById('2-weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
-	        }
-	  		document.getElementById("line-confirmed-class").innerHTML = "";
+  $.getJSON('https://covid19-api-django.herokuapp.com/growth/india',function(data){
+	 $("#g1-value").html(data.g1.toFixed(3));
+	 $("#g2-value").html(data.g2.toFixed(3));
+	 $("#current-value").html(data.current.toFixed(3));
+  });
+  var tabledata = ${tableData} ;
+  var data_cases = ${trends};
+  var json = ${india};
+  
+  var table = new Tabulator("#covid-table", {
+	  	height: 1450,
+	 	data:tabledata.slice(1,tabledata.length), 
+	 	movableColumns:false,
+	 	layout:"fitDataFill", 
+	 	columns:[ 
+		 	{title:"State/UT", field:"state", hozAlign:"center", width: 300},
+		 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
+		 	{title:"Active", field:"active",hozAlign:"center"},
+		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
+		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
+	 	],
+	    rowClick:function(e, row){
+		    //e - the click event object
+		    //row - row component
+		    document.getElementById("line-confirmed-class").innerHTML = "";
 	  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
 	  	     document.getElementById("line-active-class").innerHTML = "";
 	  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
@@ -449,369 +260,559 @@
 	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
 	  	     document.getElementById("line-death-class").innerHTML = "";
 	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-	  		lineChart(cur_state,data_cases);
-	   	}
-	     
-	     document.getElementById("line-confirmed-class").innerHTML = "";
-	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
-	     document.getElementById("line-active-class").innerHTML = "";
-	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
-	     document.getElementById("line-recovered-class").innerHTML = "";
-	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
-	     document.getElementById("line-death-class").innerHTML = "";
-	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-	     lineChart("total",data_cases);
-	     //highlighting the features in map
-	     function highlightFeature(e) {
-	         var layer = e.target;
-	         
-	         document.getElementById("stateid").innerHTML = "State: "+e.target.feature.properties.st_nm;
-	         for(i in tabledata){
-	        	 if(tabledata[i]['state'] == e.target.feature.properties.st_nm){
-	        		 document.getElementById("span-confirmed").innerHTML = tabledata[i]['confirmed'];
-	        		 document.getElementById("span-active").innerHTML = tabledata[i]['active'];
-	        		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'];
-	        		 document.getElementById("span-death").innerHTML = tabledata[i]['deaths'];
-	        		 document.getElementById("span-testing").innerHTML = tabledata[i]['tested'];
-	        	 }
-	         }
-	         
-	         //var trimmedData = trimDataset(data_cases);
-	         document.getElementById("line-confirmed-class").innerHTML = "";
-	         document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
-	         document.getElementById("line-active-class").innerHTML = "";
-	         document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
-	         document.getElementById("line-recovered-class").innerHTML = "";
-	         document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
-	         document.getElementById("line-death-class").innerHTML = "";
-	         document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-	         
-	         cur_state = layer.feature.properties.st_nm;
-	         lineChart(layer.feature.properties.st_nm,data_cases);
-
-	         layer.setStyle({
-	             weight: 5,
-	             color: '#ff3300',
-	             dashArray: '',
-	             fillOpacity: 0.7
-	         });
-
-	         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-	             layer.bringToFront();
-	         }
-	     }
-	     
-	     //redirect to state page
-	     function redirect(e) {
-	        let state = e.target.feature.properties.st_nm;
-	        var form = document.createElement("form");
-	        var element1 = document.createElement("input");
-
-	        form.method = "GET";
-	        form.action = "state";
-
-	        element1.value = state;
-	        element1.name = "state";
-	        form.appendChild(element1);
-
-	        document.body.appendChild(form);
-
-	        form.submit();
-	    }
-	     //reset function for highlight
-	     function resetHighlight(e) {
-	         geojson.resetStyle(e.target);
-	         document.getElementById("stateid").innerHTML ="Hover over a State";
-	         document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
-	       	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
-	       	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
-	       	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
-	       	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
-	       	//lineChart("total",data_cases);
-	     }
-
-	     //leaflet zoom feature on click function
-	     function zoomToFeature(e) {
-	         map.fitBounds(e.target.getBounds());
-	     }
-
-	     //function governing each feature
-	     function onEachFeature(feature, layer) {
-	         layer.on({
-	        	 
-	             mouseover: highlightFeature,
-	             mouseout: resetHighlight,
-	             click: redirect
-	         });
-	     }
-
-	     //adding legend to the map
-	     var legend = L.control({position: 'bottomright'});
-	     legend.onAdd = function (map) {
-				
-	    	 var max_confirmed=0;
-	    	 for(i in tabledata.slice(1,tabledata.length)){
-	    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
-	    			 max_confirmed = parseInt(tabledata[i].confirmed);
-	    	 }
-	    	 
-	    	 var x = Math.log10(max_confirmed);
-	    	 x=parseInt(x);
-	    	 var y=5**x;
-	         var div = L.DomUtil.create('div', 'info legend'),
-	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
-	             labels = [];
-
-	         // loop through our density intervals and generate a label with a colored square for each interval
-	         for (var i = 0; i < grades.length; i++) {
-	             div.innerHTML +=
-	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
-	         }
-
-	         return div;
-	     };
-	     legend.addTo(map);
-	     
-	     function trimData(data){
-	    	 if(status == "1-month"){
-	    		 return data.slice(data.length-30,data.length);
-	    	 }
-	    	 if(status == "2-weeks"){
-	    		 return data.slice(data.length-14,data.length);
-	    	 }
-	    	 else if(status == "1-week"){
-	    		 return data.slice(data.length-7,data.length);
-	    	 }
-	    	 else{
-	    		 return data.slice(0,data.length);
-	    	 }
-	     }
-	     //generic line chart making function
-	     function lineChart(state_name,data_cases){
 	  	   
-	  	   var dates = ${dates};
+	  	     if(row._row.data.state == 'Total')
+				lineChart(row._row.data.state.toLowerCase(),data_cases);
+			else
+				lineChart(row._row.data.state,data_cases);
+	  	   //document.getElementById("line-confirmed-class").scrollIntoView();
+		  	 $('html, body').animate({
+		         scrollTop: $("#line-confirmed-class").offset().top
+		     }, 1000);
+		    e.preventDefault(); // prevent the browsers default context menu form appearing.
+		    },
+		rowTap:function(e,row){
+			document.getElementById("line-confirmed-class").innerHTML = "";
+	  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+	  	     document.getElementById("line-active-class").innerHTML = "";
+	  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+	  	     document.getElementById("line-recovered-class").innerHTML = "";
+	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+	  	     document.getElementById("line-death-class").innerHTML = "";
+	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+	  	   if(row._row.data.state == 'Total')
+				lineChart(row._row.data.state.toLowerCase(),data_cases);
+			else
+				lineChart(row._row.data.state,data_cases);
 	  	   
-	  	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
-	  	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
-	  	   
-	  	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-active']):trimData(data_cases["Total"]['y-active']);
-	  	   genericlinechart("line-active",trimData(dates),dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
-	  	   
-	  	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-recovered']):trimData(data_cases["Total"]['y-recovered']);
-	  	   genericlinechart("line-recovered",trimData(dates),dataset_y_recovered, "#006600","Recovered Cases","rgba(40,167,69,.12549)");
-	  	   
-	  	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-death']):trimData(data_cases["Total"]['y-death']);
-	  	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
-	  	   
-	     }
-	     
-	     function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
-	    	var x = document.getElementById(canvasid);
-	    	x.height = 270;
-	    	x.style.backgroundColor = backgroundcolor;
-	    	var myLineChart;
-	    	if(myLineChart){
-	       		myLineChart.destroy();
-	       	}
-	    	myLineChart = new Chart(document.getElementById(canvasid), {
-	  		    type: 'line',
-	  		    data: {
-	  		    	labels: dataset_x,
-	  		    	datasets:[{
-	  		    		label: label,
-	  		    		data: dataset_y,
-	  		    		fill: false,
-	  		    		lineTension: 0.1,
-	  		    		backgroundColor: bordercolor,
-	  	                borderColor: bordercolor,
-	  	                borderWidth: 3,
-	  	              	pointRadius: 2,
-	  					pointRadiusOnHover: 3,
-	  		    	}]
-	  		    },
-	  		    options: {
-	  		    	responsive: true,
-	  	            maintainAspectRatio: false,
-	  	            legend:{
-	  	            	labels:{
-	  	            		fontSize: 20, //now try...
-	  	            	}
-	  	            },
-	  	            scales: {
-	  	                xAxes: [{
-	  	                	gridLines:{
-	  	                		color: "rgba(0, 0, 0, 0)",
-	  	                	},
-	  	                    type: 'time',
-	  	                    ticks: {
-	  	                        autoSkip: true,
-	  	                        maxTicksLimit: 6
-	  	                    },
-	  	                    distribution: 'linear',
-	  	                    time: {
-	  	                    	unit: 'day',
-	  	                        displayFormats: {
-	  	                            day: 'MMM D'
-	  	                        }
-	  	                    }
-	  	                }],
-	  		    		yAxes: [{
-	  		    			gridLines:{
-	  		    				//color: "rgba(0, 0, 0, 0)",
-	  		    			},
-	  		    			ticks: {
-	  	                        autoSkip: true,
-	  	                        maxTicksLimit: 6
-	  	                    },
-	  		    		}],
-	  	            },
-		  		  tooltips:{
-		    			titleFontSize: 20,
-		    			bodyFontSize: 20,
-		    			callbacks:{
-		    				title: function(tooltipItem, data){
-		    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
-		    				},
-		    				label: function(tooltipItem,data){
-		    					return data.datasets[tooltipItem.datasetIndex].label+": "+tooltipItem.yLabel;
-		    				}
-		    			}
-		    		},
-	  		    }
-	  		});
-	  	}
-	    
-	     //arima graph
-	     $.getJSON("https://covid19-api-django.herokuapp.com/arima/india",function(data){
-	    	var dates_analysis = data.dates;
-	    	for(i in data.d2)
-	    		dates_analysis.push(data.d2[i]);
-	    	dates_analysis.push(data.db[data.db.length-1]);
-	    	var x = document.getElementById("arima-graph");
-	    	x.height = 600;
-	    	var predict_coords = [];
-	    	var predict_coords1 = [];
-	    	var predict_coords_current = [];
-	    	var actual_coords = [];
-	    	for(i in data.pb){
-	    		predict_coords[i] = {'x': data.db[i], 'y' : data.pb[i] };
-	    	}
-	    	for(i in data.p1){
-	    		predict_coords1[i] = {'x': data.d1[i], 'y' : data.p1[i] };
-	    	}
-	    	for(i in data.p2){
-	    		predict_coords_current[i] = {'x': data.d2[i], 'y' : data.p2[i] };
-	    	}
-	    	for(i in data.actual){
-	    		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
-	    	}
-	    	var arimaChart = new Chart(x,{
-	    		type: 'line',
-	    		data: {
-	    			label: dates_analysis,
-	    			datasets: [{
-	    				label: 'Prediction before lockdown',
-	    				data: predict_coords,
-	    				fill: false,
-	    				lineTension: 0.1,
-	    				borderWidth: 3,
-	    				backgroundColor: '#9967FF',
-	    				borderColor: '#9967FF',
-	    				pointRadius: 1.5,
-	    				pointRadiusOnHover: 3,
-	    			},{
-	    				label: 'Prediction after lockdown 1',
-	    				data: predict_coords1,
-	    				fill: false,
-	    				lineTension: 0.1,
-	    				borderWidth: 3,
-	    				backgroundColor: '#42A2EB',
-	    				borderColor: '#42A2EB',
-	    				pointRadius: 1.5,
-	    				pointRadiusOnHover: 3,
-	    			},{
-	    				label: 'Current Prediction',
-	    				data: predict_coords_current,
-	    				fill: false,
-	    				lineTension: 0.1,
-	    				borderWidth: 3,
-	    				backgroundColor: '#4BC0C0',
-	    				borderColor: '#4BC0C0',
-	    				pointRadius: 1.5,
-	    				pointRadiusOnHover: 3,
-	    			},{
-	    				label: 'Actual',
-	    				data: actual_coords,
-	    				fill: false,
-	    				lineTension: 0.1,
-	    				borderWidth: 3,
-	    				backgroundColor: '#F26384',
-	    				borderColor: '#F26384',
-	    				pointRadius: 1.5,
-	    				pointRadiusOnHover: 3,
-	    			}]
+	  	 $('html, body').animate({
+	         scrollTop: $("#line-confirmed-class").offset().top
+	     }, 1000);
+	  	 //document.getElementById("line-confirmed").scrollIntoView();
+			e.preventDefault();
+		}
+  	});
+ 	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
+ 	document.getElementById("span-static-active").innerHTML = tabledata[0]['active'];
+  	document.getElementById("span-static-recovered").innerHTML = tabledata[0]['recovered'];
+  	document.getElementById("span-static-death").innerHTML = tabledata[0]['deaths'];
+  	document.getElementById("span-static-testing").innerHTML = tabledata[0]['tested'];
+  	document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
+  	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
+  	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
+  	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
+  	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
+  	
+  	var coords = [23.0, 82.1015625];
+    
+     var map = L.map('map',{
+  	   center:coords, 
+  	   zoom:5, 
+  	   scrollWheelZoom: false
+  	   });
+  
+     function resizefunc(){
+    	  	if(screen.width<900){
+    	  		  document.getElementById("contentbox").removeAttribute("class");
+    	            document.getElementById("mapbox").removeAttribute("class");
+    	            coords = [23,82.1];
+    	            document.getElementById("contentbox").setAttribute("class","col-sm-12");
+    	            document.getElementById("mapbox").setAttribute("class","col-sm-12");
+    	            document.getElementById("mapbox").style.marginTop = "7%";
+    	            document.getElementById("contentbox").removeAttribute("style");
+    	            document.getElementById("covid-table").style.marginLeft = "-5%";
+    	            document.getElementById("timeline-charts").removeAttribute("style");
+    	            document.getElementById("timeline-charts").style.marginTop = "3%";
+    	            document.getElementById("timeline-charts").style.marginLeft = "35%";
+    	            document.getElementById("timeline-charts").style.transform = "translate(152%,0)";
+    	            document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
+    	            document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
+    	            document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
+    	            document.getElementById("analysis-title").style.transform = "translate(80%,0)";
+    	            document.getElementById("analysis-sub-title").style.transform = "translate(20%,0)";
+    	            document.getElementById("arima-graph-title").style.transform = "translate(170%,0)";
+    	            map.dragging.enable();
+    	  	}
+    	  	  else if(screen.width>900){
+    	            document.getElementById("contentbox").removeAttribute("class");
+    	            document.getElementById("mapbox").removeAttribute("class");
+    	            document.getElementById("contentbox").setAttribute("class","col-sm-6");
+    	            document.getElementById("mapbox").setAttribute("class","col-sm-6");
+    	            coords = [23.0, 80.1015625];
+    	            map.dragging.disable();
+    	        }
+    	        else if(screen.width>1600){
+    	      	  document.getElementById("covid-table").style.marginLeft = "6%";
+    	      	  document.getElementById("analysis-title").style.transform = "translate(190%,0)";
+    	      	  document.getElementById("analysis-sub-title").style.transform = "translate(265%,0)";
+    	      	  document.getElementById("arima-graph-title").style.transform = "translate(340%,0)";
+    	      		map.dragging.disable();
+    	        }
+    	    }
+     //updating json data to the map
+     var geojson = L.geoJson(json, {
+         style: style,
+         onEachFeature: onEachFeature
+     });
+     geojson.addTo(map);
+     var info;
+     
+     
+     
+     //getting the color values for filling the map
+     function getColor(d) {
+    	 var max_confirmed=0;
+    	 for(i in tabledata.slice(1,tabledata.length)){
+    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
+    			 max_confirmed = parseInt(tabledata[i].confirmed);
+    	 }
+    	 
+    	 var x = Math.log10(max_confirmed);
+    	 x=parseInt(x);
+    	 var y=5**x;
+         return d > 7*y ? '#800026' :
+             d > 6*y  ? '#BD0026' :
+             d > 5*y  ? '#E31A1C' :
+             d > 4*y  ? '#FC4E2A' :
+             d > 3*y   ? '#FD8D3C' :
+             d > 2*y   ? '#FEB24C' :
+             d > y  ? '#FED976' :
+                         '#FFEDA0';
+     }
+
+     //styling map
+     function style(features) {
+    	 var color;
+    	 for(i in tabledata){
+    		 if(tabledata[i].state == features.properties.st_nm){
+    	 		color = parseInt(tabledata[i].confirmed);
+    		 }
+    	 }
+         return {
+             fillColor: getColor(color),
+             weight: 2,
+             opacity: 1,
+             color: 'white',
+             dashArray: '3',
+             fillOpacity: 0.7
+         };
+     }
+     
+     var status = "beginning";
+   	var cur_state = "total";
+   	
+   	function check(e){
+  		status = e;
+  		if(e == 'beginning'){
+            document.getElementById('1-week').removeAttribute('class');
+            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-weeks').removeAttribute('class');
+            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-month').removeAttribute('class');
+            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('beginning').removeAttribute('class');
+            document.getElementById('beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
+        }
+        else if(e == '1-month'){
+            document.getElementById('beginning').removeAttribute('class');
+            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-weeks').removeAttribute('class');
+            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-week').removeAttribute('class');
+            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-month').removeAttribute('class');
+            document.getElementById('1-month').setAttribute("class","btn btn-primary waves-effect waves-light");
+        }
+        else if(e == '1-week'){
+            document.getElementById('beginning').removeAttribute('class');
+            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-weeks').removeAttribute('class');
+            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-month').removeAttribute('class');
+            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-week').removeAttribute('class');
+            document.getElementById('1-week').setAttribute("class","btn btn-primary waves-effect waves-light");
+        }
+        else if(e == '2-weeks'){
+            document.getElementById('beginning').removeAttribute('class');
+            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-week').removeAttribute('class');
+            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-month').removeAttribute('class');
+            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-weeks').removeAttribute('class');
+            document.getElementById('2-weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
+        }
+  		document.getElementById("line-confirmed-class").innerHTML = "";
+  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+  	     document.getElementById("line-active-class").innerHTML = "";
+  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+  	     document.getElementById("line-recovered-class").innerHTML = "";
+  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+  	     document.getElementById("line-death-class").innerHTML = "";
+  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+  		lineChart(cur_state,data_cases);
+   	}
+     
+     document.getElementById("line-confirmed-class").innerHTML = "";
+     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+     document.getElementById("line-active-class").innerHTML = "";
+     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+     document.getElementById("line-recovered-class").innerHTML = "";
+     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+     document.getElementById("line-death-class").innerHTML = "";
+     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+     lineChart("total",data_cases);
+     //highlighting the features in map
+     function highlightFeature(e) {
+         var layer = e.target;
+         
+         document.getElementById("stateid").innerHTML = "State: "+e.target.feature.properties.st_nm;
+         for(i in tabledata){
+        	 if(tabledata[i]['state'] == e.target.feature.properties.st_nm){
+        		 document.getElementById("span-confirmed").innerHTML = tabledata[i]['confirmed'];
+        		 document.getElementById("span-active").innerHTML = tabledata[i]['active'];
+        		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'];
+        		 document.getElementById("span-death").innerHTML = tabledata[i]['deaths'];
+        		 document.getElementById("span-testing").innerHTML = tabledata[i]['tested'];
+        	 }
+         }
+         
+         //var trimmedData = trimDataset(data_cases);
+         document.getElementById("line-confirmed-class").innerHTML = "";
+         document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+         document.getElementById("line-active-class").innerHTML = "";
+         document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+         document.getElementById("line-recovered-class").innerHTML = "";
+         document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+         document.getElementById("line-death-class").innerHTML = "";
+         document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+         
+         cur_state = layer.feature.properties.st_nm;
+         lineChart(layer.feature.properties.st_nm,data_cases);
+
+         layer.setStyle({
+             weight: 5,
+             color: '#ff3300',
+             dashArray: '',
+             fillOpacity: 0.7
+         });
+
+         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+             layer.bringToFront();
+         }
+     }
+     
+     //redirect to state page
+     function redirect(e) {
+        let state = e.target.feature.properties.st_nm;
+        var form = document.createElement("form");
+        var element1 = document.createElement("input");
+
+        form.method = "GET";
+        form.action = "state";
+
+        element1.value = state;
+        element1.name = "state";
+        form.appendChild(element1);
+
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+     //reset function for highlight
+     function resetHighlight(e) {
+         geojson.resetStyle(e.target);
+         document.getElementById("stateid").innerHTML ="Hover over a State";
+         document.getElementById("span-confirmed").innerHTML = tabledata[0]['confirmed'];
+       	document.getElementById("span-active").innerHTML = tabledata[0]['active'];
+       	document.getElementById("span-recovered").innerHTML = tabledata[0]['recovered'];
+       	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
+       	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
+       	//lineChart("total",data_cases);
+     }
+
+     //leaflet zoom feature on click function
+     function zoomToFeature(e) {
+         map.fitBounds(e.target.getBounds());
+     }
+
+     //function governing each feature
+     function onEachFeature(feature, layer) {
+         layer.on({
+        	 
+             mouseover: highlightFeature,
+             mouseout: resetHighlight,
+             click: redirect
+         });
+     }
+
+     //adding legend to the map
+     var legend = L.control({position: 'bottomright'});
+     legend.onAdd = function (map) {
+			
+    	 var max_confirmed=0;
+    	 for(i in tabledata.slice(1,tabledata.length)){
+    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
+    			 max_confirmed = parseInt(tabledata[i].confirmed);
+    	 }
+    	 
+    	 var x = Math.log10(max_confirmed);
+    	 x=parseInt(x);
+    	 var y=5**x;
+         var div = L.DomUtil.create('div', 'info legend'),
+             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+             labels = [];
+
+         // loop through our density intervals and generate a label with a colored square for each interval
+         for (var i = 0; i < grades.length; i++) {
+             div.innerHTML +=
+                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+         }
+
+         return div;
+     };
+     legend.addTo(map);
+     
+     function trimData(data){
+    	 if(status == "1-month"){
+    		 return data.slice(data.length-30,data.length);
+    	 }
+    	 if(status == "2-weeks"){
+    		 return data.slice(data.length-14,data.length);
+    	 }
+    	 else if(status == "1-week"){
+    		 return data.slice(data.length-7,data.length);
+    	 }
+    	 else{
+    		 return data.slice(0,data.length);
+    	 }
+     }
+     //generic line chart making function
+     function lineChart(state_name,data_cases){
+  	   
+  	   var dates = ${dates};
+  	   
+  	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
+  	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
+  	   
+  	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-active']):trimData(data_cases["Total"]['y-active']);
+  	   genericlinechart("line-active",trimData(dates),dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
+  	   
+  	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-recovered']):trimData(data_cases["Total"]['y-recovered']);
+  	   genericlinechart("line-recovered",trimData(dates),dataset_y_recovered, "#006600","Recovered Cases","rgba(40,167,69,.12549)");
+  	   
+  	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-death']):trimData(data_cases["Total"]['y-death']);
+  	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
+  	   
+     }
+     
+     function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
+    	var x = document.getElementById(canvasid);
+    	x.height = 270;
+    	x.style.backgroundColor = backgroundcolor;
+    	var myLineChart;
+    	if(myLineChart){
+       		myLineChart.destroy();
+       	}
+    	myLineChart = new Chart(document.getElementById(canvasid), {
+  		    type: 'line',
+  		    data: {
+  		    	labels: dataset_x,
+  		    	datasets:[{
+  		    		label: label,
+  		    		data: dataset_y,
+  		    		fill: false,
+  		    		lineTension: 0.1,
+  		    		backgroundColor: bordercolor,
+  	                borderColor: bordercolor,
+  	                borderWidth: 3,
+  	              	pointRadius: 2,
+  					pointRadiusOnHover: 3,
+  		    	}]
+  		    },
+  		    options: {
+  		    	responsive: true,
+  	            maintainAspectRatio: false,
+  	            legend:{
+  	            	labels:{
+  	            		fontSize: 20, //now try...
+  	            	}
+  	            },
+  	            scales: {
+  	                xAxes: [{
+  	                	gridLines:{
+  	                		color: "rgba(0, 0, 0, 0)",
+  	                	},
+  	                    type: 'time',
+  	                    ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  	                    distribution: 'linear',
+  	                    time: {
+  	                    	unit: 'day',
+  	                        displayFormats: {
+  	                            day: 'MMM D'
+  	                        }
+  	                    }
+  	                }],
+  		    		yAxes: [{
+  		    			gridLines:{
+  		    				//color: "rgba(0, 0, 0, 0)",
+  		    			},
+  		    			ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  		    		}],
+  	            },
+	  		  tooltips:{
+	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
+	    			callbacks:{
+	    				title: function(tooltipItem, data){
+	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+	    				},
+	    				label: function(tooltipItem,data){
+	    					return data.datasets[tooltipItem.datasetIndex].label+": "+tooltipItem.yLabel;
+	    				}
+	    			}
 	    		},
-	    		options: {
-	  		    	responsive: true,
-	  	            maintainAspectRatio: false,
-	  	            legend:{
-		            	labels:{
-		            		fontSize: 20, //now try...
-		            	}
-		            },
-	  	            scales: {
-	  	                xAxes: [{
-	  	                	gridLines:{
-	  	                		color: "rgba(0, 0, 0, 0)",
-	  	                	},
-	  	                    type: 'time',
-	  	                    ticks: {
-	  	                        autoSkip: true,
-	  	                        maxTicksLimit: 6
-	  	                    },
-	  	                    distribution: 'linear',
-	  	                    time: {
-	  	                    	unit: 'day',
-	  	                        displayFormats: {
-	  	                            day: 'MMM D'
-	  	                        }
-	  	                    }
-	  	                }],
-	  		    		yAxes: [{
-	  		    			gridLines:{
-	  		    				//color: "rgba(0, 0, 0, 0)",
-	  		    			},
-	  		    			ticks: {
-	  	                        autoSkip: false,
-	  	                      	stepSize: 50000,
-	  	                        maxTicksLimit: 6
-	  	                    },
-	  		    		}],
-	  		    		title: {
-	  		              display: true,
-	  		              text: 'ARIMA Predictions',
-	  		              position: 'top',
-	  		          }
-	  	            },
-		  		  tooltips:{
-		    			titleFontSize: 20,
-		    			bodyFontSize: 20,
-		    			callbacks:{
-		    				title: function(tooltipItem, data){
-		    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
-		    				},
-		    				label: function(tooltipItem,data){
-		    					var y = tooltipItem.yLabel;
-		    					y = y.toFixed(0); 
-	 	    					return data.datasets[tooltipItem.datasetIndex].label+" value: "+y;
-		    				}
-		    			}
-		    		},
-	  		    }
-	    	});
-	     }); 
-  });
+  		    }
+  		});
+  	}
+    
+     //arima graph
+     $.getJSON("https://covid19-api-django.herokuapp.com/arima/india",function(data){
+    	var dates_analysis = data.dates;
+    	for(i in data.d2)
+    		dates_analysis.push(data.d2[i]);
+    	dates_analysis.push(data.db[data.db.length-1]);
+    	var x = document.getElementById("arima-graph");
+    	x.height = 600;
+    	var predict_coords = [];
+    	var predict_coords1 = [];
+    	var predict_coords_current = [];
+    	var actual_coords = [];
+    	for(i in data.pb){
+    		predict_coords[i] = {'x': data.db[i], 'y' : data.pb[i] };
+    	}
+    	for(i in data.p1){
+    		predict_coords1[i] = {'x': data.d1[i], 'y' : data.p1[i] };
+    	}
+    	for(i in data.p2){
+    		predict_coords_current[i] = {'x': data.d2[i], 'y' : data.p2[i] };
+    	}
+    	for(i in data.actual){
+    		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
+    	}
+    	var arimaChart = new Chart(x,{
+    		type: 'line',
+    		data: {
+    			label: dates_analysis,
+    			datasets: [{
+    				label: 'Prediction before lockdown',
+    				data: predict_coords,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#9967FF',
+    				borderColor: '#9967FF',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			},{
+    				label: 'Prediction after lockdown 1',
+    				data: predict_coords1,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#42A2EB',
+    				borderColor: '#42A2EB',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			},{
+    				label: 'Current Prediction',
+    				data: predict_coords_current,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#4BC0C0',
+    				borderColor: '#4BC0C0',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			},{
+    				label: 'Actual',
+    				data: actual_coords,
+    				fill: false,
+    				lineTension: 0.1,
+    				borderWidth: 3,
+    				backgroundColor: '#F26384',
+    				borderColor: '#F26384',
+    				pointRadius: 1.5,
+    				pointRadiusOnHover: 3,
+    			}]
+    		},
+    		options: {
+  		    	responsive: true,
+  	            maintainAspectRatio: false,
+  	            legend:{
+	            	labels:{
+	            		fontSize: 20, //now try...
+	            	}
+	            },
+  	            scales: {
+  	                xAxes: [{
+  	                	gridLines:{
+  	                		color: "rgba(0, 0, 0, 0)",
+  	                	},
+  	                    type: 'time',
+  	                    ticks: {
+  	                        autoSkip: true,
+  	                        maxTicksLimit: 6
+  	                    },
+  	                    distribution: 'linear',
+  	                    time: {
+  	                    	unit: 'day',
+  	                        displayFormats: {
+  	                            day: 'MMM D'
+  	                        }
+  	                    }
+  	                }],
+  		    		yAxes: [{
+  		    			gridLines:{
+  		    				//color: "rgba(0, 0, 0, 0)",
+  		    			},
+  		    			ticks: {
+  	                        autoSkip: false,
+  	                      	stepSize: 50000,
+  	                        maxTicksLimit: 6
+  	                    },
+  		    		}],
+  		    		title: {
+  		              display: true,
+  		              text: 'ARIMA Predictions',
+  		              position: 'top',
+  		          }
+  	            },
+	  		  tooltips:{
+	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
+	    			callbacks:{
+	    				title: function(tooltipItem, data){
+	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+	    				},
+	    				label: function(tooltipItem,data){
+	    					var y = tooltipItem.yLabel;
+	    					y = y.toFixed(0); 
+ 	    					return data.datasets[tooltipItem.datasetIndex].label+" value: "+y;
+	    				}
+	    			}
+	    		},
+  		    }
+    	});
+     }); 
   </script>
 </body>
 </html>
