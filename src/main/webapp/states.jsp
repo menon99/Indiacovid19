@@ -12,16 +12,28 @@
   <title>Covid19 ${sname}</title>
 
   <!-- CDN Links -->
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   	<link href="https://unpkg.com/tabulator-tables@4.6.2/dist/css/tabulator.min.css" rel="stylesheet">
 	<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.2/dist/js/tabulator.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Material Design Bootstrap -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css" rel="stylesheet">
+	<!-- JQuery -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/js/mdb.min.js"></script>
   
   <!--  Styles  -->
   <link rel = "stylesheet" href = "<c:url value="/resources/css/index.css" />">
@@ -109,7 +121,7 @@
 	</nav>
 	<div class = "row">
 		<div class = "col-sm-6" id = "contentbox"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
-			<div class = "container">
+			<div class = "container animated fadeInLeft">
 				<div class = "row" style = "margin-top: 3%">
 					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 5%; margin-right: 2%; ">
 					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
@@ -132,7 +144,7 @@
 			</div>
 		</div>
 		<div class = "col-sm-6" id = "mapbox"> <!--  style = "margin-left: -3%" -->
-			<div class = "container" style = "padding: 1%">
+			<div class = "container animated fadeInRight" style = "padding: 1%">
 				<div id = "info">
 					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname} Map</h1>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%;" id = "districtid">Hover over a District</h2>
@@ -156,28 +168,28 @@
 					</div>
 				</div>
 			</div>
-			<div id = "map" style = "margin-top: 5%"></div>
+			<div class = "animated fadeInRight" id = "map" style = "margin-top: 5%"></div>
 			<div class = "row" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
 				<canvas id = "line-confirmed"></canvas>
 			</div>
-			<div class = "row" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-active-class">
+			<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-active-class">
 				<canvas id = "line-active"></canvas>
 			</div>
-			<div class = "row" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-recovered-class">
+			<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-recovered-class">
 				<canvas id = "line-recovered"></canvas>
 			</div>
-			<div class = "row" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
+			<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
 				<canvas id = "line-death"></canvas>
 			</div>
-			<div class = "row" style = "transform: translate(40%,0); margin-top: 3%" id = "timeline-charts">
-				<button class = "btn btn-primary" onclick = "check('beginning',this)" id = "beginning" style = "margin-right: 2%">Beginning</button>
-				<button class = "btn btn-outline-primary" onclick = "check('1-month',this)" id = "1-month" style = "margin-right: 2%">1 Month</button>
-				<button class = "btn btn-outline-primary" onclick = "check('2-weeks',this)" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
-				<button class = "btn btn-outline-primary" onclick = "check('1-week',this)" id = "1-week" style = "margin-right: 2%">1 Week</button>
+			<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
+				<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
+				<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
+				<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
+				<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week" style = "margin-right: 2%">1 Week</button>
 			</div>
 	</div>
 	</div>
-	<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;">
+	<div class = "row animate fadeInUp" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
 		<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(150%,0);" id = "analysis-title">Analysis and Forecasts</h1>
 		<br>
 		<h2 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(175%,0); margin-top: 4%" id = "analysis-sub-title">Growth Rate</h2>
@@ -228,12 +240,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript">
   var tabledata = ${tabledata} ;
-  
-  console.log('table data is' ,tabledata);
   var json = ${stateCoords};
   var state_name = '${sname}';
-  $("#map-title").html = state_name+" Map"
-  console.log(tabledata);
+  $("#map-title").html = state_name+" Map";
   var table = new Tabulator("#covid-table", {
 	  	height: false,
 	 	data:tabledata.slice(0,tabledata.length-1), 
@@ -409,47 +418,47 @@
   	var coords = state_coords_zoom[state_name]['coords'];
   	var zoom = state_coords_zoom[state_name]['zoom'];
   	
-  	function check(e,f){
+  	function check(e){
   		status = e;
-  		if(f.innerHTML == 'Beginning'){
+  		if(e == 'beginning'){
             document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary');
-            f.removeAttribute('class');
-            f.setAttribute("class","btn btn-primary");
-        }
-        else if(f.innerHTML == '1 Month'){
+            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
+        }
+        else if(e == '1-month'){
+            document.getElementById('beginning').removeAttribute('class');
+            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary');
-            f.removeAttribute('class');
-            f.setAttribute("class","btn btn-primary");
+            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-month').removeAttribute('class');
+            document.getElementById('1-month').setAttribute("class","btn btn-primary waves-effect waves-light");
         }
-        else if(f.innerHTML == '1 Week'){
+        else if(e == '1-week'){
             document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary');
-            f.removeAttribute('class');
-            f.setAttribute("class","btn btn-primary");
-        }
-        else if(f.innerHTML == '2 Weeks'){
-            document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary');
+            document.getElementById('1-week').setAttribute("class","btn btn-primary waves-effect waves-light");
+        }
+        else if(e == '2-weeks'){
+            document.getElementById('beginning').removeAttribute('class');
+            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-week').removeAttribute('class');
+            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary');
-            f.removeAttribute('class');
-            f.setAttribute("class","btn btn-primary");
+            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-weeks').removeAttribute('class');
+            document.getElementById('2-weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
         }
   		document.getElementById("line-confirmed-class").innerHTML = "";
   	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
@@ -735,7 +744,6 @@
 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
 	    				},
 	    				label: function(tooltipItem,data){
-	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
 	    					return data.datasets[0].label+": "+tooltipItem.yLabel;
 	    				}
 	    			}
@@ -843,7 +851,6 @@
  	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
  	    				},
  	    				label: function(tooltipItem,data){
- 	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
  	    					var y = tooltipItem.yLabel;
  	    					y = y.toFixed(0); 
  	    					return data.datasets[tooltipItem.datasetIndex].label+": "+y;
@@ -945,7 +952,6 @@
 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
 	    				},
 	    				label: function(tooltipItem,data){
-	    					//console.log(Object.keys(tooltipItem) + ":" + Object.values(tooltipItem)+ " " + Object.keys(data) + ":" + data.datasets[0].label);
 	    					var y = tooltipItem.yLabel;
 	    					y = y.toFixed(3); 
 	    					return data.datasets[tooltipItem.datasetIndex].label+" Value: "+y;
