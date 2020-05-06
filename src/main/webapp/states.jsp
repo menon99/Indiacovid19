@@ -110,116 +110,118 @@
 	  <div class="collapse navbar-collapse" id="navb">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item">
-	        <a class="nav-link" href="" style = "font-family: 'Source Sans Pro', sans-serif; font-size: 20px;">About Us</a>
+	        <a class="nav-link" href="/about.jsp" style = "font-family: 'Source Sans Pro', sans-serif; font-size: 20px;">About Us</a>
 	      </li>
 	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <input class="form-control mr-sm-2" type="text" placeholder="Search">
-	      <button class="btn btn-success my-2 my-sm-0" type="button">Search</button>
-	    </form>
 	  </div>
 	</nav>
-	<div class = "row">
-		<div class = "col-sm-6" id = "contentbox"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
-			<div class = "container animated fadeInLeft">
-				<div class = "row" style = "margin-top: 3%">
-					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 5%; margin-right: 2%; ">
-					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
-					    <h5 id = "span-static-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
-					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%; ">
-					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
-					    <h5 id = "span-static-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
-					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%; ">
-					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
-					    <h5 id = "span-static-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
-					</div>
-					<div style = "opacity: 1; border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 5%; ">
-					    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
-					    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
-					</div>
-				</div>
-				<div id="covid-table" style = "text-align: center; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
-			</div>
-		</div>
-		<div class = "col-sm-6" id = "mapbox"> <!--  style = "margin-left: -3%" -->
-			<div class = "container animated fadeInRight" style = "padding: 1%">
-				<div id = "info">
+	<div class = "container">
+		<div class = "row">
+			<div class = "col-sm-6" id = "contentbox" style = "margin-top: 2%"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
+				<div id = "info" class = 'animated fadeInLeft'>
 					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname} Map</h1>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%;" id = "districtid">Hover over a District</h2>
-					<div class= "row" style = "padding: 1%">
-						<div style = "opacity: 1; background-color: rgba(255,7,58,.12549); width: 18%; margin-left: 1%; margin-right: 2%; border-radius: 10px; ">
+					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "districtid">Hover over a State</h2>
+					<div class= "row" style = "padding: 1%; margin-left: -5%;">
+						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; padding: 1%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
 						    <h5 id = "span-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%;">
+						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px; padding: 1%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
 						    <h5 id = "span-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%;">
+						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px; padding: 1%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
 						    <h5 id = "span-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px; width: 18%; margin-left: 2%; margin-right: 2%;">
+						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px; padding: 1%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
 						    <h5 id = "span-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 						</div>
 					</div>
 				</div>
+				<div class = "animated fadeInLeft" id = "map" style = "margin-top: 5%;"></div>
+				<div class = "row animated fadeInLeft" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "pie-chart">
+					<canvas id = "pie-chart-cases"></canvas>
+				</div>
 			</div>
-			<div class = "animated fadeInRight" id = "map" style = "margin-top: 5%"></div>
-			<div class = "row" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
-				<canvas id = "line-confirmed"></canvas>
+			<div class = "col-sm-6 animated fadeInRight" id = "mapbox" style = "margin-right: -20%"> <!--  style = "margin-left: -3%" -->
+				<div class = "row animated fadeInRight" id = "trend-chart-title">
+					<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Case Trends Charts</h1>
+				</div>
+				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
+					<canvas id = "line-confirmed"></canvas>
+				</div>
+				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-active-class">
+					<canvas id = "line-active"></canvas>
+				</div>
+				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-recovered-class">
+					<canvas id = "line-recovered"></canvas>
+				</div>
+				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
+					<canvas id = "line-death"></canvas>
+				</div>
+				<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
+					<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
+					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
+					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
+					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week" style = "margin-right: 2%; margin-left: 32%">1 Week</button>
+				</div>
 			</div>
-			<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-active-class">
-				<canvas id = "line-active"></canvas>
+		</div>
+		<div class = "row" style = "margin-left: 16%;" id = "table-content">
+			<div class = "row animated fadeInLeft"; style = "margin-top: 5%; margin-left: 15%">
+				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px;">
+				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
+				    <h5 id = "span-static-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
+				</div>
+				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px; transform: translate(30%,0)">
+				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
+				    <h5 id = "span-static-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
+				</div>
+				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px; transform: translate(30%,0)">
+				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
+				    <h5 id = "span-static-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
+				</div>
+				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px; transform: translate(30%,0)">
+				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
+				    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
+				</div>
 			</div>
-			<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-recovered-class">
-				<canvas id = "line-recovered"></canvas>
+			<div class = "animated fadeInLeft" id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
+		</div>
+		<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
+			<div class = "row" style = "transform: translate(100%,0)"  id = "analysis-title">
+				<h1 class = "animate bounceIn" style = "font-family: 'Source Sans Pro', sans-serif;">Analysis and Forecasts</h1>
 			</div>
-			<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
-				<canvas id = "line-death"></canvas>
+			<div class = "row" style = "margin-top: 5%; transform: translate(80%,0)" id = "analysis-sub-title">
+				<h2 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif;">Growth Rate</h2>
 			</div>
-			<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
-				<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
-				<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
-				<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
-				<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week" style = "margin-right: 2%">1 Week</button>
+			<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
+				<div class = "animate slideInLeft" style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
+					<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
+					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
+				</div>
+				<div class = "animate slideInUp" style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
+					<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
+					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
+				</div>
+				<div class = "animate slideInRight" style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
+					<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
+					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
+				</div>
 			</div>
-	</div>
-	</div>
-	<div class = "row animate fadeInUp" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
-		<h1 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(150%,0);" id = "analysis-title">Analysis and Forecasts</h1>
-		<br>
-		<h2 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(175%,0); margin-top: 4%" id = "analysis-sub-title">Growth Rate</h2>
-		<br>
-		<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
-			<div style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
-				<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
-				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
-			</div>
-			<div style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
-				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
-				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
-			</div>
-			<div style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
-				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
-				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
+			<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
+				<h3 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(200%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
+				<canvas id = "arima-graph" class = "animate slideInRight"></canvas>
 			</div>
 		</div>
 		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
-			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(250%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
-			<div class = "col-sm-12" style = "width: 100%;">
-				<canvas id = "arima-graph" height = '500'></canvas>
-			</div>
-		</div>
-		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
-			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(380%,0); margin-bottom: 1%;" id = "line-area-title">Real-time R0</h3>
+			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(300%,0); margin-bottom: 1%;" id = "line-area-title">Real-time R0</h3>
 			<div class = "col-sm-12" style = "width: 100%;">
 				<canvas id = "line-area-graph" height = '500'></canvas>
 			</div>
-			<div id = "custom-legend" class = "row" style = "font-family: 'Source Sans Pro', sans-serif; transform: translate(800%,-570%); width: 10%; margin-top: 2%; margin-bottom: 1%">
+			<div id = "custom-legend" class = "row" style = "font-family: 'Source Sans Pro', sans-serif; transform: translate(800%,-555%); width: 10%; margin-top: 2%; margin-bottom: 1%">
 				<div style = "margin-right: 5%">
 					<div style = "width: 20px; height: 20px; background-color: #ff3333;"></div><div style = "margin-top: -23px; margin-left: 30px">1.5+</div>
 				</div>
@@ -407,7 +409,7 @@
  			    },
  			"Uttar Pradesh" : {
  			    "coords": [26.88288045572338,80.74951171875],
- 			    "zoom": 7
+ 			    "zoom": 6
  			    },
  			"West Bengal" : {
  			    "coords": [23.8,88.077392578125],
@@ -476,42 +478,35 @@
    	   scrollWheelZoom: false
    	   });
   	function resizefunc(){
-        if(screen.width>900){
-            document.getElementById("contentbox").removeAttribute("class");
-            document.getElementById("mapbox").removeAttribute("class");
-            document.getElementById("contentbox").setAttribute("class","col-sm-6");
-            document.getElementById("mapbox").setAttribute("class","col-sm-6");
-            map.dragging.disable();
-        }
-        else if(screen.width>1600){
-        	document.getElementById("covid-table").style.marginLeft = "5%";
-        	document.getElementById("analysis-title").style.transform = "translate(190%,0)";
-      	  	document.getElementById("analysis-sub-title").style.transform = "translate(265%,0)";
-      	  	document.getElementById("arima-graph-title").style.transform = "translate(340%,0)";
-      	  	document.getElementById("line-area-title").style.transform = "translate(500%,0)";
-      	  	map.dragging.disable();
-        }
-        else{
+        if(screen.width<900){
             document.getElementById("contentbox").removeAttribute("class");
             document.getElementById("mapbox").removeAttribute("class");
             document.getElementById("contentbox").setAttribute("class","col-sm-12");
             document.getElementById("mapbox").setAttribute("class","col-sm-12");
             document.getElementById("mapbox").style.marginTop = "7%";
-            document.getElementById("map").style.marginLeft = "4%";
+            document.getElementById("map").style.marginLeft = "0%";
+            document.getElementById("map").width = "100%";
             map.dragging.enable();
+            document.getElementById("table-content").style.marginLeft = "0";
             document.getElementById("contentbox").removeAttribute("style");
             document.getElementById("covid-table").style.marginLeft = "-5%";
             document.getElementById("timeline-charts").removeAttribute("style");
             document.getElementById("timeline-charts").style.marginTop = "3%";
             document.getElementById("timeline-charts").style.marginLeft = "35%";
             document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
+            document.getElementById("1-week").style.marginLeft = "35%";
             document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
-            document.getElementById("analysis-title").style.transform = "translate(80%,0)";
-            document.getElementById("analysis-sub-title").style.transform = "translate(20%,0)";
-            document.getElementById("arima-graph-title").style.transform = "translate(170%,0)";
-            document.getElementById("line-area-title").style.transform = "translate(250%,0)";
+            document.getElementById("analysis-title").style.transform = "translate(50%,0)";
+            document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
+            document.getElementById("analysis-sub-title").style.marginTop = '7%';
+            document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
+            document.getElementById("line-area-title").style.transform = "translate(150%,0)";
+            document.getElementById("custom-legend").style.width = "11%";
+            document.getElementById("custom-legend").style.marginTop = "5%";
+            document.getElementById("line-area-graph").style.width = "130%";
+            document.getElementById("line-area-graph").style.marginLeft = "-15%";
         }
     }
   
@@ -678,81 +673,84 @@
     	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
   	   }
      
-     function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
-    	var x = document.getElementById(canvasid);
-    	x.height = 270;
-    	x.style.backgroundColor = backgroundcolor;
-    	var myLineChart;
-    	if(myLineChart){
-       		myLineChart.destroy();
-       	}
-    	myLineChart = new Chart(document.getElementById(canvasid), {
-  		    type: 'line',
-  		    data: {
-  		    	labels: dataset_x,
-  		    	datasets:[{
-  		    		label: label,
-  		    		data: dataset_y,
-  		    		fill: false,
-  		    		lineTension: 0.1,
-  		    		backgroundColor: bordercolor,
-  	                borderColor: bordercolor,
-  	                borderWidth: 3,
-  	              	pointRadius: 2,
-  					pointRadiusOnHover: 3,
-  		    	}]
-  		    },
-  		    options: {
-  		    	legend:{
-  	            	labels:{
-  	            		fontSize: 20, //now try...
-  	            	}
-  	            },
-  		    	responsive: true,
-  	            maintainAspectRatio: false,
-  	            scales: {
-  	                xAxes: [{
-  	                	gridLines:{
-  	                		color: "rgba(0, 0, 0, 0)",
-  	                	},
-  	                    type: 'time',
-  	                    ticks: {
-  	                        autoSkip: true,
-  	                        maxTicksLimit: 6
-  	                    },
-  	                    distribution: 'linear',
-  	                    time: {
-  	                    	unit: 'day',
-  	                        displayFormats: {
-  	                            day: 'MMM D'
-  	                        }
-  	                    }
-  	                }],
-  		    		yAxes: [{
-  		    			gridLines:{
-  		    				//color: "rgba(0, 0, 0, 0)",
-  		    			},
-  		    			ticks: {
-  	                        autoSkip: true,
-  	                        maxTicksLimit: 6
-  	                    },
-  		    		}],
-  	            },
-	  		  tooltips:{
-	    			titleFontSize: 20,
-	    			bodyFontSize: 20,
-	    			callbacks:{
-	    				title: function(tooltipItem, data){
-	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
-	    				},
-	    				label: function(tooltipItem,data){
-	    					return data.datasets[0].label+": "+tooltipItem.yLabel;
-	    				}
-	    			}
-	    		},
-  		    }
-  		});
-  	}
+  	 function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
+     	var x = document.getElementById(canvasid);
+     	x.height = 270;
+     	x.width = 800;
+     	x.style.backgroundColor = backgroundcolor;
+     	var myLineChart;
+     	if(myLineChart){
+        		myLineChart.destroy();
+        	}
+     	myLineChart = new Chart(document.getElementById(canvasid), {
+   		    type: 'line',
+   		    data: {
+   		    	labels: dataset_x,
+   		    	datasets:[{
+   		    		label: label,
+   		    		data: dataset_y,
+   		    		fill: false,
+   		    		lineTension: 0.1,
+   		    		backgroundColor: bordercolor,
+   	                borderColor: bordercolor,
+   	                borderWidth: 3,
+   	              	pointRadius: 2,
+   					pointRadiusOnHover: 3,
+   		    	}]
+   		    },
+   		    options: {
+   		    	responsive: true,
+   	            maintainAspectRatio: false,
+   	            legend:{
+   	            	labels:{
+   	            		fontSize: 15,
+   	            	}
+   	            },
+   	            scales: {
+   	                xAxes: [{
+   	                	gridLines:{
+   	                		color: "rgba(0, 0, 0, 0)",
+   	                	},
+   	                    type: 'time',
+   	                	ticks:{
+   	                		autoSkip: true,
+   	                		maxTicksLimit: 4,
+   	                		maxRotation: 0,
+   	                      	minRotation: 0
+   	                	},
+   	                    distribution: 'linear',
+   	                    time: {
+   	                    	unit: 'day',
+   	                        displayFormats: {
+   	                            day: 'MMM D'
+   	                        }
+   	                    }
+   	                }],
+   		    		yAxes: [{
+   		    			gridLines:{
+   		    				//color: "rgba(0, 0, 0, 0)",
+   		    			},
+   		    			ticks: {
+   	                        autoSkip: true,
+   	                        maxTicksLimit: 6
+   	                    },
+   		    		}],
+   	            },
+ 	  		  tooltips:{
+ 	    			titleFontSize: 20,
+ 	    			bodyFontSize: 20,
+ 	    			callbacks:{
+ 	    				title: function(tooltipItem, data){
+ 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
+ 	    				},
+ 	    				label: function(tooltipItem,data){
+ 	    					return data.datasets[tooltipItem.datasetIndex].label+": "+tooltipItem.yLabel;
+ 	    				}
+ 	    			}
+ 	    		},
+   		    }
+   		});
+   	}
      $.getJSON('https://covid19-api-django.herokuapp.com/growth/'+state_name,function(data){
     	 $("#g1-value").html(data.g1.toFixed(3));
     	 $("#g2-value").html(data.g2.toFixed(3));
@@ -764,6 +762,7 @@
      	for(i in data.dp)
      		dates_analysis.push(data.dp[i]);
      	var x = document.getElementById("arima-graph");
+     	x.height = 200;
      	var temp = data.pred;
      	var max_val = temp.reduce(function(a, b) {
      	    return Math.max(a, b);
@@ -809,7 +808,7 @@
   	            	}
   	            },
    		    	responsive: true,
-   	            maintainAspectRatio: false,
+   	            maintainAspectRatio: true,
    	            scales: {
    	                xAxes: [{
    	                	gridLines:{
