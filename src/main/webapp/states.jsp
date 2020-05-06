@@ -148,11 +148,11 @@
 			<div class = "col-sm-6 animated fadeInRight" id = "mapbox" style = "margin-right: -20%"> <!--  style = "margin-left: -3%" -->
 				<br>
 				<div class = "row animated fadeInRight" id = "trend-chart-title">
-					<div class = "col-sm-4"></div>
-					<div class = "col-sm-4">
-						<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Trends</h1>
+					<div class = "col-sm-1"></div>
+					<div class = "col-sm-10">
+						<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">Trends - ${sname}</h1>
 					</div>
-					<div class = "col-sm-4"></div>
+					<div class = "col-sm-1"></div>
 				</div>
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
 					<canvas id = "line-confirmed"></canvas>
@@ -166,7 +166,7 @@
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
 					<canvas id = "line-death"></canvas>
 				</div>
-				<div class = "row animated fadeInRight" style = "margin-left: 2%; margin-top: 3%" id = "timeline-charts">
+				<div class = "row animated fadeInRight" style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 2%; margin-top: 3%" id = "timeline-charts">
 					<div class = "col-sm-3">
 						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">Start</button>
 					</div>
@@ -201,7 +201,7 @@
 				    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 				</div>
 			</div>
-			<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 15%">
+			<div class = "row animated fadeInLeft" style = "margin-top: 2%; margin-left: 15%">
 				<div class = "col-sm-12" id = "cd">
 					<div class = "animated fadeInLeft" id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
 				</div>
@@ -290,7 +290,23 @@
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deceased",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
-	 	]});
+	 	],
+	 	rowClick: function(e,row){
+	 		 document.getElementById("pie-chart").innerHTML = "";
+	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
+	  	   	 pieChart(row._row.data.district);
+	  	   $('html, body').animate({
+		         scrollTop: $("#pie-chart").offset().top
+		     }, 1000);
+	 	},
+	 	rowTap: function(e,row){
+	 		 document.getElementById("pie-chart").innerHTML = "";
+	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
+	  	     pieChart(row._row.data.district);
+	  	   $('html, body').animate({
+		         scrollTop: $("#pie-chart").offset().top
+		     }, 1000);
+	 	}});
   	document.getElementById("span-static-confirmed").innerHTML = tabledata[tabledata.length-1]['confirmed']==null?0:tabledata[tabledata.length-1]['confirmed'];
 	document.getElementById("span-static-active").innerHTML = tabledata[tabledata.length-1]['active']==null?0:tabledata[tabledata.length-1]['active'];
 	document.getElementById("span-static-recovered").innerHTML = tabledata[tabledata.length-1]['recovered']==null?0:tabledata[tabledata.length-1]['recovered'];
@@ -520,7 +536,7 @@
             document.getElementById("mapbox").style.marginTop = "7%";
             document.getElementById("map").style.marginLeft = "0%";
             document.getElementById("map").width = "100%";
-            document.getElementById("main-title").style.textAlign = 'left';
+            document.getElementById("main-title").style.textAlign = 'center';
             document.getElementById("table-content").style.marginLeft = "0";
             document.getElementById("contentbox").removeAttribute("style");
             document.getElementById("covid-table").style.marginLeft = "-5%";
@@ -598,6 +614,7 @@
          var layer = e.target;
          var flag = 0;
          document.getElementById("districtid").innerHTML = "District: "+e.target.feature.properties.district;
+         var district_name_confirmed;
          for(i in tabledata){
         	 if(tabledata[i]['district'] == e.target.feature.properties.district){
         		 document.getElementById("span-confirmed").innerHTML = tabledata[i]['confirmed'] == null ? 0 : tabledata[i]['confirmed'];
@@ -605,14 +622,20 @@
         		 document.getElementById("span-recovered").innerHTML = tabledata[i]['recovered'] == null ? 0 : tabledata[i]['recovered'];
         		 document.getElementById("span-death").innerHTML = tabledata[i]['deceased'] == null ? 0 : tabledata[i]['deceased'];
         		 flag = 1;
+        		 district_name_confirmed = e.target.feature.properties.district
         	 }
          }
          if(flag == 0){
-    		 document.getElementById("span-confirmed").innerHTML = "NA";
-    		 document.getElementById("span-active").innerHTML = "NA";
-    		 document.getElementById("span-recovered").innerHTML = "NA";
-    		 document.getElementById("span-death").innerHTML = "NA";
+    		 document.getElementById("span-confirmed").innerHTML = "0";
+    		 document.getElementById("span-active").innerHTML = "0";
+    		 document.getElementById("span-recovered").innerHTML = "0";
+    		 document.getElementById("span-death").innerHTML = "0";
     	 }
+         else{
+        	 document.getElementById("pie-chart").innerHTML = "";
+	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
+        	 pieChart(e.target.feature.properties.district);
+         }
 
          layer.setStyle({
              weight: 5,
@@ -814,7 +837,7 @@
      		data: {
      			label: dates_analysis,
      			datasets: [{
-     				label: 'Prediction for next 15 Days',
+     				label: 'Prediction for next 10 Days',
      				data: predict_coords,
      				fill: false,
      				lineTension: 0.1,
@@ -1013,6 +1036,61 @@
 			}
          chart.update();
      });
+     
+     function pieChart(district_name){
+    	 var pie_colors = {red: "rgb(255, 99, 132)",
+   	    	 orange: "rgb(255, 159, 64)",
+   	    		 yellow: "rgb(255, 205, 86)",
+   	    		 green: "rgb(75, 192, 192)",
+   	    		 blue: "rgb(54, 162, 235)",
+   	    		 purple: "rgb(153, 102, 255)",
+   	    		 grey: "rgb(201, 203, 207)"}
+    	 var dataset_val;
+    	 console.log(tabledata);
+    	 if(district_name == state_name)
+    		 dataset_val = [tabledata[tabledata.length-1]['confirmed'],tabledata[tabledata.length-1]['active'],tabledata[tabledata.length-1]['recovered'],tabledata[tabledata.length-1]['deceased']];
+    	 else{
+    		 for(i in tabledata){
+    			 if(tabledata[i].district == district_name){
+    				 dataset_val = [parseInt(tabledata[i].confirmed),parseInt(tabledata[i].active),parseInt(tabledata[i].recovered),parseInt(tabledata[i].deceased)];
+    			 }
+    		 }
+    	 }
+    	 console.log(dataset_val);
+   	     var piechart = new Chart(document.getElementById("pie-chart-cases"),{
+   	    	type: "pie",
+   	    	data: {
+   	    		labels: ['Confirmed', 'Active', 'Recovered', 'Deaths'],
+   	    		datasets:[{
+   	    			data: dataset_val,
+   	    			label: 'Cases in '+district_name,
+   	    			backgroundColor:[pie_colors.red,pie_colors.blue,pie_colors.green,pie_colors.grey]
+   	    		}]
+   	    	},
+   	    	options:{
+   	    		responsive: true,
+   	    		legend: {
+   	    			display: true,
+   	    			position: 'top',
+   	    			labels:{
+   	    				fontSize: 16,
+   	    			}
+   	    		},
+   	    		title:{
+   	    			display: true,
+   	    			text: 'Covid-19 Cases in '+district_name,
+   	    			fontSize: 24,
+   	    		},
+   	    		animation:{
+   	    			animateScale: true,
+   	    			animateRotate: true
+   	    		}
+   	    	}
+   	     });
+     }
+     document.getElementById("pie-chart").innerHTML = "";
+	 document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
+     pieChart(state_name);
   </script>
 </body>
 </html>

@@ -149,7 +149,7 @@
 				<div class = "row">
 					<div class = "col-sm-4"></div>
 					<div class = "col-sm-4">
-						<h5 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Note: Click on a state to view respective District Map</h5>
+						<h5 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Note: Click/Touch on a state to view respective District Map</h5>
 					</div>
 					<div class = "col-sm-4"></div>
 				</div>
@@ -178,7 +178,7 @@
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
 					<canvas id = "line-death"></canvas>
 				</div>
-				<div class = "row animated fadeInRight" style = "margin-left: 2%; margin-top: 3%" id = "timeline-charts">
+				<div class = "row animated fadeInRight" style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 2%; margin-top: 3%" id = "timeline-charts">
 					<div class = "col-sm-3">
 						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">Start</button>
 					</div>
@@ -300,6 +300,9 @@
 	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
 	  	     document.getElementById("line-death-class").innerHTML = "";
 	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+	  	   	 document.getElementById("pie-chart").innerHTML = "";
+	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
+	  	   
 	  	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
 	  	     
 	  	     if(row._row.data.state == 'Total')
@@ -321,6 +324,8 @@
 	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
 	  	     document.getElementById("line-death-class").innerHTML = "";
 	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+	  	   	 document.getElementById("pie-chart").innerHTML = "";
+	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
 	  	   document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
 	  	   if(row._row.data.state == 'Total')
 				lineChart(row._row.data.state.toLowerCase(),data_cases);
@@ -486,6 +491,8 @@
   	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
   	     document.getElementById("line-death-class").innerHTML = "";
   	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+  	   	 document.getElementById("pie-chart").innerHTML = "";
+	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
   		lineChart(cur_state,data_cases);
    	}
      
@@ -497,6 +504,8 @@
      document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
      document.getElementById("line-death-class").innerHTML = "";
      document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+     document.getElementById("pie-chart").innerHTML = "";
+	 document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
      lineChart("total",data_cases);
      pieChart("India");
      //highlighting the features in map
@@ -524,6 +533,8 @@
          document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
          document.getElementById("line-death-class").innerHTML = "";
          document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+         document.getElementById("pie-chart").innerHTML = "";
+  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
          
          cur_state = layer.feature.properties.st_nm;
          lineChart(layer.feature.properties.st_nm,data_cases);
@@ -739,8 +750,8 @@
     		 dataset_val = [tabledata[0]['confirmed'],tabledata[0]['active'],tabledata[0]['recovered'],tabledata[0]['deaths']];
     	 else{
     		 for(i in tabledata){
-    			 if(tabledata[i]['state'] == state_name){
-    				 dataset_val = [tabledata[i]['confirmed'],tabledata[i]['active'],tabledata[i]['recovered'],tabledata[i]['deaths']];
+    			 if(tabledata[i].state == state_name){
+    				 dataset_val = [parseInt(tabledata[i].confirmed),parseInt(tabledata[i].active),parseInt(tabledata[i].recovered),parseInt(tabledata[i].deaths)];
     			 }
     		 }
     	 }
@@ -749,7 +760,7 @@
    	    	data: {
    	    		labels: ['Confirmed', 'Active', 'Recovered', 'Deaths'],
    	    		datasets:[{
-   	    			data: [tabledata[0]['confirmed'],tabledata[0]['active'],tabledata[0]['recovered'],tabledata[0]['deaths']],
+   	    			data: dataset_val,
    	    			label: 'Cases in '+state_name,
    	    			backgroundColor:[pie_colors.red,pie_colors.blue,pie_colors.green,pie_colors.grey]
    	    		}]
