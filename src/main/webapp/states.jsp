@@ -115,11 +115,11 @@
 	    </ul>
 	  </div>
 	</nav>
-	<div class = "container">
+	<div class = "container-fluid" style="max-width:1420px">
 		<div class = "row">
 			<div class = "col-sm-6" id = "contentbox" style = "margin-top: 2%"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
 				<div id = "info" class = 'animated fadeInLeft'>
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname} Map</h1>
+					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname}</h1>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "districtid">Hover over a State</h2>
 					<div class= "row" style = "padding: 1%; margin-left: -5%;">
 						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; padding: 1%;">
@@ -146,8 +146,13 @@
 				</div>
 			</div>
 			<div class = "col-sm-6 animated fadeInRight" id = "mapbox" style = "margin-right: -20%"> <!--  style = "margin-left: -3%" -->
+				<br>
 				<div class = "row animated fadeInRight" id = "trend-chart-title">
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Case Trends Charts</h1>
+					<div class = "col-sm-4"></div>
+					<div class = "col-sm-4">
+						<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Trends</h1>
+					</div>
+					<div class = "col-sm-4"></div>
 				</div>
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
 					<canvas id = "line-confirmed"></canvas>
@@ -162,15 +167,23 @@
 					<canvas id = "line-death"></canvas>
 				</div>
 				<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
-					<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
-					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
-					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
-					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week" style = "margin-right: 2%; margin-left: 32%">1 Week</button>
+					<div class = "col-sm-3">
+						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">.Start</button>
+					</div>
+					<div class = "col-sm-3">
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month">1Month</button>
+					</div>
+					<div class = "col-sm-3">
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks">2Weeks</button>
+					</div>
+					<div class = "col-sm-3">
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week">1Week</button>
+					</div>	
 				</div>
 			</div>
 		</div>
 		<div class = "row" style = "margin-left: 16%;" id = "table-content">
-			<div class = "row animated fadeInLeft"; style = "margin-top: 5%; margin-left: 15%">
+			<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 15%">
 				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px;">
 				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
 				    <h5 id = "span-static-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
@@ -188,7 +201,11 @@
 				    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 				</div>
 			</div>
-			<div class = "animated fadeInLeft" id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
+			<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 15%">
+				<div class = "col-sm-12" id = "cd">
+					<div class = "animated fadeInLeft" id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
+				</div>
+			</div>
 		</div>
 		<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
 			<div class = "row" style = "transform: translate(100%,0)"  id = "analysis-title">
@@ -252,7 +269,7 @@
 	 	responsiveLayout:false,
 	 	layout:"fitDataFill", 
 	 	columns:[ 
-		 	{title:"District", field:"district", hozAlign:"center", width: 300},
+		 	{title:"District", field:"district", hozAlign:"center"},
 		 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deceased",hozAlign:"center"},
@@ -490,11 +507,11 @@
             document.getElementById("table-content").style.marginLeft = "0";
             document.getElementById("contentbox").removeAttribute("style");
             document.getElementById("covid-table").style.marginLeft = "-5%";
-            document.getElementById("timeline-charts").removeAttribute("style");
-            document.getElementById("timeline-charts").style.marginTop = "3%";
-            document.getElementById("timeline-charts").style.marginLeft = "35%";
-            document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
-            document.getElementById("1-week").style.marginLeft = "35%";
+            //document.getElementById("timeline-charts").removeAttribute("style");
+            //document.getElementById("timeline-charts").style.marginTop = "3%";
+            //document.getElementById("timeline-charts").style.marginLeft = "35%";
+            //document.getElementById("timeline-charts").style.transform = "translate(52%,0)";
+            //document.getElementById("1-week").style.marginLeft = "35%";
             document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
@@ -505,8 +522,8 @@
             document.getElementById("line-area-title").style.transform = "translate(150%,0)";
             document.getElementById("custom-legend").style.width = "11%";
             document.getElementById("custom-legend").style.marginTop = "5%";
-            document.getElementById("line-area-graph").style.width = "130%";
-            document.getElementById("line-area-graph").style.marginLeft = "-15%";
+            //document.getElementById("line-area-graph").style.width = "130%";
+            //document.getElementById("line-area-graph").style.marginLeft = "-15%";
         }
     }
   

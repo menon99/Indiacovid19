@@ -39,12 +39,6 @@
   <link rel = "stylesheet" href = "<c:url value="/resources/css/index.css" />">
   
   <style>
-  html,body{
-  	width: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow-x: hidden; 
-  }
   	#covid-table{
 	    background-color:#ccc;
 	    border: none;
@@ -116,11 +110,11 @@
 	    </ul>
 	  </div>
 	</nav>
-	<div class = "container">
+	<div class = "container-fluid" style="max-width:1420px">
 		<div class = "row">
 			<div class = "col-sm-6" id = "contentbox" style = "margin-top: 2%"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
 				<div id = "info" class = 'animated fadeInLeft'>
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">INDIA Map</h1>
+					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">INDIA</h1>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "stateid">Hover over a State</h2>
 					<div class= "row" style = "padding: 1%;">
 						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; margin-right: 5%">
@@ -151,8 +145,13 @@
 				</div>
 			</div>
 			<div class = "col-sm-6 animated fadeInRight" id = "mapbox" style = "margin-right: -20%"> <!--  style = "margin-left: -3%" -->
+				<br>
 				<div class = "row animated fadeInRight" id = "trend-chart-title">
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Case Trends Charts</h1>
+					<div class = "col-sm-4"></div>
+					<div class = "col-sm-4">
+						<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Trends</h1>
+					</div>
+					<div class = "col-sm-4"></div>
 				</div>
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
 					<canvas id = "line-confirmed"></canvas>
@@ -167,16 +166,25 @@
 					<canvas id = "line-death"></canvas>
 				</div>
 				<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
-					<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning" style = "margin-right: 2%">Beginning</button>
-					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month" style = "margin-right: 2%">1 Month</button>
-					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks" style = "margin-right: 2%">2 Weeks</button>
-					<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week" style = "margin-right: 2%; margin-left: 32%">1 Week</button>
+					<div class = "col-sm-3">
+						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">.Start</button>
+					</div>
+					<div class = "col-sm-3">
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month">1Month</button>
+					</div>
+					<div class = "col-sm-3">
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks">2Weeks</button>
+					</div>
+					<div class = "col-sm-3">
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week">1Week</button>
+					</div>	
 				</div>
 			</div>
 		</div>
 		<div class = "row" style = "margin-left: 16%;" id = "table-content">
 			<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 2%">
-				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px;">
+				<div class ="col-sm-1"></div>
+				<div class = "col-sm-2" style = "opacity: 1; border-radius: 10px;">
 				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
 				    <h5 id = "span-static-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
 				</div>
@@ -184,7 +192,7 @@
 				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
 				    <h5 id = "span-static-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
 				</div>
-				<div class = "col-sm-3" style = "opacity: 1; border-radius: 10px;">
+				<div class = "col-sm-2" style = "opacity: 1; border-radius: 10px;">
 				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
 				    <h5 id = "span-static-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
 				</div>
@@ -196,10 +204,13 @@
 				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px; transform: translate(35%,0)">Tested </h5>
 				    <h5 id = "span-static-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 				</div>
+				<div class ="col-sm-1"></div>
 			</div>
 			<div id = "table-note" class = "animate fadeInLeft " style = "width: 100%; margin-top: 2%">
 				<h5 style = "font-family: 'Source Sans Pro', sans-serif;">Note: Click on a state to view respective trend charts</h5>
 			</div>
+		</div>
+		<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 15%">
 			<div class = "animated fadeInLeft" id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
 		</div>
 		<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
@@ -249,7 +260,7 @@
 	 	movableColumns:false,
 	 	layout:"fitDataFill", 
 	 	columns:[ 
-		 	{title:"State/UT", field:"state", hozAlign:"center", width: 300},
+		 	{title:"State/UT", field:"state", hozAlign:"center"},
 		 	{title:"Confirmed", field:"confirmed", hozAlign:"center"},
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
@@ -326,22 +337,22 @@
     	            document.getElementById("contentbox").setAttribute("class","col-sm-12");
     	            document.getElementById("mapbox").setAttribute("class","col-sm-12");
     	            document.getElementById("mapbox").style.marginTop = "7%";
-    	            document.getElementById("table-content").style.marginLeft = "0";
+    	            //document.getElementById("table-content").style.marginLeft = "0";
     	            document.getElementById("contentbox").removeAttribute("style");
-    	            document.getElementById("covid-table").style.marginLeft = "-5%";
-    	            document.getElementById("timeline-charts").removeAttribute("style");
-    	            document.getElementById("timeline-charts").style.marginTop = "3%";
-    	            document.getElementById("timeline-charts").style.marginLeft = "35%";
-    	            document.getElementById("1-week").style.marginLeft = "35%";
-    	            document.getElementById("timeline-charts").style.transform = "translate(152%,0)";
+    	            //document.getElementById("covid-table").style.marginRight = "10%";
+    	            //document.getElementById("timeline-charts").removeAttribute("style");
+    	            //document.getElementById("timeline-charts").style.marginTop = "3%";
+    	            //document.getElementById("timeline-charts").style.marginLeft = "35%";
+    	            //document.getElementById("1-week").style.marginLeft = "35%";
+    	            // document.getElementById("timeline-charts").style.transform = "translate(152%,0)";
     	            document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
     	            document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
     	            document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
-    	            document.getElementById("analysis-title").style.transform = "translate(50%,0)";
-    	            document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
-    	            document.getElementById("analysis-sub-title").style.marginTop = '7%';
-    	            document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
-    	            map.dragging.enable();
+    	            //document.getElementById("analysis-title").style.transform = "translate(50%,0)";
+    	            //document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
+    	            //document.getElementById("analysis-sub-title").style.marginTop = '7%';
+    	            //document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
+    	            //map.dragging.enable();
     	  	}
     	    }
     	    
@@ -766,7 +777,7 @@
     		data: {
     			label: dates_analysis,
     			datasets: [{
-    				label: 'Prediction before lockdown',
+    				label: 'Before lockdown on 24th March',
     				data: predict_coords,
     				fill: false,
     				lineTension: 0.1,
@@ -776,7 +787,7 @@
     				pointRadius: 1.5,
     				pointRadiusOnHover: 3,
     			},{
-    				label: 'Prediction after lockdown 1',
+    				label: 'Before lockdown on 14th April',
     				data: predict_coords1,
     				fill: false,
     				lineTension: 0.1,
