@@ -18,6 +18,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English&display=swap" rel="stylesheet">
   
   <!--  Styles  -->
   <link rel = "stylesheet" href = "<c:url value="/resources/css/index.css" />">
@@ -27,7 +28,7 @@
   	width: 100%;
     margin: 0px;
     padding: 0px;
-    overflow-x: hidden; 
+    overflow-x: hidden;
   }
   
   </style>
@@ -42,7 +43,7 @@
 	  <div class="collapse navbar-collapse" id="navb">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item">
-	        <a class="nav-link" href="/about" style = "font-family: 'Source Sans Pro', sans-serif; font-size: 20px;">About Us</a>
+	        <a class="nav-link" href="/about.jsp" style = "font-family: 'Source Sans Pro', sans-serif; font-size: 20px;">About Us</a>
 	      </li>
 	    </ul>
 	    <form class="form-inline my-2 my-lg-0">
@@ -51,10 +52,19 @@
 	    </form>
 	  </div>
 	</nav>
-	<div class = "container">
-		<section>
-			<div class = "row"></div>
-		</section>
+	<div class = "container" style = "font-family: 'IM Fell English', serif;">
+		<div class = "row" id = "title">
+			<h2>This is a title</h2>
+		</div>
+		<div class = "row" id = "paragraph">
+			<p>This is a paragraph</p>
+		</div>
+		<div class = "row" id = "sub-heading">
+			<h4>This is a sub-heading</h4>
+		</div>
+		<div class = "row" id = "image">
+			<img src = "https://image.shutterstock.com/image-photo/white-transparent-leaf-on-mirror-260nw-1029171697.jpg" alt = "">
+		</div>
 	</div>
 </body>
 </html>
