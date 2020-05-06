@@ -119,8 +119,8 @@
 		<div class = "row">
 			<div class = "col-sm-6" id = "contentbox" style = "margin-top: 2%"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
 				<div id = "info" class = 'animated fadeInLeft'>
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname}</h1>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "districtid">Hover over a State</h2>
+					<h1 id = "main-title" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">${sname}</h1>
+					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "districtid">Hover over a District</h2>
 					<div class= "row" style = "padding: 1%; margin-left: -5%;">
 						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; padding: 1%;">
 						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
@@ -166,9 +166,9 @@
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
 					<canvas id = "line-death"></canvas>
 				</div>
-				<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
+				<div class = "row animated fadeInRight" style = "margin-left: 2%; margin-top: 3%" id = "timeline-charts">
 					<div class = "col-sm-3">
-						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">.Start</button>
+						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">Start</button>
 					</div>
 					<div class = "col-sm-3">
 						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month">1Month</button>
@@ -207,34 +207,50 @@
 				</div>
 			</div>
 		</div>
-		<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
-			<div class = "row" style = "transform: translate(100%,0)"  id = "analysis-title">
-				<h1 class = "animate bounceIn" style = "font-family: 'Source Sans Pro', sans-serif;">Analysis and Forecasts</h1>
+		<div class = "row" style = "margin-top:3%;">
+			<div class = "col-sm-3"></div>
+			<div class = "col-sm-6">
+				<h1 class = "animate bounceIn" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;" id = "analysis-title">Analysis and Forecasts</h1>
 			</div>
-			<div class = "row" style = "margin-top: 5%; transform: translate(80%,0)" id = "analysis-sub-title">
-				<h2 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif;">Growth Rate</h2>
+			<div class = "col-sm-3"></div>
+		</div>
+		<div class = "row" id = "analysis-sub-title" style = "margin-top: 1%;">
+			<div class = "col-sm-4"></div>
+			<div class = "col-sm-4">
+				<h2 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Growth Rate</h2>
 			</div>
-			<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
-				<div class = "animate slideInLeft" style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
-					<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
-				</div>
-				<div class = "animate slideInUp" style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
-					<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
-				</div>
-				<div class = "animate slideInRight" style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
-					<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
-				</div>
+			<div class = "col-sm-4"></div>
+		</div>
+		<div class = "row animate slideInRight" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
+			<div class = "animate slideInLeft" style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
 			</div>
-			<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
-				<h3 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(200%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
-				<canvas id = "arima-graph" class = "animate slideInRight"></canvas>
+			<div class = "animate slideInUp" style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
+			</div>
+			<div class = "animate slideInRight" style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
 			</div>
 		</div>
+		<div class = "row animate slideInRight" style = "margin-top: 3%">
+			<div class = "col-sm-4"></div>
+			<div class = "col-sm-4">
+				<h3 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;" id = "arima-graph-title">ARIMA Predictions</h3>
+			</div>
+			<div class = "col-sm-4"></div>
+		</div>
+		<canvas id = "arima-graph" class = "animate slideInRight"></canvas>
+		<div class = "row aniimate slideInRight" style = "margin-top: 3%;">
+			<div class = "col-sm-4"></div>
+			<div class = "col-sm-4">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center" id = "line-area-title">Real-time R0</h3>
+			</div>
+			<div class = "col-sm-4"></div>
+		</div>
 		<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
-			<h3 style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(300%,0); margin-bottom: 1%;" id = "line-area-title">Real-time R0</h3>
 			<div class = "col-sm-12" style = "width: 100%;">
 				<canvas id = "line-area-graph" height = '500'></canvas>
 			</div>
@@ -494,6 +510,7 @@
    	   zoom:zoom, 
    	   scrollWheelZoom: false
    	   });
+  	map.dragging.disable();
   	function resizefunc(){
         if(screen.width<900){
             document.getElementById("contentbox").removeAttribute("class");
@@ -503,7 +520,7 @@
             document.getElementById("mapbox").style.marginTop = "7%";
             document.getElementById("map").style.marginLeft = "0%";
             document.getElementById("map").width = "100%";
-            map.dragging.enable();
+            document.getElementById("main-title").style.textAlign = 'left';
             document.getElementById("table-content").style.marginLeft = "0";
             document.getElementById("contentbox").removeAttribute("style");
             document.getElementById("covid-table").style.marginLeft = "-5%";
@@ -515,11 +532,11 @@
             document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
             document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
-            document.getElementById("analysis-title").style.transform = "translate(50%,0)";
-            document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
-            document.getElementById("analysis-sub-title").style.marginTop = '7%';
-            document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
-            document.getElementById("line-area-title").style.transform = "translate(150%,0)";
+            //document.getElementById("analysis-title").style.transform = "translate(50%,0)";
+            //document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
+            //document.getElementById("analysis-sub-title").style.marginTop = '7%';
+            //document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
+            //document.getElementById("line-area-title").style.transform = "translate(150%,0)";
             document.getElementById("custom-legend").style.width = "11%";
             document.getElementById("custom-legend").style.marginTop = "5%";
             //document.getElementById("line-area-graph").style.width = "130%";

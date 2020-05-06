@@ -114,7 +114,13 @@
 		<div class = "row">
 			<div class = "col-sm-6" id = "contentbox" style = "margin-top: 2%"> <!--  style = "margin-right: -5%; margin-left: 5%" -->
 				<div id = "info" class = 'animated fadeInLeft'>
-					<h1 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">INDIA</h1>
+					<div class = "row">
+						<div class = "col-sm-4"></div>
+						<div class = "col-sm-4">
+							<h1 id = "main-title" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center; color: #3366ff ">INDIA</h1>
+						</div>
+						<div class = "col-sm-4"></div>
+					</div>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "stateid">Hover over a State</h2>
 					<div class= "row" style = "padding: 1%;">
 						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; margin-right: 5%">
@@ -140,6 +146,13 @@
 					</div>
 				</div>
 				<div class = "animated fadeInLeft" id = "map" style = "margin-top: 5%;"></div>
+				<div class = "row">
+					<div class = "col-sm-4"></div>
+					<div class = "col-sm-4">
+						<h5 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Note: Click on a state to view respective District Map</h5>
+					</div>
+					<div class = "col-sm-4"></div>
+				</div>
 				<div class = "row animated fadeInLeft" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "pie-chart">
 					<canvas id = "pie-chart-cases"></canvas>
 				</div>
@@ -147,11 +160,11 @@
 			<div class = "col-sm-6 animated fadeInRight" id = "mapbox" style = "margin-right: -20%"> <!--  style = "margin-left: -3%" -->
 				<br>
 				<div class = "row animated fadeInRight" id = "trend-chart-title">
-					<div class = "col-sm-4"></div>
-					<div class = "col-sm-4">
-						<h1 style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 20%; color: #3366ff ">Trends</h1>
+					<div class = "col-sm-1"></div>
+					<div class = "col-sm-10">
+						<h1 id = "trends-title" style = "font-family: 'Source Sans Pro', sans-serif; color: #3366ff; text-align: center; ">Trends - India</h1>
 					</div>
-					<div class = "col-sm-4"></div>
+					<div class = "col-sm-1"></div>
 				</div>
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-confirmed-class">
 					<canvas id = "line-confirmed"></canvas>
@@ -165,9 +178,9 @@
 				<div class = "row animated fadeInRight" style = "margin-top: 5%; width: 90%; margin-left: 5%" id = "line-death-class">
 					<canvas id = "line-death"></canvas>
 				</div>
-				<div class = "row animated fadeInRight" style = "margin-left: 5%; margin-top: 3%" id = "timeline-charts">
+				<div class = "row animated fadeInRight" style = "margin-left: 2%; margin-top: 3%" id = "timeline-charts">
 					<div class = "col-sm-3">
-						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">.Start</button>
+						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">Start</button>
 					</div>
 					<div class = "col-sm-3">
 						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month">1Month</button>
@@ -206,39 +219,49 @@
 				</div>
 				<div class ="col-sm-1"></div>
 			</div>
-			<div id = "table-note" class = "animate fadeInLeft " style = "width: 100%; margin-top: 2%">
+			<div id = "table-note" class = "animate fadeInLeft " style = "width: 100%; margin-top: 2%;">
 				<h5 style = "font-family: 'Source Sans Pro', sans-serif;">Note: Click on a state to view respective trend charts</h5>
 			</div>
 		</div>
-		<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 15%">
+		<div class = "row animated fadeInLeft" style = "margin-left: 15%">
 			<div class = "animated fadeInLeft" id="covid-table" style = "margin-left: 0%; font-size: 20px; margin-top: 2%; font-family: 'Source Sans Pro', sans-serif; width: fit-content; height: fit-content;"></div>
 		</div>
-		<div class = "row" style = "margin-top: 3%; margin-bottom: 5%;" id = "analysis">
-			<div class = "row" style = "transform: translate(100%,0)" id = "analysis-title">
-				<h1 class = "animate bounceIn" style = "font-family: 'Source Sans Pro', sans-serif;">Analysis and Forecasts</h1>
+		<div class = "row" style = "margin-top:3%;">
+			<div class = "col-sm-3"></div>
+			<div class = "col-sm-6">
+				<h1 class = "animate bounceIn" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;" id = "analysis-title">Analysis and Forecasts</h1>
 			</div>
-			<div class = "row" id = "analysis-sub-title" style = "margin-top: 5%; transform: translate(80%,0)">
-				<h2 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif;">Growth Rate</h2>
+			<div class = "col-sm-3"></div>
+		</div>
+		<div class = "row" id = "analysis-sub-title" style = "margin-top: 1%;">
+			<div class = "col-sm-4"></div>
+			<div class = "col-sm-4">
+				<h2 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Growth Rate</h2>
 			</div>
-			<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
-				<div class = "animate slideInLeft" style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
-					<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
-				</div>
-				<div class = "animate slideInUp" style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
-					<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
-				</div>
-				<div class = "animate slideInRight" style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
-					<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
-					<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
-				</div>
+			<div class = "col-sm-4"></div>
+		</div>
+		<div class = "row" style = "margin-top: 3%; width: 100%; margin-left: 4%; margin-top: 1%; text-align: center;">
+			<div class = "animate slideInLeft" style = " background-color: rgba(0,123,255,.0627451); margin-right: 2%; border-radius: 10px; width: 30%;">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif;">Before Lockdown on 24th March:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g1-value"></h2>
 			</div>
-			<div class = "row" style = "width: 90%; margin-left: 4%; margin-top: 3%">
-				<h3 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; transform:translate(200%,0); margin-bottom: 1%;" id = "arima-graph-title">ARIMA Predictions</h3>
-				<canvas id = "arima-graph" class = "animate slideInRight"></canvas>
+			<div class = "animate slideInUp" style = "background-color: rgba(108,117,125,.0627451); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Before Lockdown on 14th April:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "g2-value"></h2>
+			</div>
+			<div class = "animate slideInRight" style = "background-color: rgba(40,167,69,.12549); margin-right: 2%; border-radius: 10px; width: 30%">
+				<h3 style = "font-family: 'Source Sans Pro', sans-serif; ">Current Growth:</h3>
+				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
 			</div>
 		</div>
+		<div class = "row" style = "margin-top: 3%">
+			<div class = "col-sm-4"></div>
+			<div class = "col-sm-4">
+				<h3 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;" id = "arima-graph-title">ARIMA Predictions</h3>
+			</div>
+			<div class = "col-sm-4"></div>
+		</div>
+		<canvas id = "arima-graph" class = "animate slideInRight"></canvas>
 	</div>
   <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
@@ -277,7 +300,8 @@
 	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
 	  	     document.getElementById("line-death-class").innerHTML = "";
 	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-	  	   
+	  	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
+	  	     
 	  	     if(row._row.data.state == 'Total')
 				lineChart(row._row.data.state.toLowerCase(),data_cases);
 			else
@@ -297,6 +321,7 @@
 	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
 	  	     document.getElementById("line-death-class").innerHTML = "";
 	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+	  	   document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
 	  	   if(row._row.data.state == 'Total')
 				lineChart(row._row.data.state.toLowerCase(),data_cases);
 			else
@@ -328,7 +353,7 @@
   	   zoom:4.75, 
   	   scrollWheelZoom: false
   	   });
-  
+  		
      function resizefunc(){
     	  	if(screen.width<900){
     	  		  document.getElementById("contentbox").removeAttribute("class");
@@ -337,7 +362,12 @@
     	            document.getElementById("contentbox").setAttribute("class","col-sm-12");
     	            document.getElementById("mapbox").setAttribute("class","col-sm-12");
     	            document.getElementById("mapbox").style.marginTop = "7%";
-    	            //document.getElementById("table-content").style.marginLeft = "0";
+    	            document.getElementById("covid-table").style.marginLeft = "-10%";
+    	            document.getElementById("map").style.marginLeft = "5%";
+    	            document.getElementById("info").style.marginLeft = "10%";
+    	            document.getElementById("table-content").style.marginLeft = "10%";
+    	            document.getElementById("table-note").style.textAlign = 'center';
+    	            document.getElementById("main-title").style.textAlign = 'left';
     	            document.getElementById("contentbox").removeAttribute("style");
     	            //document.getElementById("covid-table").style.marginRight = "10%";
     	            //document.getElementById("timeline-charts").removeAttribute("style");
@@ -362,10 +392,8 @@
          onEachFeature: onEachFeature
      });
      geojson.addTo(map);
+     map.dragging.disable();
      var info;
-     
-     
-     
      //getting the color values for filling the map
      function getColor(d) {
     	 var max_confirmed=0;
@@ -476,6 +504,7 @@
          var layer = e.target;
          
          document.getElementById("stateid").innerHTML = "State: "+e.target.feature.properties.st_nm;
+         document.getElementById("trends-title").innerHTML = "Trends - "+e.target.feature.properties.st_nm;
          for(i in tabledata){
         	 if(tabledata[i]['state'] == e.target.feature.properties.st_nm){
         		 document.getElementById("span-confirmed").innerHTML = tabledata[i]['confirmed'] == null ? 0 : tabledata[i]['confirmed'];
@@ -538,7 +567,7 @@
        	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
        	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
        	//lineChart("total",data_cases);
-       	pieChart("India");
+       	//pieChart("India");
      }
 
      //leaflet zoom feature on click function
@@ -602,7 +631,6 @@
      function lineChart(state_name,data_cases){
   	   
   	   var dates = ${dates};
-  	   
   	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
   	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
   	   pieChart(state_name);
