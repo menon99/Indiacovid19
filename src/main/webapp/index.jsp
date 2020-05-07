@@ -254,7 +254,7 @@
 				<h2 style = "font-family: 'Source Sans Pro', sans-serif; " id = "current-value"></h2>
 			</div>
 		</div>
-		<div class = "row" style = "margin-top: 3%">
+		<div class = "row" style = "margin-top: 3%;">
 			<div class = "col-sm-4"></div>
 			<div class = "col-sm-4">
 				<h3 class = "animate slideInRight" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;" id = "arima-graph-title">ARIMA Predictions</h3>
@@ -873,6 +873,7 @@
     	dates_analysis.push(data.db[data.db.length-1]);
     	var ctx = document.getElementById("arima-graph");
     	ctx.height = 200;
+    	ctx.style.marginBottom = "5%";
     	var predict_coords = [];
     	var predict_coords1 = [];
     	var predict_coords_current = [];
@@ -964,6 +965,11 @@
   		    		yAxes: [{
   		    			gridLines:{
   		    				//color: "rgba(0, 0, 0, 0)",
+  		    			},
+  		    			scaleLabel:{
+  		    				display: true,
+  		    				labelString: 'Cumulative confirmed cases',
+  		    				fontSize: 20,
   		    			},
   		    			ticks: {
   	                        autoSkip: false,

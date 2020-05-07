@@ -913,6 +913,11 @@
    		    			gridLines:{
    		    				//color: "rgba(0, 0, 0, 0)",
    		    			},
+   		    			scaleLabel:{
+  		    				display: true,
+  		    				labelString: 'Cumulative confirmed cases',
+  		    				fontSize: 20,
+  		    			},
    		    			ticks: {
    	                        autoSkip: true,
    	                     	stepSize: max_val/4,
@@ -1046,11 +1051,6 @@
  	                     	precision: 0,
  	                    },
  		    		}],
- 		    		title: {
- 		              display: true,
- 		              text: 'ARIMA Predictions',
- 		              position: 'top',
- 		          }
  	            },
 	  		  tooltips:{
 	    			titleFontSize: 20,
