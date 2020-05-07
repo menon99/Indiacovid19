@@ -479,7 +479,7 @@
    		else
    			B = data_cases[state]["y-death"][l - num];
    		const death = A - B;
-   		return [confirmed,active,recovered,death]; // now use dese values to create new pie chart, the num value what will it be?
+   		return [confirmed,active,recovered,death]; 
    	}
    	
    	function check(e){
@@ -867,8 +867,8 @@
     	for(i in data.d2)
     		dates_analysis.push(data.d2[i]);
     	dates_analysis.push(data.db[data.db.length-1]);
-    	var x = document.getElementById("arima-graph");
-    	x.height = 200;
+    	var ctx = document.getElementById("arima-graph");
+    	ctx.height = 200;
     	var predict_coords = [];
     	var predict_coords1 = [];
     	var predict_coords_current = [];
@@ -885,7 +885,7 @@
     	for(i in data.actual){
     		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
     	}
-    	var arimaChart = new Chart(x,{
+    	var arimaChart = new Chart(ctx,{
     		type: 'line',
     		data: {
     			label: dates_analysis,
@@ -976,6 +976,7 @@
 	  		  tooltips:{
 	    			titleFontSize: 20,
 	    			bodyFontSize: 20,
+	    			intersect: false,
 	    			callbacks:{
 	    				title: function(tooltipItem, data){
 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
@@ -988,6 +989,30 @@
 	    			}
 	    		},
   		    }
+    	});
+    	Chart.defaults.LineWithLine = Chart.defaults.line;
+    	Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+    	   draw: function(ease) {
+    	      Chart.controllers.line.prototype.draw.call(this, ease);
+
+    	      if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+    	         var activePoint = this.chart.tooltip._active[0],
+    	             ctx = this.chart.ctx,
+    	             x = activePoint.tooltipPosition().x,
+    	             topY = this.chart.legend.bottom,
+    	             bottomY = this.chart.chartArea.bottom;
+
+    	         // draw line
+    	         ctx.save();
+    	         ctx.beginPath();
+    	         ctx.moveTo(x, topY);
+    	         ctx.lineTo(x, bottomY);
+    	         ctx.lineWidth = 2;
+    	         ctx.strokeStyle = '#07C';
+    	         ctx.stroke();
+    	         ctx.restore();
+    	      }
+    	   }
     	});
      }); 
   </script>

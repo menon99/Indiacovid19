@@ -519,7 +519,10 @@
   	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
   	     document.getElementById("line-death-class").innerHTML = "";
   	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+  	   document.getElementById("pie-chart").innerHTML = "";
+	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
   		lineChart(data_cases);
+  		pieChart(state_name);
    	}
   	var map = L.map('map',{
    	   center:coords, 
@@ -731,15 +734,12 @@
   	   }
      
   	 function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
-     	var x = document.getElementById(canvasid);
-     	x.height = 270;
-     	x.width = 800;
-     	x.style.backgroundColor = backgroundcolor;
+     	var ctx = document.getElementById(canvasid);
+     	ctx.height = 270;
+     	ctx.width = 800;
+     	ctx.style.backgroundColor = backgroundcolor;
      	var myLineChart;
-     	if(myLineChart){
-        		myLineChart.destroy();
-        	}
-     	myLineChart = new Chart(document.getElementById(canvasid), {
+     	myLineChart = new Chart(ctx, {
    		    type: 'line',
    		    data: {
    		    	labels: dataset_x,
@@ -796,6 +796,7 @@
  	  		  tooltips:{
  	    			titleFontSize: 20,
  	    			bodyFontSize: 20,
+ 	    			intersect: false,
  	    			callbacks:{
  	    				title: function(tooltipItem, data){
  	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
@@ -807,6 +808,30 @@
  	    		},
    		    }
    		});
+     	Chart.defaults.LineWithLine = Chart.defaults.line;
+    	Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+    	   draw: function(ease) {
+    	      Chart.controllers.line.prototype.draw.call(this, ease);
+
+    	      if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+    	         var activePoint = this.chart.tooltip._active[0],
+    	             ctx = this.chart.ctx,
+    	             x = activePoint.tooltipPosition().x,
+    	             topY = this.chart.legend.bottom,
+    	             bottomY = this.chart.chartArea.bottom;
+
+    	         // draw line
+    	         ctx.save();
+    	         ctx.beginPath();
+    	         ctx.moveTo(x, topY);
+    	         ctx.lineTo(x, bottomY);
+    	         ctx.lineWidth = 2;
+    	         ctx.strokeStyle = '#07C';
+    	         ctx.stroke();
+    	         ctx.restore();
+    	      }
+    	   }
+    	});
    	}
      $.getJSON('https://covid19-api-django.herokuapp.com/growth/'+state_name,function(data){
     	 $("#g1-value").html(data.g1.toFixed(3));
@@ -818,8 +843,8 @@
      	var dates_analysis = data.dates;
      	for(i in data.dp)
      		dates_analysis.push(data.dp[i]);
-     	var x = document.getElementById("arima-graph");
-     	x.height = 200;
+     	var ctx = document.getElementById("arima-graph");
+     	ctx.height = 200;
      	var temp = data.pred;
      	var max_val = temp.reduce(function(a, b) {
      	    return Math.max(a, b);
@@ -832,7 +857,7 @@
      	for(i in data.actual){
      		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
      	}
-     	var arimaChart = new Chart(x,{
+     	var arimaChart = new Chart(ctx,{
      		type: 'line',
      		data: {
      			label: dates_analysis,
@@ -904,6 +929,7 @@
  	  		  tooltips:{
  	    			titleFontSize: 20,
  	    			bodyFontSize: 20,
+ 	    			intersect: false,
  	    			callbacks:{
  	    				title: function(tooltipItem, data){
  	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
@@ -917,6 +943,30 @@
  	    		},
    		    }
      	});
+     	Chart.defaults.LineWithLine = Chart.defaults.line;
+    	Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+    	   draw: function(ease) {
+    	      Chart.controllers.line.prototype.draw.call(this, ease);
+
+    	      if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+    	         var activePoint = this.chart.tooltip._active[0],
+    	             ctx = this.chart.ctx,
+    	             x = activePoint.tooltipPosition().x,
+    	             topY = this.chart.legend.bottom,
+    	             bottomY = this.chart.chartArea.bottom;
+
+    	         // draw line
+    	         ctx.save();
+    	         ctx.beginPath();
+    	         ctx.moveTo(x, topY);
+    	         ctx.lineTo(x, bottomY);
+    	         ctx.lineWidth = 2;
+    	         ctx.strokeStyle = '#07C';
+    	         ctx.stroke();
+    	         ctx.restore();
+    	      }
+    	   }
+    	});
       });
      
      $.getJSON('https://covid19-api-django.herokuapp.com/rnaught/'+state_name,function(data){
@@ -1005,6 +1055,7 @@
 	  		  tooltips:{
 	    			titleFontSize: 20,
 	    			bodyFontSize: 20,
+	    			intersect: false,
 	    			callbacks:{
 	    				title: function(tooltipItem, data){
 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
@@ -1035,7 +1086,63 @@
 				}
 			}
          chart.update();
+         Chart.defaults.LineWithLine = Chart.defaults.line;
+     	Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+     	   draw: function(ease) {
+     	      Chart.controllers.line.prototype.draw.call(this, ease);
+
+     	      if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+     	         var activePoint = this.chart.tooltip._active[0],
+     	             ctx = this.chart.ctx,
+     	             x = activePoint.tooltipPosition().x,
+     	             topY = this.chart.legend.bottom,
+     	             bottomY = this.chart.chartArea.bottom;
+
+     	         // draw line
+     	         ctx.save();
+     	         ctx.beginPath();
+     	         ctx.moveTo(x, topY);
+     	         ctx.lineTo(x, bottomY);
+     	         ctx.lineWidth = 2;
+     	         ctx.strokeStyle = '#07C';
+     	         ctx.stroke();
+     	         ctx.restore();
+     	      }
+     	   }
+     	});
      });
+     
+     const getPieData  = (num) =>{
+    		
+    		let l = data_cases["y-confirmed"].length;
+    		let A = data_cases["y-confirmed"][l-1];
+    		let B = 0;
+    		if(num != 0)
+    			B = data_cases["y-confirmed"][l - num];
+    		const confirmed = A - B;
+    		l = data_cases["y-active"].length;
+    		A = data_cases["y-active"][l-1];
+    		if (num == 0)
+    			B = 0;
+    		else
+    			B = data_cases["y-active"][l - num];
+    		const active = A - B;
+    		l = data_cases["y-recovered"].length;
+    		A = data_cases["y-recovered"][l-1];
+    		if (num == 0)
+    			B = 0;
+    		else
+    			B = data_cases["y-recovered"][l - num];
+    		const recovered = A - B;
+    		l = data_cases["y-death"].length;
+    		A = data_cases["y-death"][l-1];
+    		if (num == 0)
+    			B = 0;
+    		else
+    			B = data_cases["y-death"][l - num];
+    		const death = A - B;
+    		return [confirmed,active,recovered,death]; 
+    	}
      
      function pieChart(district_name){
     	 var pie_colors = {red: "rgb(255, 99, 132)",
@@ -1055,6 +1162,18 @@
     				 dataset_val = [parseInt(tabledata[i].confirmed),parseInt(tabledata[i].active),parseInt(tabledata[i].recovered),parseInt(tabledata[i].deceased)];
     			 }
     		 }
+    	 }
+    	 if(status == "beginning"){
+    		 dataset_val = getPieData(0);
+    	 }
+    	 else if(status == "1-month"){
+    		 dataset_val = getPieData(30);
+    	 }
+    	 else if(status == "2-weeks"){
+    		 dataset_val = getPieData(14);
+    	 }
+    	 else if(status == "1-week"){
+    		 dataset_val = getPieData(7);
     	 }
     	 console.log(dataset_val);
    	     var piechart = new Chart(document.getElementById("pie-chart-cases"),{
