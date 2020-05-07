@@ -235,10 +235,10 @@ These predictions are only meant to be taken as a worst case scenario and with a
 		<div class = "row" style = "text-align: center; margin-bottom: 2%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<button class = "btn btn-light">
+				<button class = "btn btn-dark">
 					<i class="fab fa-github" style = "font-size: 30px; margin-left: -5%; margin-right: 5%;"></i>
 					<span>
-						<a href = "https://github.com/menon99/Indiacovid19" style = "color: black; font-family: 'Source Sans Pro', sans-serif; text-decoration: none; font-size: 24px;">OPEN SOURCED ON GITHUB</a>
+						<a href = "https://github.com/menon99/Indiacovid19" style = "color: white; font-family: 'Source Sans Pro', sans-serif; text-decoration: none; font-size: 24px;">OPEN SOURCED ON GITHUB</a>
 					</span>
 				</button>
 			</div>
