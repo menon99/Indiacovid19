@@ -45,6 +45,10 @@
   	color: #007bff;
   }
   
+  h3{
+  font-size:23px;
+  }
+  
   </style>
 </head>
 
@@ -62,7 +66,7 @@
 	    </ul>
 	  </div>
 	</nav>
-	<div class = "container animate fadeInUp" style = "font-family: 'Source Sans Pro', sans-serif;">
+	<div class = "container animated fadeInUp" style = "font-family: 'Source Sans Pro', sans-serif;">
 		<div class = "row" style = "text-align: left; margin-top: 2%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
@@ -73,7 +77,7 @@
 		<div class = "row"  style = "text-align: left; margin-bottom: 2%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ans">No</h3>
+				<h3 class = "ans">No.</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
@@ -87,7 +91,7 @@
 		<div class = "row"  style = "text-align: left; margin-bottom: 2%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ans">The data is validated by a group of volunteers and published into a Google sheet and an API. API is available for all at api.covid19india.org.</h3>
+				<h3 class = "ans">The data is validated by a group of volunteers and published into a Google sheet and an API. API is available for all at api.covid19india.org</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
@@ -151,14 +155,28 @@ These predictions are only meant to be taken as a worst case scenario and with a
 		<div class = "row" style = "text-align: left;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ques">What is R0? What can i infer from it?</h3>
+				<h3 class = "ques">What is R0?</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
 		<div class = "row"  style = "text-align: left; margin-bottom: 2%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ans">In any epidemic,  𝑅𝑡  is the measure known as the effective reproduction number. It's the number of people who become infected per infectious person at time 𝑡 . The most well-known version of this number is the basic reproduction number: 𝑅0, when  𝑡=0 . However,  𝑅0  is a single measure that does not adapt with changes in behavior and restrictions.As a pandemic evolves, increasing restrictions (or potential releasing of restrictions) changes  𝑅𝑡 . Knowing the current  𝑅𝑡  is essential. When  𝑅≫1 , the pandemic will spread through a large part of the population. If  𝑅𝑡<1 , the pandemic will slow quickly before it has a chance to infect many people. The lower the  𝑅𝑡 : the more manageable the situation. In general, any  𝑅𝑡<1  means things are under control.</h3>
+				<h3 class = "ans">In any epidemic,  𝑅𝑡  is the measure known as the effective reproduction number. It's the number of people who become infected per infectious person at time 𝑡 . The most well-known version of this number is the basic reproduction number 𝑅0, when  𝑡 = 0 . However,  𝑅0  is a single measure that does not adapt with changes in behavior and restrictions.</h3>
+			</div>
+			<div class = "col-sm-2"></div>
+		</div>
+		<div class = "row" style = "text-align: left;">
+			<div class = "col-sm-2"></div>
+			<div class = "col-sm-8">
+				<h3 class = "ques">What can i infer from R0?</h3>
+			</div>
+			<div class = "col-sm-2"></div>
+		</div>
+		<div class = "row"  style = "text-align: left; margin-bottom: 2%;">
+			<div class = "col-sm-2"></div>
+			<div class = "col-sm-8">
+				<h3 class = "ans"> As a pandemic evolves, increasing restrictions (or potential releasing of restrictions) changes  𝑅𝑡 . Knowing the current  𝑅𝑡  is essential. When  𝑅𝑡 > 1 , the pandemic will spread through a large part of the population. If  𝑅𝑡 < 1 , the pandemic will reduce quickly before it has a chance to infect many people. The lower the  𝑅𝑡 , the more manageable the situation. In general, any  𝑅𝑡 < 1  means things are under control.</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
@@ -214,25 +232,25 @@ These predictions are only meant to be taken as a worst case scenario and with a
 		<div class = "row"  style = "text-align: left; margin-bottom: 2%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ans">Java sevlets powered by maven is being used as a backend for our project along with jsp as a templating engine. It runs on a tomcat server and is hosted on heroku. Thank you @heroku!.</h3>
+				<h3 class = "ans">Java sevlets powered by maven is being used as a backend for our project along with jsp as a templating engine. It runs on a tomcat server and is hosted on heroku. Thank you @heroku!</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
 		<div class = "row" style = "text-align: left;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ques">What are the tools being used for the forntend?</h3>
+				<h3 class = "ques">What are the tools being used for the frontend?</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
-		<div class = "row"  style = "text-align: left; margin-bottom: 2%;">
+		<div class = "row"  style = "text-align: left; margin-bottom: 4%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
-				<h3 class = "ans">We love Bootstrap4 as other web devs do and have used it as our main layout engine. Chart.js is used for all the graphs. Leaflet.js has been used to render the maps.</h3>
+				<h3 class = "ans">We love Bootstrap4 as other web devs do and have used it as our main layout engine. Chart.js is used for all the graphs. Leaflet.js has been used to render the maps. Tabulator.js has been used to render the tables.</h3>
 			</div>
 			<div class = "col-sm-2"></div>
 		</div>
-		<div class = "row" style = "text-align: center; margin-bottom: 2%;">
+		<div class = "row" style = "text-align: center; margin-bottom: 4%;">
 			<div class = "col-sm-2"></div>
 			<div class = "col-sm-8">
 				<button class = "btn btn-dark">
