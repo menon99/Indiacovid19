@@ -276,6 +276,8 @@
   var tabledata = ${tableData} ;
   var data_cases = ${trends};
   var json = ${india};
+  var status = "beginning";
+ 	var cur_state = "total";
   
   var table = new Tabulator("#covid-table", {
 	  	height: 1450,
@@ -304,11 +306,16 @@
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
 	  	   
 	  	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
-	  	     
-	  	     if(row._row.data.state == 'Total')
-				lineChart(row._row.data.state.toLowerCase(),data_cases);
-			else
-				lineChart(row._row.data.state,data_cases);
+	  	     cur_state = row._row.data.state;
+			 lineChart(row._row.data.state,data_cases);
+			 if(status == "1-month")
+	        	 pieChart(getPieData(row._row.data.state,30)); 
+	         else if(status == "1-week")
+	        	 pieChart(getPieData(row._row.data.state,7));
+	         else if(status == "2-weeks")
+	        	 pieChart(getPieData(row._row.data.state,14));
+	         else if(status == "beginning")
+	        	 pieChart(getPieData(row._row.data.state,0));
 	  	   //document.getElementById("line-confirmed-class").scrollIntoView();
 		  	 $('html, body').animate({
 		         scrollTop: $("#trend-chart-title").offset().top
@@ -327,11 +334,15 @@
 	  	   	 document.getElementById("pie-chart").innerHTML = "";
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
 	  	   document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
-	  	   if(row._row.data.state == 'Total')
-				lineChart(row._row.data.state.toLowerCase(),data_cases);
-			else
-				lineChart(row._row.data.state,data_cases);
-	  	   
+			lineChart(row._row.data.state,data_cases);
+			if(status == "1-month")
+	        	 pieChart(getPieData(row._row.data.state,30)); 
+	         else if(status == "1-week")
+	        	 pieChart(getPieData(row._row.data.state,7));
+	         else if(status == "2-weeks")
+	        	 pieChart(getPieData(row._row.data.state,14));
+	         else if(status == "beginning")
+	        	 pieChart(getPieData(row._row.data.state,0));
 	  	 $('html, body').animate({
 	         scrollTop: $("#pie-chart").offset().top
 	     }, 1000);
@@ -437,9 +448,6 @@
              fillOpacity: 0.7
          };
      }
-     
-     var status = "beginning";
-   	var cur_state = "total"; // if u make it india here will anything happen? hmm, let me see where and all it is used
    	
    	const getPieData  = (state,num) =>{
    		
