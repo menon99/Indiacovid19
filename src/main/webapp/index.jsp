@@ -335,6 +335,7 @@
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
 	  	   document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
 			lineChart(row._row.data.state,data_cases);
+			cur_state = row._row.data.state;
 			if(status == "1-month")
 	        	 pieChart(getPieData(row._row.data.state,30)); 
 	         else if(status == "1-week")
@@ -713,14 +714,11 @@
      }
      
      function genericlinechart(canvasid,dataset_x,dataset_y,bordercolor,label,backgroundcolor){
-    	var x = document.getElementById(canvasid);
-    	x.height = 270;
-    	x.width = 800;
-    	x.style.backgroundColor = backgroundcolor;
+    	var ctx = document.getElementById(canvasid);
+    	ctx.height = 270;
+    	ctx.width = 800;
+    	ctx.style.backgroundColor = backgroundcolor;
     	var myLineChart;
-    	if(myLineChart){
-       		myLineChart.destroy();
-       	}
     	myLineChart = new Chart(document.getElementById(canvasid), {
   		    type: 'line',
   		    data: {
@@ -778,6 +776,7 @@
 	  		  tooltips:{
 	    			titleFontSize: 20,
 	    			bodyFontSize: 20,
+	    			intersect: false,
 	    			callbacks:{
 	    				title: function(tooltipItem, data){
 	    					return "Date: "+ moment(tooltipItem[0].xLabel).format("MMM D");
@@ -789,7 +788,31 @@
 	    		},
   		    }
   		});
-  	}
+    	Chart.defaults.LineWithLine = Chart.defaults.line;
+    	Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+    	   draw: function(ease) {
+    	      Chart.controllers.line.prototype.draw.call(this, ease);
+
+    	      if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+    	         var activePoint = this.chart.tooltip._active[0],
+    	             ctx = this.chart.ctx,
+    	             x = activePoint.tooltipPosition().x,
+    	             topY = this.chart.legend.bottom,
+    	             bottomY = this.chart.chartArea.bottom;
+
+    	         // draw line
+    	         ctx.save();
+    	         ctx.beginPath();
+    	         ctx.moveTo(x, topY);
+    	         ctx.lineTo(x, bottomY);
+    	         ctx.lineWidth = 2;
+    	         ctx.strokeStyle = '#07C';
+    	         ctx.stroke();
+    	         ctx.restore();
+    	      }
+    	   }
+    	});
+     }
     
      //pie chart
      function pieChart(dataset){
