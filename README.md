@@ -5,13 +5,13 @@
 ### [Akash Menon](https://github.com/menon99)
 ### [Sai Aditya Thummala](https://github.com/tsaiaditya) 
 
-## A Java servlet based web application built to keep a track of the covid19 pandemic in India
+### A Java servlet based web application built to keep a track of the covid19 pandemic in India
 
-## *Website* hosted on heroku [IndiaCovid19](https://covid19-india-analysis.herokuapp.com/home)
+### *Website* hosted on heroku [IndiaCovid19](https://covid19-india-analysis.herokuapp.com/home)
 
-## The data has been fetched from [api.covid19india.org](https://api.covid19india.org/) . Thank You!
+### The data has been fetched from [api.covid19india.org](https://api.covid19india.org/) . Thank You!
 
-## Django REST API has been used to fetch the results of ARIMA predictions, Growth rate and realtime R0 values [covid19-api-django](https://github.com/menon99/covid-django-api)
+### Django REST API has been used to fetch the results of ARIMA predictions, Growth rate and realtime R0 values [covid19-api-django](https://github.com/menon99/covid-django-api)
 
 ## Dependencies
 
@@ -50,7 +50,7 @@
 
 ## Screenshots
 
-### Map and trend charts
+### India Map and trend charts
 ![india1](Screenshots/sc1.png)
 
 ### Pie chart and timeline buttons
