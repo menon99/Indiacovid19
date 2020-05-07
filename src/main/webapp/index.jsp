@@ -180,16 +180,16 @@
 				</div>
 				<div class = "row animated fadeInRight" style = "font-family: 'Source Sans Pro', sans-serif; margin-left: 2%; margin-top: 3%" id = "timeline-charts">
 					<div class = "col-sm-3">
-						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('beginning')" id = "beginning">Start</button>
+						<button class = "btn btn-primary waves-effect waves-light" onclick = "check('Beginning')" id = "Beginning">Start</button>
 					</div>
 					<div class = "col-sm-3">
-						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-month')" id = "1-month">1Month</button>
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-Month')" id = "1-Month">1Month</button>
 					</div>
 					<div class = "col-sm-3">
-						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-weeks')" id = "2-weeks">2Weeks</button>
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('2-Weeks')" id = "2-Weeks">2Weeks</button>
 					</div>
 					<div class = "col-sm-3">
-						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-week')" id = "1-week">1Week</button>
+						<button class = "btn btn-outline-primary waves-effect waves-light" onclick = "check('1-Week')" id = "1-Week">1Week</button>
 					</div>	
 				</div>
 			</div>
@@ -276,7 +276,7 @@
   var tabledata = ${tableData} ;
   var data_cases = ${trends};
   var json = ${india};
-  var status = "beginning";
+  var status = "Beginning";
  	var cur_state = "total";
   
   var table = new Tabulator("#covid-table", {
@@ -308,13 +308,13 @@
 	  	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
 	  	     cur_state = row._row.data.state;
 			 lineChart(row._row.data.state,data_cases);
-			 if(status == "1-month")
+			 if(status == "1-Month")
 	        	 pieChart(getPieData(row._row.data.state,30)); 
-	         else if(status == "1-week")
+	         else if(status == "1-Week")
 	        	 pieChart(getPieData(row._row.data.state,7));
-	         else if(status == "2-weeks")
+	         else if(status == "2-Weeks")
 	        	 pieChart(getPieData(row._row.data.state,14));
-	         else if(status == "beginning")
+	         else if(status == "Beginning")
 	        	 pieChart(getPieData(row._row.data.state,0));
 	  	   //document.getElementById("line-confirmed-class").scrollIntoView();
 		  	 $('html, body').animate({
@@ -336,13 +336,13 @@
 	  	   document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
 			lineChart(row._row.data.state,data_cases);
 			cur_state = row._row.data.state;
-			if(status == "1-month")
+			if(status == "1-Month")
 	        	 pieChart(getPieData(row._row.data.state,30)); 
-	         else if(status == "1-week")
+	         else if(status == "1-Week")
 	        	 pieChart(getPieData(row._row.data.state,7));
-	         else if(status == "2-weeks")
+	         else if(status == "2-Weeks")
 	        	 pieChart(getPieData(row._row.data.state,14));
-	         else if(status == "beginning")
+	         else if(status == "Beginning")
 	        	 pieChart(getPieData(row._row.data.state,0));
 	  	 $('html, body').animate({
 	         scrollTop: $("#pie-chart").offset().top
@@ -390,7 +390,7 @@
     	            //document.getElementById("timeline-charts").removeAttribute("style");
     	            //document.getElementById("timeline-charts").style.marginTop = "3%";
     	            //document.getElementById("timeline-charts").style.marginLeft = "35%";
-    	            //document.getElementById("1-week").style.marginLeft = "35%";
+    	            //document.getElementById("1-Week").style.marginLeft = "35%";
     	            // document.getElementById("timeline-charts").style.transform = "translate(152%,0)";
     	            document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
     	            document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
@@ -485,48 +485,48 @@
    	function check(e){
   		status = e;
   		let pieValues = [];
-  		if(e == 'beginning'){
-            document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
+  		if(e == 'Beginning'){
+            document.getElementById('1-Week').removeAttribute('class');
+            document.getElementById('1-Week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-Weeks').removeAttribute('class');
+            document.getElementById('2-Weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Month').removeAttribute('class');
+            document.getElementById('1-Month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('Beginning').removeAttribute('class');
+            document.getElementById('Beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,0);
         }
-        else if(e == '1-month'){
-            document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute("class","btn btn-primary waves-effect waves-light");
+        else if(e == '1-Month'){
+            document.getElementById('Beginning').removeAttribute('class');
+            document.getElementById('Beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-Weeks').removeAttribute('class');
+            document.getElementById('2-Weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Week').removeAttribute('class');
+            document.getElementById('1-Week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Month').removeAttribute('class');
+            document.getElementById('1-Month').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,30);
         }
-        else if(e == '1-week'){
-            document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute("class","btn btn-primary waves-effect waves-light");
+        else if(e == '1-Week'){
+            document.getElementById('Beginning').removeAttribute('class');
+            document.getElementById('Beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-Weeks').removeAttribute('class');
+            document.getElementById('2-Weeks').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Month').removeAttribute('class');
+            document.getElementById('1-Month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Week').removeAttribute('class');
+            document.getElementById('1-Week').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,7);
         }
-        else if(e == '2-weeks'){
-            document.getElementById('beginning').removeAttribute('class');
-            document.getElementById('beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-week').removeAttribute('class');
-            document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('1-month').removeAttribute('class');
-            document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
-            document.getElementById('2-weeks').removeAttribute('class');
-            document.getElementById('2-weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
+        else if(e == '2-Weeks'){
+            document.getElementById('Beginning').removeAttribute('class');
+            document.getElementById('Beginning').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Week').removeAttribute('class');
+            document.getElementById('1-Week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('1-Month').removeAttribute('class');
+            document.getElementById('1-Month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
+            document.getElementById('2-Weeks').removeAttribute('class');
+            document.getElementById('2-Weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,14);// i need to do a small change in that linechart fn then, give a min
         }
   		document.getElementById("line-confirmed-class").innerHTML = "";
@@ -553,7 +553,7 @@
      document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
      document.getElementById("pie-chart").innerHTML = "";
 	 document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-     lineChart("total",data_cases); //data cases from beginning ryt?, yea, then based on the check fn, we will get trimmed data and redraw the charts ok
+     lineChart("total",data_cases); //data cases from Beginning ryt?, yea, then based on the check fn, we will get trimmed data and redraw the charts ok
      var dataset_val = [tabledata[0]['confirmed'],tabledata[0]['active'],tabledata[0]['recovered'],tabledata[0]['deaths']];
      pieChart(dataset_val);
      
@@ -587,13 +587,13 @@
          
          cur_state = layer.feature.properties.st_nm;
          lineChart(layer.feature.properties.st_nm,data_cases); 
-         if(status == "1-month")
+         if(status == "1-Month")
         	 pieChart(getPieData(cur_state,30)); 
-         else if(status == "1-week")
+         else if(status == "1-Week")
         	 pieChart(getPieData(cur_state,7));
-         else if(status == "2-weeks")
+         else if(status == "2-Weeks")
         	 pieChart(getPieData(cur_state,14));
-         else if(status == "beginning")
+         else if(status == "Beginning")
         	 pieChart(getPieData(cur_state,0)); //i think that's all what about reset highlight
          layer.setStyle({
              weight: 5,
@@ -681,13 +681,13 @@
      legend.addTo(map);
      
      function trimData(data){
-    	 if(status == "1-month"){
+    	 if(status == "1-Month"){
     		 return data.slice(data.length-30,data.length);
     	 }
-    	 if(status == "2-weeks"){
+    	 if(status == "2-Weeks"){
     		 return data.slice(data.length-14,data.length);
     	 }
-    	 else if(status == "1-week"){
+    	 else if(status == "1-Week"){
     		 return data.slice(data.length-7,data.length);
     	 }
     	 else{
@@ -850,12 +850,16 @@
    	    		},
    	    		title:{
    	    			display: true,
-   	    			text: 'Covid-19 Cases in '+disp_name+" ("+status.toUpperCase()+")",
+   	    			text: 'Covid-19 Cases in '+disp_name+" ("+status+")",
    	    			fontSize: 24,
    	    		},
    	    		animation:{
    	    			animateScale: true,
    	    			animateRotate: true
+   	    		},
+   	    		tooltips:{
+   	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
    	    		}
    	    	}
    	     });

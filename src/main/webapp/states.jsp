@@ -1203,6 +1203,10 @@
    	    		animation:{
    	    			animateScale: true,
    	    			animateRotate: true
+   	    		},
+   	    		tooltips:{
+   	    			titleFontSize: 20,
+	    			bodyFontSize: 20,
    	    		}
    	    	}
    	     });
