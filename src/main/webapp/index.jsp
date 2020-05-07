@@ -439,10 +439,43 @@
      }
      
      var status = "beginning";
-   	var cur_state = "total";
+   	var cur_state = "total"; // if u make it india here will anything happen? hmm, let me see where and all it is used
+   	
+   	const getPieData  = (state,num) =>{
+   		
+   		let l = data_cases[state]["y-confirmed"].length;
+   		let A = data_cases[state]["y-confirmed"][l-1];
+   		let B = 0;
+   		if(num != 0)
+   			B = data_cases[state]["y-confirmed"][l - num];
+   		const confirmed = A - B;
+   		l = data_cases[state]["y-active"].length;
+   		A = data_cases[state]["y-active"][l-1];
+   		if (num == 0)
+   			B = 0;
+   		else
+   			B = data_cases[state]["y-active"][l - num];
+   		const active = A - B;
+   		l = data_cases[state]["y-recovered"].length;
+   		A = data_cases[state]["y-recovered"][l-1];
+   		if (num == 0)
+   			B = 0;
+   		else
+   			B = data_cases[state]["y-recovered"][l - num];
+   		const recovered = A - B;
+   		l = data_cases[state]["y-death"].length;
+   		A = data_cases[state]["y-death"][l-1];
+   		if (num == 0)
+   			B = 0;
+   		else
+   			B = data_cases[state]["y-death"][l - num];
+   		const death = A - B;
+   		return [confirmed,active,recovered,death]; // now use dese values to create new pie chart, the num value what will it be?
+   	}
    	
    	function check(e){
   		status = e;
+  		let pieValues = [];
   		if(e == 'beginning'){
             document.getElementById('1-week').removeAttribute('class');
             document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
@@ -452,6 +485,7 @@
             document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('beginning').removeAttribute('class');
             document.getElementById('beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
+            pieValues = getPieData(cur_state,0);
         }
         else if(e == '1-month'){
             document.getElementById('beginning').removeAttribute('class');
@@ -462,6 +496,7 @@
             document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-month').removeAttribute('class');
             document.getElementById('1-month').setAttribute("class","btn btn-primary waves-effect waves-light");
+            pieValues = getPieData(cur_state,30);
         }
         else if(e == '1-week'){
             document.getElementById('beginning').removeAttribute('class');
@@ -472,6 +507,7 @@
             document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-week').removeAttribute('class');
             document.getElementById('1-week').setAttribute("class","btn btn-primary waves-effect waves-light");
+            pieValues = getPieData(cur_state,7);
         }
         else if(e == '2-weeks'){
             document.getElementById('beginning').removeAttribute('class');
@@ -482,6 +518,7 @@
             document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('2-weeks').removeAttribute('class');
             document.getElementById('2-weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
+            pieValues = getPieData(cur_state,14);// i need to do a small change in that linechart fn then, give a min
         }
   		document.getElementById("line-confirmed-class").innerHTML = "";
   	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
@@ -494,6 +531,7 @@
   	   	 document.getElementById("pie-chart").innerHTML = "";
 	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
   		lineChart(cur_state,data_cases);
+  		pieChart(pieValues); //sometimes it is soo annoying becuz there is no autofill, lol
    	}
      
      document.getElementById("line-confirmed-class").innerHTML = "";
@@ -506,8 +544,10 @@
      document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
      document.getElementById("pie-chart").innerHTML = "";
 	 document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-     lineChart("total",data_cases);
-     pieChart("India");
+     lineChart("total",data_cases); //data cases from beginning ryt?, yea, then based on the check fn, we will get trimmed data and redraw the charts ok
+     var dataset_val = [tabledata[0]['confirmed'],tabledata[0]['active'],tabledata[0]['recovered'],tabledata[0]['deaths']];
+     pieChart(dataset_val);
+     
      //highlighting the features in map
      function highlightFeature(e) {
          var layer = e.target;
@@ -537,8 +577,15 @@
   	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
          
          cur_state = layer.feature.properties.st_nm;
-         lineChart(layer.feature.properties.st_nm,data_cases);
-
+         lineChart(layer.feature.properties.st_nm,data_cases); 
+         if(status == "1-month")
+        	 pieChart(getPieData(cur_state,30)); 
+         else if(status == "1-week")
+        	 pieChart(getPieData(cur_state,7));
+         else if(status == "2-weeks")
+        	 pieChart(getPieData(cur_state,14));
+         else if(status == "beginning")
+        	 pieChart(getPieData(cur_state,0)); //i think that's all what about reset highlight
          layer.setStyle({
              weight: 5,
              color: '#ff3300',
@@ -578,7 +625,7 @@
        	document.getElementById("span-death").innerHTML = tabledata[0]['deaths'];
        	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
        	//lineChart("total",data_cases);
-       	//pieChart("India");
+       	//pieChart("India"); 
      }
 
      //leaflet zoom feature on click function
@@ -641,18 +688,18 @@
      //generic line chart making function
      function lineChart(state_name,data_cases){
   	   
-  	   var dates = ${dates};
-  	   var dataset_y_confirmed = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-confirmed']):trimData(data_cases["Total"]['y-confirmed']);
+    	
+  	   var dates = ${dates}; //these are the dates u give from server
+  	   var dataset_y_confirmed = trimData(data_cases[state_name]['y-confirmed']);
   	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
-  	   pieChart(state_name);
   	   
-  	   var dataset_y_active = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-active']):trimData(data_cases["Total"]['y-active']);
+  	   var dataset_y_active = trimData(data_cases[state_name]['y-active']);
   	   genericlinechart("line-active",trimData(dates),dataset_y_active,"#0000ff","Active Cases","rgba(0,123,255,.0627451)");
   	   
-  	   var dataset_y_recovered = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-recovered']):trimData(data_cases["Total"]['y-recovered']);
+  	   var dataset_y_recovered = trimData(data_cases[state_name]['y-recovered']);
   	   genericlinechart("line-recovered",trimData(dates),dataset_y_recovered, "#006600","Recovered Cases","rgba(40,167,69,.12549)");
   	   
-  	   var dataset_y_death = data_cases.hasOwnProperty(state_name)?trimData(data_cases[state_name]['y-death']):trimData(data_cases["Total"]['y-death']);
+  	   var dataset_y_death = trimData(data_cases[state_name]['y-death']);
   	   genericlinechart("line-death",trimData(dates),dataset_y_death,"#595959","Death Cases","rgba(108,117,125,.0627451)");
   	   
      }
@@ -737,7 +784,7 @@
   	}
     
      //pie chart
-     function pieChart(state_name){
+     function pieChart(dataset){
     	 var pie_colors = {red: "rgb(255, 99, 132)",
    	    	 orange: "rgb(255, 159, 64)",
    	    		 yellow: "rgb(255, 205, 86)",
@@ -745,23 +792,19 @@
    	    		 blue: "rgb(54, 162, 235)",
    	    		 purple: "rgb(153, 102, 255)",
    	    		 grey: "rgb(201, 203, 207)"}
-    	 var dataset_val;
-    	 if(state_name == "India")
-    		 dataset_val = [tabledata[0]['confirmed'],tabledata[0]['active'],tabledata[0]['recovered'],tabledata[0]['deaths']];
-    	 else{
-    		 for(i in tabledata){
-    			 if(tabledata[i].state == state_name){
-    				 dataset_val = [parseInt(tabledata[i].confirmed),parseInt(tabledata[i].active),parseInt(tabledata[i].recovered),parseInt(tabledata[i].deaths)];
-    			 }
-    		 }
-    	 }
-   	     var piechart = new Chart(document.getElementById("pie-chart-cases"),{
+    	 var dataset_val = dataset;// we will need some variable for getting current state name, so that i can put it here... cur_state is there no as global use that, okay
+   	     var disp_name;
+    	 if(cur_state == "total")
+   	    	 disp_name = "India";
+	     else
+	    	 disp_name = cur_state;
+    	 var piechart = new Chart(document.getElementById("pie-chart-cases"),{
    	    	type: "pie",
    	    	data: {
    	    		labels: ['Confirmed', 'Active', 'Recovered', 'Deaths'],
    	    		datasets:[{
    	    			data: dataset_val,
-   	    			label: 'Cases in '+state_name,
+   	    			label: 'Cases in '+disp_name, //initially is it India?, i will have to pput it as india, first it will be total la
    	    			backgroundColor:[pie_colors.red,pie_colors.blue,pie_colors.green,pie_colors.grey]
    	    		}]
    	    	},
@@ -776,7 +819,7 @@
    	    		},
    	    		title:{
    	    			display: true,
-   	    			text: 'Covid-19 Cases in '+state_name,
+   	    			text: 'Covid-19 Cases in '+disp_name+" ("+status.toUpperCase()+")",
    	    			fontSize: 24,
    	    		},
    	    		animation:{
