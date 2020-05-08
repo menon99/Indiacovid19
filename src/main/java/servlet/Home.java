@@ -54,11 +54,10 @@ public class Home extends HttpServlet {
 			
 			while(k != testingData.length() - 1 && state.equalsIgnoreCase(testingData.getJSONObject(k + 1).getString("state"))) {
 				try {
-				totalTested += Integer.parseInt(testingData.getJSONObject(k + 1).getString("totaltested"));
+				totalTested = Integer.parseInt(testingData.getJSONObject(k + 1).getString("totaltested"));
 				}catch (NumberFormatException e){
 					//
 				}
-				total += totalTested;
 				k++;
 			}
 			
@@ -71,9 +70,11 @@ public class Home extends HttpServlet {
 					break;
 				}
 			}
-			
 			k++;
 		}
+		
+		JSONArray testedIndia = j1.getJSONArray("tested");
+		total = (long) Float.parseFloat(testedIndia.getJSONObject(testedIndia.length() - 1).getString("totalsamplestested"));
 		
 		tabledata.getJSONObject(0).put("tested", total); 
 		
