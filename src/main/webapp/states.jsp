@@ -468,6 +468,37 @@
   	
   	var coords = state_coords_zoom[state_name]['coords'];
   	var zoom = state_coords_zoom[state_name]['zoom'];
+  	const getPieData  = (num) =>{
+		
+		let l = data_cases["y-confirmed"].length;
+		let A = data_cases["y-confirmed"][l-1];
+		let B = 0;
+		if(num != 0)
+			B = data_cases["y-confirmed"][l - num];
+		const confirmed = A - B;
+		l = data_cases["y-active"].length;
+		A = data_cases["y-active"][l-1];
+		if (num == 0)
+			B = 0;
+		else
+			B = data_cases["y-active"][l - num];
+		const active = A - B;
+		l = data_cases["y-recovered"].length;
+		A = data_cases["y-recovered"][l-1];
+		if (num == 0)
+			B = 0;
+		else
+			B = data_cases["y-recovered"][l - num];
+		const recovered = A - B;
+		l = data_cases["y-death"].length;
+		A = data_cases["y-death"][l-1];
+		if (num == 0)
+			B = 0;
+		else
+			B = data_cases["y-death"][l - num];
+		const death = A - B;
+		return [confirmed,active,recovered,death]; 
+	}
   	
   	function check(e){
   		status = e;
@@ -522,6 +553,18 @@
   	   document.getElementById("pie-chart").innerHTML = "";
 	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
   		lineChart(data_cases);
+  		if(status == "beginning"){
+   		 dataset_val = getPieData(0);
+	   	 }
+	   	 else if(status == "1-month"){
+	   		 dataset_val = getPieData(30);
+	   	 }
+	   	 else if(status == "2-weeks"){
+	   		 dataset_val = getPieData(14);
+	   	 }
+	   	 else if(status == "1-week"){
+	   		 dataset_val = getPieData(7);
+	   	 }
   		pieChart(state_name);
    	}
   	var map = L.map('map',{
@@ -1112,38 +1155,6 @@
      	});
      });
      
-     const getPieData  = (num) =>{
-    		
-    		let l = data_cases["y-confirmed"].length;
-    		let A = data_cases["y-confirmed"][l-1];
-    		let B = 0;
-    		if(num != 0)
-    			B = data_cases["y-confirmed"][l - num];
-    		const confirmed = A - B;
-    		l = data_cases["y-active"].length;
-    		A = data_cases["y-active"][l-1];
-    		if (num == 0)
-    			B = 0;
-    		else
-    			B = data_cases["y-active"][l - num];
-    		const active = A - B;
-    		l = data_cases["y-recovered"].length;
-    		A = data_cases["y-recovered"][l-1];
-    		if (num == 0)
-    			B = 0;
-    		else
-    			B = data_cases["y-recovered"][l - num];
-    		const recovered = A - B;
-    		l = data_cases["y-death"].length;
-    		A = data_cases["y-death"][l-1];
-    		if (num == 0)
-    			B = 0;
-    		else
-    			B = data_cases["y-death"][l - num];
-    		const death = A - B;
-    		return [confirmed,active,recovered,death]; 
-    	}
-     
      function pieChart(district_name){
     	 var pie_colors = {red: "rgb(255, 99, 132)",
    	    	 orange: "rgb(255, 159, 64)",
@@ -1162,18 +1173,6 @@
     				 dataset_val = [parseInt(tabledata[i].confirmed),parseInt(tabledata[i].active),parseInt(tabledata[i].recovered),parseInt(tabledata[i].deceased)];
     			 }
     		 }
-    	 }
-    	 if(status == "beginning"){
-    		 dataset_val = getPieData(0);
-    	 }
-    	 else if(status == "1-month"){
-    		 dataset_val = getPieData(30);
-    	 }
-    	 else if(status == "2-weeks"){
-    		 dataset_val = getPieData(14);
-    	 }
-    	 else if(status == "1-week"){
-    		 dataset_val = getPieData(7);
     	 }
     	 console.log(dataset_val);
    	     var piechart = new Chart(document.getElementById("pie-chart-cases"),{
