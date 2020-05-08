@@ -294,7 +294,7 @@
 	 	rowClick: function(e,row){
 	 		 document.getElementById("pie-chart").innerHTML = "";
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-	  	   	 pieChart(row._row.data.district);
+	  	   	 pieChart(row._row.data.district,[]);
 	  	   $('html, body').animate({
 		         scrollTop: $("#pie-chart").offset().top
 		     }, 1000);
@@ -302,7 +302,7 @@
 	 	rowTap: function(e,row){
 	 		 document.getElementById("pie-chart").innerHTML = "";
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-	  	     pieChart(row._row.data.district);
+	  	     pieChart(row._row.data.district,[]);
 	  	   $('html, body').animate({
 		         scrollTop: $("#pie-chart").offset().top
 		     }, 1000);
@@ -499,7 +499,7 @@
 		const death = A - B;
 		return [confirmed,active,recovered,death]; 
 	}
-  	
+  	var dataset_val;
   	function check(e){
   		status = e;
   		if(e == 'beginning'){
@@ -511,6 +511,7 @@
             document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('beginning').removeAttribute('class');
             document.getElementById('beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
+            dataset_val = getPieData(0);
         }
         else if(e == '1-month'){
             document.getElementById('beginning').removeAttribute('class');
@@ -521,6 +522,7 @@
             document.getElementById('1-week').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-month').removeAttribute('class');
             document.getElementById('1-month').setAttribute("class","btn btn-primary waves-effect waves-light");
+            dataset_val = getPieData(30);
         }
         else if(e == '1-week'){
             document.getElementById('beginning').removeAttribute('class');
@@ -531,6 +533,7 @@
             document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('1-week').removeAttribute('class');
             document.getElementById('1-week').setAttribute("class","btn btn-primary waves-effect waves-light");
+            dataset_val = getPieData(7);
         }
         else if(e == '2-weeks'){
             document.getElementById('beginning').removeAttribute('class');
@@ -541,6 +544,7 @@
             document.getElementById('1-month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('2-weeks').removeAttribute('class');
             document.getElementById('2-weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
+            dataset_val = getPieData(14);
         }
   		document.getElementById("line-confirmed-class").innerHTML = "";
   	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
@@ -553,19 +557,8 @@
   	   document.getElementById("pie-chart").innerHTML = "";
 	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
   		lineChart(data_cases);
-  		if(status == "beginning"){
-   		 dataset_val = getPieData(0);
-	   	 }
-	   	 else if(status == "1-month"){
-	   		 dataset_val = getPieData(30);
-	   	 }
-	   	 else if(status == "2-weeks"){
-	   		 dataset_val = getPieData(14);
-	   	 }
-	   	 else if(status == "1-week"){
-	   		 dataset_val = getPieData(7);
-	   	 }
-  		pieChart(state_name);
+  		console.log(dataset_val)
+  		pieChart(state_name,dataset_val);
    	}
   	var map = L.map('map',{
    	   center:coords, 
@@ -680,7 +673,7 @@
          else{
         	 document.getElementById("pie-chart").innerHTML = "";
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-        	 pieChart(e.target.feature.properties.district);
+        	 pieChart(e.target.feature.properties.district,[]);
          }
 
          layer.setStyle({
@@ -1155,7 +1148,7 @@
      	});
      });
      
-     function pieChart(district_name){
+     function pieChart(district_name,dataset){
     	 var pie_colors = {red: "rgb(255, 99, 132)",
    	    	 orange: "rgb(255, 159, 64)",
    	    		 yellow: "rgb(255, 205, 86)",
@@ -1166,7 +1159,7 @@
     	 var dataset_val;
     	 console.log(tabledata);
     	 if(district_name == state_name)
-    		 dataset_val = [tabledata[tabledata.length-1]['confirmed'],tabledata[tabledata.length-1]['active'],tabledata[tabledata.length-1]['recovered'],tabledata[tabledata.length-1]['deceased']];
+    		 dataset_val = dataset;
     	 else{
     		 for(i in tabledata){
     			 if(tabledata[i].district == district_name){
@@ -1212,7 +1205,7 @@
      }
      document.getElementById("pie-chart").innerHTML = "";
 	 document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-     pieChart(state_name);
+     pieChart(state_name,getPieData(0));
   </script>
 </body>
 </html>
