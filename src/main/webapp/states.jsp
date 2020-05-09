@@ -299,14 +299,7 @@
 		         scrollTop: $("#pie-chart").offset().top
 		     }, 1000);
 	 	},
-	 	rowTap: function(e,row){
-	 		 document.getElementById("pie-chart").innerHTML = "";
-	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-	  	     pieChart(row._row.data.district,[]);
-	  	   $('html, body').animate({
-		         scrollTop: $("#pie-chart").offset().top
-		     }, 1000);
-	 	}});
+	 	});
   	document.getElementById("span-static-confirmed").innerHTML = tabledata[tabledata.length-1]['confirmed']==null?0:tabledata[tabledata.length-1]['confirmed'];
 	document.getElementById("span-static-active").innerHTML = tabledata[tabledata.length-1]['active']==null?0:tabledata[tabledata.length-1]['active'];
 	document.getElementById("span-static-recovered").innerHTML = tabledata[tabledata.length-1]['recovered']==null?0:tabledata[tabledata.length-1]['recovered'];
@@ -398,7 +391,7 @@
  			    },
  			"Madhya Pradesh" : {
  			    "coords": [23.23377298325595,78.211669921875],
- 			    "zoom": 6
+ 			    "zoom": 6.5
  			    },
  			"Maharashtra" : {
  			    "coords": [19.145168196205297,77],
@@ -458,7 +451,7 @@
  			    },
  			"Uttar Pradesh" : {
  			    "coords": [26.88288045572338,80.74951171875],
- 			    "zoom": 6
+ 			    "zoom": 6.5
  			    },
  			"West Bengal" : {
  			    "coords": [23.8,88.077392578125],
@@ -557,12 +550,12 @@
   	   document.getElementById("pie-chart").innerHTML = "";
 	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
   		lineChart(data_cases);
-  		console.log(dataset_val)
   		pieChart(state_name,dataset_val);
    	}
   	var map = L.map('map',{
    	   center:coords, 
    	   zoom:zoom, 
+   	   zoomSnap: 0.25,
    	   scrollWheelZoom: false
    	   });
   	map.dragging.disable();
@@ -669,6 +662,7 @@
     		 document.getElementById("span-active").innerHTML = "0";
     		 document.getElementById("span-recovered").innerHTML = "0";
     		 document.getElementById("span-death").innerHTML = "0";
+    		 console.log(e.target.feature.properties.district);
     	 }
          else{
         	 document.getElementById("pie-chart").innerHTML = "";
@@ -1025,16 +1019,20 @@
                  datasets: [{
                      label: "Min",
                      backgroundColor: 'rgba(211,211,211,  0.2)',
-                     borderColor: 'rgba(211,211,211, 0.2)',
-                     pointBackgroundColor: 'rgba(211,211,211, 0.2)',
+                     borderColor: '#d9d9d9',
+                     pointBackgroundColor: '#d9d9d9',
+                     pointRadius: 1,
+      				 pointRadiusOnHover: 2,
                      fill: false,  //no fill here
                      data: data.low,
                  },
                  {
                      label: "Max",
                      backgroundColor: 'rgba(211,211,211, 0.2)',
-                     borderColor: 'rgba(211,211,211, 0.2)',
-                     pointBackgroundColor: 'rgba(211,211,211, 0.2)',
+                     borderColor: '#d9d9d9',
+                     pointBackgroundColor: '#d9d9d9',
+                     pointRadius: 1,
+      				 pointRadiusOnHover: 1,
                      fill: '-1', //fill until previous dataset
                      data: data.high,
                  },
@@ -1157,7 +1155,6 @@
    	    		 purple: "rgb(153, 102, 255)",
    	    		 grey: "rgb(201, 203, 207)"}
     	 var dataset_val;
-    	 console.log(tabledata);
     	 if(district_name == state_name)
     		 dataset_val = dataset;
     	 else{
@@ -1167,7 +1164,6 @@
     			 }
     		 }
     	 }
-    	 console.log(dataset_val);
    	     var piechart = new Chart(document.getElementById("pie-chart-cases"),{
    	    	type: "pie",
    	    	data: {

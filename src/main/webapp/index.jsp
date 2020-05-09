@@ -322,34 +322,6 @@
 		     }, 1000);
 		    e.preventDefault(); // prevent the browsers default context menu form appearing.
 		    },
-		rowTap:function(e,row){
-			document.getElementById("line-confirmed-class").innerHTML = "";
-	  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
-	  	     document.getElementById("line-active-class").innerHTML = "";
-	  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
-	  	     document.getElementById("line-recovered-class").innerHTML = "";
-	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
-	  	     document.getElementById("line-death-class").innerHTML = "";
-	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-	  	   	 document.getElementById("pie-chart").innerHTML = "";
-	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-	  	   document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
-			lineChart(row._row.data.state,data_cases);
-			cur_state = row._row.data.state;
-			if(status == "1-Month")
-	        	 pieChart(getPieData(row._row.data.state,30)); 
-	         else if(status == "1-Week")
-	        	 pieChart(getPieData(row._row.data.state,7));
-	         else if(status == "2-Weeks")
-	        	 pieChart(getPieData(row._row.data.state,14));
-	         else if(status == "Beginning")
-	        	 pieChart(getPieData(row._row.data.state,0));
-	  	 $('html, body').animate({
-	         scrollTop: $("#pie-chart").offset().top
-	     }, 1000);
-	  	 //document.getElementById("line-confirmed").scrollIntoView();
-			e.preventDefault();
-		}
   	});
  	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
  	document.getElementById("span-static-active").innerHTML = tabledata[0]['active'];
