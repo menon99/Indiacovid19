@@ -975,7 +975,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 382,
-          "district": "Jajapur",
+          "district": "Jajpur",
           "st_code": 21,
           "year": "2011_c",
           "st_nm": "Odisha"
@@ -7601,7 +7601,7 @@
         "type": "Feature",
         "properties": {
           "dt_code": 380,
-          "district": "Jagatsinghapur",
+          "district": "Jagatsinghpur",
           "st_code": 21,
           "year": "2011_c",
           "st_nm": "Odisha"
