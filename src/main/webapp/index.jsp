@@ -278,6 +278,70 @@
   var json = ${india};
   var status = "Beginning";
  	var cur_state = "total";
+ 	var rowclickfunc = (e, row)=> {
+    	document.getElementById("line-confirmed-class").innerHTML = "";
+ 	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
+ 	     document.getElementById("line-active-class").innerHTML = "";
+ 	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
+ 	     document.getElementById("line-recovered-class").innerHTML = "";
+ 	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
+ 	     document.getElementById("line-death-class").innerHTML = "";
+ 	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
+ 	   	 document.getElementById("pie-chart").innerHTML = "";
+ 	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
+ 	   
+ 	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
+ 	     console.log("desktop");
+ 	     cur_state = row._row.data.state;
+		 lineChart(row._row.data.state,data_cases);
+		 if(status == "1-Month")
+       	 pieChart(getPieData(row._row.data.state,30)); 
+        else if(status == "1-Week")
+       	 pieChart(getPieData(row._row.data.state,7));
+        else if(status == "2-Weeks")
+       	 pieChart(getPieData(row._row.data.state,14));
+        else if(status == "Beginning")
+       	 pieChart(getPieData(row._row.data.state,0));
+ 	   //document.getElementById("line-confirmed-class").scrollIntoView();
+	  	 $('html, body').animate({
+	         scrollTop: $("#trend-chart-title").offset().top
+	     }, 1000);
+	    e.preventDefault();
+    }
+ 	function resizefunc(){
+	  	if(screen.width<900){
+	  		  document.getElementById("contentbox").removeAttribute("class");
+	            document.getElementById("mapbox").removeAttribute("class");
+	            coords = [23,82.1];
+	            document.getElementById("contentbox").setAttribute("class","col-sm-12");
+	            document.getElementById("mapbox").setAttribute("class","col-sm-12");
+	            document.getElementById("mapbox").style.marginTop = "7%";
+	            document.getElementById("covid-table").style.marginLeft = "-10%";
+	            document.getElementById("map").style.marginLeft = "5%";
+	            document.getElementById("info").style.marginLeft = "10%";
+	            document.getElementById("table-content").style.marginLeft = "10%";
+	            document.getElementById("table-note").style.display = 'none';
+	            document.getElementById("main-title").style.textAlign = 'left';
+	            document.getElementById("contentbox").removeAttribute("style");
+	            //document.getElementById("covid-table").style.marginRight = "10%";
+	            //document.getElementById("timeline-charts").removeAttribute("style");
+	            //document.getElementById("timeline-charts").style.marginTop = "3%";
+	            //document.getElementById("timeline-charts").style.marginLeft = "35%";
+	            //document.getElementById("1-Week").style.marginLeft = "35%";
+	            // document.getElementById("timeline-charts").style.transform = "translate(152%,0)";
+	            document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
+	            document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
+	            document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
+	            //document.getElementById("analysis-title").style.transform = "translate(50%,0)";
+	            //document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
+	            //document.getElementById("analysis-sub-title").style.marginTop = '7%';
+	            //document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
+	            //map.dragging.enable();
+	  	}
+	  	else{
+	  		document.getElementById("table-note").style.display = 'block';
+	  	}
+	    }
   
   var table = new Tabulator("#covid-table", {
 	  	height: 1450,
@@ -291,37 +355,10 @@
 		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	],
-	    rowClick:function(e, row){
-		    //e - the click event object
-		    //row - row component
-		    document.getElementById("line-confirmed-class").innerHTML = "";
-	  	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
-	  	     document.getElementById("line-active-class").innerHTML = "";
-	  	     document.getElementById("line-active-class").innerHTML = "<canvas id = 'line-active'></canvas>";
-	  	     document.getElementById("line-recovered-class").innerHTML = "";
-	  	     document.getElementById("line-recovered-class").innerHTML = "<canvas id = 'line-recovered'></canvas>";
-	  	     document.getElementById("line-death-class").innerHTML = "";
-	  	     document.getElementById("line-death-class").innerHTML = "<canvas id = 'line-death'></canvas>";
-	  	   	 document.getElementById("pie-chart").innerHTML = "";
-	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
-	  	   
-	  	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
-	  	     cur_state = row._row.data.state;
-			 lineChart(row._row.data.state,data_cases);
-			 if(status == "1-Month")
-	        	 pieChart(getPieData(row._row.data.state,30)); 
-	         else if(status == "1-Week")
-	        	 pieChart(getPieData(row._row.data.state,7));
-	         else if(status == "2-Weeks")
-	        	 pieChart(getPieData(row._row.data.state,14));
-	         else if(status == "Beginning")
-	        	 pieChart(getPieData(row._row.data.state,0));
-	  	   //document.getElementById("line-confirmed-class").scrollIntoView();
-		  	 $('html, body').animate({
-		         scrollTop: $("#trend-chart-title").offset().top
-		     }, 1000);
-		    e.preventDefault(); // prevent the browsers default context menu form appearing.
-		    },
+	    rowClick:rowclickfunc,
+	    rowTap: (e,row) => {
+	    	e.preventDefault();
+	    }
   	});
  	document.getElementById("span-static-confirmed").innerHTML = tabledata[0]['confirmed'];
  	document.getElementById("span-static-active").innerHTML = tabledata[0]['active'];
@@ -342,38 +379,6 @@
   	   zoom:4.75, 
   	   scrollWheelZoom: false
   	   });
-  		
-     function resizefunc(){
-    	  	if(screen.width<900){
-    	  		  document.getElementById("contentbox").removeAttribute("class");
-    	            document.getElementById("mapbox").removeAttribute("class");
-    	            coords = [23,82.1];
-    	            document.getElementById("contentbox").setAttribute("class","col-sm-12");
-    	            document.getElementById("mapbox").setAttribute("class","col-sm-12");
-    	            document.getElementById("mapbox").style.marginTop = "7%";
-    	            document.getElementById("covid-table").style.marginLeft = "-10%";
-    	            document.getElementById("map").style.marginLeft = "5%";
-    	            document.getElementById("info").style.marginLeft = "10%";
-    	            document.getElementById("table-content").style.marginLeft = "10%";
-    	            document.getElementById("table-note").style.textAlign = 'center';
-    	            document.getElementById("main-title").style.textAlign = 'left';
-    	            document.getElementById("contentbox").removeAttribute("style");
-    	            //document.getElementById("covid-table").style.marginRight = "10%";
-    	            //document.getElementById("timeline-charts").removeAttribute("style");
-    	            //document.getElementById("timeline-charts").style.marginTop = "3%";
-    	            //document.getElementById("timeline-charts").style.marginLeft = "35%";
-    	            //document.getElementById("1-Week").style.marginLeft = "35%";
-    	            // document.getElementById("timeline-charts").style.transform = "translate(152%,0)";
-    	            document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
-    	            document.getElementsByClassName("info legend leaflet-control")[0].style.width = "110%";
-    	            document.getElementsByClassName("info legend leaflet-control")[0].style.fontSize = "16px";
-    	            //document.getElementById("analysis-title").style.transform = "translate(50%,0)";
-    	            //document.getElementById("analysis-sub-title").style.transform = "translate(-30%, 0)";
-    	            //document.getElementById("analysis-sub-title").style.marginTop = '7%';
-    	            //document.getElementById("arima-graph-title").style.transform = "translate(100%,0)";
-    	            //map.dragging.enable();
-    	  	}
-    	    }
     	    
      //updating json data to the map
      var geojson = L.geoJson(json, {

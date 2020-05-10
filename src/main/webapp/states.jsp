@@ -291,7 +291,7 @@
 		 	{title:"Deaths", field:"deceased",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
 	 	],
-	 	rowClick: function(e,row){
+	 	rowClick: (e,row) => {
 	 		 document.getElementById("pie-chart").innerHTML = "";
 	  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
 	  	   	 pieChart(row._row.data.district,[]);
@@ -299,6 +299,9 @@
 		         scrollTop: $("#pie-chart").offset().top
 		     }, 1000);
 	 	},
+	 	rowTap: (e, row) => {
+	 		e.preventDefault();
+	 	}
 	 	});
   	document.getElementById("span-static-confirmed").innerHTML = tabledata[tabledata.length-1]['confirmed']==null?0:tabledata[tabledata.length-1]['confirmed'];
 	document.getElementById("span-static-active").innerHTML = tabledata[tabledata.length-1]['active']==null?0:tabledata[tabledata.length-1]['active'];
