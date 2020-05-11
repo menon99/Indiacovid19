@@ -92,7 +92,7 @@
 		border-radius:10px;
 	}
 	
-	#confirmed-cases-block:hover,#active-cases-block:hover,#recovered-cases-block:hover,#death-cases-block:hover{
+	#confirmed-cases-block:hover,#active-cases-block:hover,#recovered-cases-block:hover,#death-cases-block:hover,#tested-cases-block:hover{
 		cursor: pointer;
 	}
 
@@ -143,7 +143,7 @@
 						    <h5 id = "death-cases-title" style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
 						    <h5 id = "span-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div id = "tested-cases-block" class = "col-sm-3" style = "height: 80px; padding:1%; opacity: 1; background-color: rgba(32,26,162,.12549); border-radius: 10px; margin-top: 3%">
+						<div id = "tested-cases-block" class = "col-sm-3" style = "height: 80px; padding:1%; opacity: 1; background-color: rgba(32,26,162,.12549); border-radius: 10px; margin-top: 3%" onclick = "caseStatusUpdate('tested', this)">
 						    <h5 id = "tested-cases-title" style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
 						    <h5 id = "span-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 						</div>
@@ -420,6 +420,7 @@
    		 	document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+			document.getElementById("tested-cases-block").setAttribute("class","col-sm-3");
    		}
    		else if(e == "active"){
    			f.setAttribute("class","col-sm-4");
@@ -436,6 +437,7 @@
       		document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
    			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
    			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+   			document.getElementById("tested-cases-block").setAttribute("class","col-sm-3");
    		}
    		else if(e == "recovered"){
    			f.setAttribute("class","col-sm-4");
@@ -452,6 +454,7 @@
    		 	document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+			document.getElementById("tested-cases-block").setAttribute("class","col-sm-3");
    		}
    		else if(e == "death"){
    			f.setAttribute("class","col-sm-3");
@@ -469,6 +472,23 @@
    			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
    			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
    		 	document.getElementById("tested-cases-block").setAttribute("class","col-sm-3");
+   		}
+   		else if(e == "tested"){
+   			f.setAttribute("class","col-sm-4");
+   			f.style.height = '100px';
+   		 	document.getElementById("tested-cases-title").style.marginTop = "3%";
+   		 	document.getElementById("active-cases-title").style.marginTop = "0%";
+   			document.getElementById("confirmed-cases-title").style.marginTop = "0%";
+   			document.getElementById("recovered-cases-title").style.marginTop = "0%";
+   			document.getElementById("death-cases-title").style.marginTop = "0%";
+   			document.getElementById("active-cases-block").style.height = "80px";
+   		 	document.getElementById("confirmed-cases-block").style.height = "80px";
+   		 	document.getElementById("recovered-cases-block").style.height = "80px";
+   		 	document.getElementById("death-cases-block").style.height = "80px";
+   			document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
+   			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
+   			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
+   		 	document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
    		}
     	 map = L.map('map',{
     	  	   center:coords,
@@ -566,6 +586,27 @@
      	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
      	         }
      		}
+     		else if(case_status == "tested"){
+     			var max_confirmed=0;
+    	    	 for(i in tabledata.slice(1,tabledata.length)){
+    	    		 if(max_confirmed<parseInt(tabledata[i].tested))
+    	    			 max_confirmed = parseInt(tabledata[i].tested);
+    	    	 }
+    	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+    	    	 var x = Math.log10(max_confirmed);
+    	    	 x=parseInt(x);
+    	    	 var y=5**x;
+    	         var div = L.DomUtil.create('div', 'info legend'),
+    	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+    	             labels = [];
+
+    	         // loop through our density intervals and generate a label with a colored square for each interval
+    	         for (var i = 0; i < grades.length; i++) {
+    	             div.innerHTML +=
+    	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+    	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+    	         }
+     		}
 
               return div;
           };
@@ -654,6 +695,26 @@
 	             d > y  ? '#d9d9d9' :
 	                         '#f2f2f2';
     	 }
+    	 else if(case_status == "tested"){
+    		 var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].tested))
+	    			 max_confirmed = parseInt(tabledata[i].tested);
+	    	 }
+	    	 
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	    	 
+	         return d > 7*y ? '#330066' :
+	             d > 6*y  ? '#400080' :
+	             d > 5*y  ? '#5900b3' :
+	             d > 4*y  ? '#7300e6' :
+	             d > 3*y   ? '#8c1aff' :
+	             d > 2*y   ? '#a64dff' :
+	             d > y  ? '#bf80ff' :
+	                         '#d9b3ff';
+    	 }
      }
 
      //styling map
@@ -684,6 +745,13 @@
     		 for(i in tabledata){
         		 if(tabledata[i].state == features.properties.st_nm){
         	 		color = parseInt(tabledata[i].deaths);
+        		 }
+        	 }
+    	 }
+    	 else if(case_status == "tested"){
+    		 for(i in tabledata){
+        		 if(tabledata[i].state == features.properties.st_nm){
+        	 		color = parseInt(tabledata[i].tested);
         		 }
         	 }
     	 }
