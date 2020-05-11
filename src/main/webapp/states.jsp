@@ -37,6 +37,7 @@
   
   <!--  Styles  -->
   <link rel = "stylesheet" href = "<c:url value="/resources/css/index.css" />">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
   
   <style>
   html,body{
@@ -143,6 +144,13 @@
 						    <h5 id = "span-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 						</div>
 					</div>
+				</div>
+				<div class = "row animated fadeInLeft" style = "font-weight: 500; text-align: center; margin-top: 3%; margin-bottom:2%; font-family: 'Source Sans Pro', sans-serif;">
+					<div class = "col-sm-2"></div>
+					<div class = "col-sm-8">
+						<button id = "containment-button" class = "btn btn-outline-danger" onclick = "caseStatusUpdate('containment',this)" style = "font-weight: 500;"><span style = "font-size: 20px;">View Containment Zones</span></button>
+					</div>
+					<div class = "col-sm-2"></div>
 				</div>
 				<div class = "row" id = "map-holder">
 					<div class = "animated fadeInLeft" id = "map" style = "margin-top: 5%;"></div>
@@ -296,6 +304,7 @@
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deceased",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
+		 	{title:"Zone", field:"zone",hozAlign:"center",width:100},
 	 	],
 	 	rowClick: (e,row) => {
 	 		 document.getElementById("pie-chart").innerHTML = "";
@@ -630,6 +639,7 @@
   		 	document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+			document.getElementById("containment-button").setAttribute("class","btn btn-outline-danger");
   		}
   		else if(e == "active"){
   			f.setAttribute("class","col-sm-4");
@@ -644,6 +654,7 @@
      		document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
   			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
   			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+  			document.getElementById("containment-button").setAttribute("class","btn btn-outline-danger");
   		}
   		else if(e == "recovered"){
   			f.setAttribute("class","col-sm-4");
@@ -658,6 +669,7 @@
   		 	document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
 			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+			document.getElementById("containment-button").setAttribute("class","btn btn-outline-danger");
   		}
   		else if(e == "death"){
   			f.setAttribute("class","col-sm-3");
@@ -672,6 +684,21 @@
   			document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
   			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
   			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
+  			document.getElementById("containment-button").setAttribute("class","btn btn-outline-danger");
+  		}
+  		else if(e == "containment"){
+  			document.getElementById("active-cases-title").style.marginTop = "0%";
+  		 	document.getElementById("recovered-cases-title").style.marginTop = "0%";
+  			document.getElementById("confirmed-cases-title").style.marginTop = "0%";
+  			document.getElementById("death-cases-title").style.marginTop = "0%";
+  		 	document.getElementById("confirmed-cases-block").style.height = "80px";
+  		 	document.getElementById("active-cases-block").style.height = "80px";
+  		 	document.getElementById("recovered-cases-block").style.height = "80px";
+  		 	document.getElementById("death-cases-block").style.height = "80px";
+     		document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
+  			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
+  			document.getElementById("death-cases-block").setAttribute("class","col-sm-3");
+  			f.setAttribute("class","btn btn-danger");
   		}
    	 map = L.map('map',{
    	  	   center:coords,
@@ -765,6 +792,18 @@
     	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
     	         }
     		}
+    		else if(case_status == "containment"){
+    			var div = L.DomUtil.create('div', 'info legend'),
+	             grades = [],
+	             labels = ['Green','Orange','Red'];
+
+	         // loop through our density intervals and generate a label with a colored square for each interval
+	         for (var i = 0; i < grades.length; i++) {
+	             div.innerHTML +=
+	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+	         }
+    		}
 
              return div;
          };
@@ -853,11 +892,20 @@
 	             d > y  ? '#d9d9d9' :
 	                         '#f2f2f2';
     	 }
+    	 else if(case_status == "containment"){
+    		 if(d == "Orange")
+    			 return '#FF9933';
+    		 else if(d == "Red")
+    			 return "#DC143C";
+    		 else
+    			 return "#228B22";
+    	 }
      }
 
      //styling map
      function style(features) {
     	 var color;
+    	 var opacity = 0.7;
     	 if(case_status == "confirmed"){
     		 for(i in tabledata){
         		 if(tabledata[i].district == features.properties.district){
@@ -886,13 +934,21 @@
         		 }
         	 }
     	 }
+    	 else if(case_status == "containment"){
+    		 for(i in tabledata){
+        		 if(tabledata[i].district == features.properties.district){
+        	 		color = tabledata[i].zone;
+        		 }
+        	 }
+    		 opacity = 1;
+    	 }
          return {
              fillColor: getColor(color),
              weight: 2,
              opacity: 1,
              color: 'white',
              dashArray: '3',
-             fillOpacity: 0.7
+             fillOpacity: opacity
          };
      }
 	

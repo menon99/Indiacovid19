@@ -155,7 +155,7 @@
 				<div class = "row">
 					<div class = "col-sm-4"></div>
 					<div class = "col-sm-4">
-						<h5 style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Note: Click/Touch on a state to view respective District Map</h5>
+						<h5 class = "animated fadeInLeft" style = "font-family: 'Source Sans Pro', sans-serif; text-align: center;">Note: Click/Touch on a state to view respective District Map</h5>
 					</div>
 					<div class = "col-sm-4"></div>
 				</div>
@@ -225,7 +225,7 @@
 				</div>
 				<div class ="col-sm-1"></div>
 			</div>
-			<div id = "table-note" class = "animate fadeInLeft " style = "width: 100%; margin-top: 2%;">
+			<div id = "table-note" class = "animated fadeInLeft" style = "width: 100%; margin-top: 2%;">
 				<h5 style = "font-family: 'Source Sans Pro', sans-serif;">Note: Click on a state to view respective trend charts</h5>
 			</div>
 		</div>
