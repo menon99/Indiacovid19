@@ -91,6 +91,10 @@
 	.tabulator-col.tabulator-sortable, .tabulator-cell{
 		border-radius:10px;
 	}
+	
+	#confirmed-cases-block:hover,#active-cases-block:hover,#recovered-cases-block:hover,#death-cases-block:hover{
+		cursor: pointer;
+	}
 
   </style>
   
@@ -123,29 +127,31 @@
 					</div>
 					<h2 style = "font-family: 'Source Sans Pro', sans-serif; font-size: 35px; padding: 2%; text-align: center;" id = "stateid">Hover over a State</h2>
 					<div class= "row" style = "padding: 1%;">
-						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; margin-right: 5%">
-						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
+						<div id = "confirmed-cases-block" class = "col-sm-4" style = "height: 100px; padding:1%; opacity: 1; background-color: rgba(255,7,58,.12549); border-radius: 10px; margin-right: 5%" onclick = "caseStatusUpdate('confirmed', this)">
+						    <h5 id = "confirmed-cases-title" style = "margin-top: 3%; font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
 						    <h5 id = "span-confirmed"  style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px; margin-right: 5%">
-						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
+						<div id = "active-cases-block" class = "col-sm-3" style = "height: 80px; padding:1%; opacity: 1; background-color: rgba(0,123,255,.0627451); border-radius: 10px; margin-right: 5%" onclick = "caseStatusUpdate('active', this)">
+						    <h5 id = "active-cases-title" style = "font-family: 'Source Sans Pro', sans-serif; color:#000066; text-align: center; font-weight: bold; font-size: 22px;">Active </h5>
 						    <h5 id = "span-active"  style = "font-family: 'Source Sans Pro', sans-serif; color: #000066; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div class = "col-sm-3" style = "opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px;">
-						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
+						<div id = "recovered-cases-block" class = "col-sm-3" style = "height: 80px; padding:1%; opacity: 1; background-color: rgba(40,167,69,.12549); border-radius: 10px;" onclick = "caseStatusUpdate('recovered', this)">
+						    <h5 id = "recovered-cases-title" style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-weight: bold; font-size: 23px;">Recovered </h5>
 						    <h5 id = "span-recovered"  style = "font-family: 'Source Sans Pro', sans-serif; color: #006600; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div class = "col-sm-2" style = "opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px; margin-top: 3%; margin-right: 5%; margin-left: 20%;">
-						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
+						<div id = "death-cases-block" class = "col-sm-2" style = "height: 80px; padding:1%; opacity: 1; background-color: rgba(108,117,125,.0627451); border-radius: 10px; margin-top: 3%; margin-right: 5%; margin-left: 20%;" onclick = "caseStatusUpdate('death', this)">
+						    <h5 id = "death-cases-title" style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-weight: bold; font-size: 23px;">Death </h5>
 						    <h5 id = "span-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 						</div>
-						<div class = "col-sm-4" style = "opacity: 1; background-color: rgba(32,26,162,.12549); border-radius: 10px; margin-top: 3%">
-						    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
+						<div id = "tested-cases-block" class = "col-sm-3" style = "height: 80px; padding:1%; opacity: 1; background-color: rgba(32,26,162,.12549); border-radius: 10px; margin-top: 3%">
+						    <h5 id = "tested-cases-title" style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
 						    <h5 id = "span-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 						</div>
 					</div>
 				</div>
-				<div class = "animated fadeInLeft" id = "map" style = "margin-top: 5%;"></div>
+				<div class = "row" id = "map-holder">
+					<div class = "animated fadeInLeft" id = "map" style = "margin-top: 5%;"></div>
+				</div>
 				<div class = "row">
 					<div class = "col-sm-4"></div>
 					<div class = "col-sm-4">
@@ -372,7 +378,7 @@
   	document.getElementById("span-testing").innerHTML = tabledata[0]['tested'];
   	
   	var coords = [20.5, 82.7015625];
-    
+  	var case_status = "confirmed";
      var map = L.map('map',{
   	   center:coords,
   	   zoomSnap: 0.25,
@@ -381,41 +387,305 @@
   	   });
     	    
      //updating json data to the map
-     var geojson = L.geoJson(json, {
+     var geojson =  L.geoJson(json, {
          style: style,
          onEachFeature: onEachFeature
      });
-     geojson.addTo(map);
+     geojson.addTo(map);;
      map.dragging.disable();
-     var info;
+     
+     //legend variable
+     var legend = L.control({position: 'bottomright'});
+     
+     
+     function caseStatusUpdate(e,f){
+    	 document.getElementById("map-holder").innerHTML = "";
+    	 document.getElementById("map-holder").innerHTML = '<div class = "animated fadeInLeft" id = "map" style = "margin-top: 5%;"></div>';
+    	 if(screen.width<900){
+    		 document.getElementById("map").style.marginLeft = "5%";
+    	 }
+    	 case_status = e;
+    	 if(e == "confirmed"){
+   		 	f.setAttribute("class","col-sm-4");
+   		 	f.style.height = '100px';
+   		 	document.getElementById("confirmed-cases-title").style.marginTop = "3%";
+	   		document.getElementById("active-cases-title").style.marginTop = "0%";
+   			document.getElementById("recovered-cases-title").style.marginTop = "0%";
+   			document.getElementById("death-cases-title").style.marginTop = "0%";
+   			document.getElementById("tested-cases-title").style.marginTop = "0%";
+   		 	document.getElementById("active-cases-block").style.height = "80px";
+   		 	document.getElementById("recovered-cases-block").style.height = "80px";
+   		 	document.getElementById("death-cases-block").style.height = "80px";
+		 	document.getElementById("tested-cases-block").style.height = "80px";
+   		 	document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
+			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
+			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+   		}
+   		else if(e == "active"){
+   			f.setAttribute("class","col-sm-4");
+   			f.style.height = '100px';
+   		 	document.getElementById("active-cases-title").style.marginTop = "3%";
+   		 	document.getElementById("recovered-cases-title").style.marginTop = "0%";
+   			document.getElementById("confirmed-cases-title").style.marginTop = "0%";
+   			document.getElementById("death-cases-title").style.marginTop = "0%";
+   			document.getElementById("tested-cases-title").style.marginTop = "0%";
+   		 	document.getElementById("confirmed-cases-block").style.height = "80px";
+   		 	document.getElementById("recovered-cases-block").style.height = "80px";
+   		 	document.getElementById("death-cases-block").style.height = "80px";
+		 	document.getElementById("tested-cases-block").style.height = "80px";
+      		document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
+   			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
+   			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+   		}
+   		else if(e == "recovered"){
+   			f.setAttribute("class","col-sm-4");
+   			f.style.height = '100px';
+   		 	document.getElementById("recovered-cases-title").style.marginTop = "3%";
+   		 	document.getElementById("active-cases-title").style.marginTop = "0%";
+   			document.getElementById("confirmed-cases-title").style.marginTop = "0%";
+   			document.getElementById("death-cases-title").style.marginTop = "0%";
+   			document.getElementById("tested-cases-title").style.marginTop = "0%";
+   		 	document.getElementById("active-cases-block").style.height = "80px";
+   		 	document.getElementById("confirmed-cases-block").style.height = "80px";
+   		 	document.getElementById("death-cases-block").style.height = "80px";
+   		 	document.getElementById("tested-cases-block").style.height = "80px";
+   		 	document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
+			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
+			document.getElementById("death-cases-block").setAttribute("class","col-sm-2");
+   		}
+   		else if(e == "death"){
+   			f.setAttribute("class","col-sm-3");
+   			f.style.height = '100px';
+   		 	document.getElementById("death-cases-title").style.marginTop = "3%";
+   		 	document.getElementById("active-cases-title").style.marginTop = "0%";
+   			document.getElementById("confirmed-cases-title").style.marginTop = "0%";
+   			document.getElementById("recovered-cases-title").style.marginTop = "0%";
+   			document.getElementById("tested-cases-title").style.marginTop = "0%";
+   			document.getElementById("active-cases-block").style.height = "80px";
+   		 	document.getElementById("confirmed-cases-block").style.height = "80px";
+   		 	document.getElementById("recovered-cases-block").style.height = "80px";
+   		 	document.getElementById("tested-cases-block").style.height = "80px";
+   			document.getElementById("active-cases-block").setAttribute("class","col-sm-3");
+   			document.getElementById("confirmed-cases-block").setAttribute("class","col-sm-3");
+   			document.getElementById("recovered-cases-block").setAttribute("class","col-sm-3");
+   		 	document.getElementById("tested-cases-block").setAttribute("class","col-sm-3");
+   		}
+    	 map = L.map('map',{
+    	  	   center:coords,
+    	  	   zoomSnap: 0.25,
+    	  	   zoom:4.75, 
+    	  	   scrollWheelZoom: false
+    	  	   });
+    	 geojson =  L.geoJson(json, {
+             style: style,
+             onEachFeature: onEachFeature
+         });
+         geojson.addTo(map);
+         legend.onAdd = function (map) {
+     		if(case_status == "confirmed"){
+         	 var max_confirmed=0;
+         	 for(i in tabledata.slice(1,tabledata.length)){
+         		 if(max_confirmed<parseInt(tabledata[i].confirmed))
+         			 max_confirmed = parseInt(tabledata[i].confirmed);
+         	 }
+         	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+         	 var x = Math.log10(max_confirmed);
+         	 x=parseInt(x);
+         	 var y=5**x;
+              var div = L.DomUtil.create('div', 'info legend'),
+                  grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+                  labels = [];
+
+              // loop through our density intervals and generate a label with a colored square for each interval
+              for (var i = 0; i < grades.length; i++) {
+                  div.innerHTML +=
+                      '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                      grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+              }
+     		}
+     		else if(case_status == "active"){
+     			var max_confirmed=0;
+     	    	 for(i in tabledata.slice(1,tabledata.length)){
+     	    		 if(max_confirmed<parseInt(tabledata[i].active))
+     	    			 max_confirmed = parseInt(tabledata[i].active);
+     	    	 }
+     	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+     	    	 var x = Math.log10(max_confirmed);
+     	    	 x=parseInt(x);
+     	    	 var y=5**x;
+     	         var div = L.DomUtil.create('div', 'info legend'),
+     	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+     	             labels = [];
+
+     	         // loop through our density intervals and generate a label with a colored square for each interval
+     	         for (var i = 0; i < grades.length; i++) {
+     	             div.innerHTML +=
+     	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+     	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+     	         }
+     		}
+     		else if(case_status == "recovered"){
+     			var max_confirmed=0;
+     	    	 for(i in tabledata.slice(1,tabledata.length)){
+     	    		 if(max_confirmed<parseInt(tabledata[i].recovered))
+     	    			 max_confirmed = parseInt(tabledata[i].recovered);
+     	    	 }
+     	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+     	    	 var x = Math.log10(max_confirmed);
+     	    	 x=parseInt(x);
+     	    	 var y=5**x;
+     	         var div = L.DomUtil.create('div', 'info legend'),
+     	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+     	             labels = [];
+
+     	         // loop through our density intervals and generate a label with a colored square for each interval
+     	         for (var i = 0; i < grades.length; i++) {
+     	             div.innerHTML +=
+     	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+     	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+     	         }
+     		}
+     		else if(case_status == "death"){
+     			var max_confirmed=0;
+     	    	 for(i in tabledata.slice(1,tabledata.length)){
+     	    		 if(max_confirmed<parseInt(tabledata[i].deaths))
+     	    			 max_confirmed = parseInt(tabledata[i].deaths);
+     	    	 }
+     	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+     	    	 var x = Math.log10(max_confirmed);
+     	    	 x=parseInt(x);
+     	    	 var y=3**x;
+     	         var div = L.DomUtil.create('div', 'info legend'),
+     	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+     	             labels = [];
+
+     	         // loop through our density intervals and generate a label with a colored square for each interval
+     	         for (var i = 0; i < grades.length; i++) {
+     	             div.innerHTML +=
+     	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+     	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+     	         }
+     		}
+
+              return div;
+          };
+          legend.addTo(map);
+     }
+     
      //getting the color values for filling the map
      function getColor(d) {
-    	 var max_confirmed=0;
-    	 for(i in tabledata.slice(1,tabledata.length)){
-    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
-    			 max_confirmed = parseInt(tabledata[i].confirmed);
+    	 if(case_status == "confirmed"){
+	    	 var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].confirmed))
+	    			 max_confirmed = parseInt(tabledata[i].confirmed);
+	    	 }
+	    	 
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	    	 
+	         return d > 7*y ? '#800026' :
+	             d > 6*y  ? '#BD0026' :
+	             d > 5*y  ? '#E31A1C' :
+	             d > 4*y  ? '#FC4E2A' :
+	             d > 3*y   ? '#FD8D3C' :
+	             d > 2*y   ? '#FEB24C' :
+	             d > y  ? '#FED976' :
+	                         '#FFEDA0';
     	 }
-    	 
-    	 var x = Math.log10(max_confirmed);
-    	 x=parseInt(x);
-    	 var y=5**x;
-         return d > 7*y ? '#800026' :
-             d > 6*y  ? '#BD0026' :
-             d > 5*y  ? '#E31A1C' :
-             d > 4*y  ? '#FC4E2A' :
-             d > 3*y   ? '#FD8D3C' :
-             d > 2*y   ? '#FEB24C' :
-             d > y  ? '#FED976' :
-                         '#FFEDA0';
+    	 else if(case_status == "active"){
+    		 var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].active))
+	    			 max_confirmed = parseInt(tabledata[i].active);
+	    	 }
+	    	 
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	    	 
+	         return d > 7*y ? '#000066' :
+	             d > 6*y  ? '#000099' :
+	             d > 5*y  ? '#0000b3' :
+	             d > 4*y  ? '#0000e6' :
+	             d > 3*y   ? '#1a1aff' :
+	             d > 2*y   ? '#4d4dff' :
+	             d > y  ? '#8080ff' :
+	                         '#b3b3ff';
+    	 }
+    	 else if(case_status == "recovered"){
+    		 var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].recovered))
+	    			 max_confirmed = parseInt(tabledata[i].recovered);
+	    	 }
+	    	 
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	    	 
+	         return d > 7*y ? '#194d19' :
+	             d > 6*y  ? '#267326' :
+	             d > 5*y  ? '#339933' :
+	             d > 4*y  ? '#40bf40' :
+	             d > 3*y   ? '#66cc66' :
+	             d > 2*y   ? '#8cd98c' :
+	             d > y  ? '#b3e6b3' :
+	                         '#d9f2d9';
+    	 }
+    	 else if(case_status == "death"){
+    		 var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].deaths))
+	    			 max_confirmed = parseInt(tabledata[i].deaths);
+	    	 }
+	    	 
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=3**x;
+	    	 
+	         return d > 7*y ? '#404040' :
+	             d > 6*y  ? '#595959' :
+	             d > 5*y  ? '#737373' :
+	             d > 4*y  ? '#8c8c8c' :
+	             d > 3*y   ? '#a6a6a6' :
+	             d > 2*y   ? '#bfbfbf' :
+	             d > y  ? '#d9d9d9' :
+	                         '#f2f2f2';
+    	 }
      }
 
      //styling map
      function style(features) {
     	 var color;
-    	 for(i in tabledata){
-    		 if(tabledata[i].state == features.properties.st_nm){
-    	 		color = parseInt(tabledata[i].confirmed);
-    		 }
+    	 if(case_status == "confirmed"){
+    		 for(i in tabledata){
+        		 if(tabledata[i].state == features.properties.st_nm){
+        	 		color = parseInt(tabledata[i].confirmed);
+        		 }
+        	 }
+    	 }
+    	 else if(case_status == "active"){
+    		 for(i in tabledata){
+        		 if(tabledata[i].state == features.properties.st_nm){
+        	 		color = parseInt(tabledata[i].active);
+        		 }
+        	 }
+    	 }
+    	 else if(case_status == "recovered"){
+    		 for(i in tabledata){
+        		 if(tabledata[i].state == features.properties.st_nm){
+        	 		color = parseInt(tabledata[i].recovered);
+        		 }
+        	 }
+    	 }
+    	 else if(case_status == "death"){
+    		 for(i in tabledata){
+        		 if(tabledata[i].state == features.properties.st_nm){
+        	 		color = parseInt(tabledata[i].deaths);
+        		 }
+        	 }
     	 }
          return {
              fillColor: getColor(color),
@@ -423,7 +693,7 @@
              opacity: 1,
              color: 'white',
              dashArray: '3',
-             fillOpacity: 0.7
+             fillOpacity: 0.8
          };
      }
    	
@@ -458,7 +728,7 @@
    		const death = A - B;
    		return [confirmed,active,recovered,death]; 
    	}
-   	
+
    	function check(e){
   		status = e;
   		let pieValues = [];
@@ -630,9 +900,8 @@
      }
 
      //adding legend to the map
-     var legend = L.control({position: 'bottomright'});
      legend.onAdd = function (map) {
-			
+		if(case_status == "confirmed"){
     	 var max_confirmed=0;
     	 for(i in tabledata.slice(1,tabledata.length)){
     		 if(max_confirmed<parseInt(tabledata[i].confirmed))
@@ -652,6 +921,70 @@
                  '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
                  grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
          }
+		}
+		else if(case_status == "active"){
+			var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].active))
+	    			 max_confirmed = parseInt(tabledata[i].active);
+	    	 }
+	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	         var div = L.DomUtil.create('div', 'info legend'),
+	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+	             labels = [];
+
+	         // loop through our density intervals and generate a label with a colored square for each interval
+	         for (var i = 0; i < grades.length; i++) {
+	             div.innerHTML +=
+	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+	         }
+		}
+		else if(case_status == "recovered"){
+			var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].recovered))
+	    			 max_confirmed = parseInt(tabledata[i].recovered);
+	    	 }
+	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	         var div = L.DomUtil.create('div', 'info legend'),
+	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+	             labels = [];
+
+	         // loop through our density intervals and generate a label with a colored square for each interval
+	         for (var i = 0; i < grades.length; i++) {
+	             div.innerHTML +=
+	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+	         }
+		}
+		else if(case_status == "death"){
+			var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].deaths))
+	    			 max_confirmed = parseInt(tabledata[i].deaths);
+	    	 }
+	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=5**x;
+	         var div = L.DomUtil.create('div', 'info legend'),
+	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+	             labels = [];
+
+	         // loop through our density intervals and generate a label with a colored square for each interval
+	         for (var i = 0; i < grades.length; i++) {
+	             div.innerHTML +=
+	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+	         }
+		}
 
          return div;
      };
