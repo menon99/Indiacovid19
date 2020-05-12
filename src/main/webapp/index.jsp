@@ -501,6 +501,7 @@
              onEachFeature: onEachFeature
          });
          geojson.addTo(map);
+         map.dragging.disable();
          legend.onAdd = function (map) {
      		if(case_status == "confirmed"){
          	 var max_confirmed=0;
@@ -611,6 +612,9 @@
               return div;
           };
           legend.addTo(map);
+          if(screen.width<900){
+        	  document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "5%";
+          }
      }
      
      //getting the color values for filling the map
