@@ -26,18 +26,8 @@ public class StateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String [] parts = request.getRequestURI().split("/");
-//		String state = null;
-//		if(parts.length == 4) {
-//			state = URLDecoder.decode(parts[3], StandardCharsets.UTF_8.toString());
-//			System.out.println("state is " + state);
-//		}
 		String state = request.getParameter("state");
-
-		System.out.println("state is " + state);
-		System.out.println("states before format is " + state);
 		state = StringFormatter.capitalizeWord(state);
-		System.out.println("state after format is " + state);
 
 		GetJSON gj = new GetJSON();
 		CallbackFuture f1, f2;
