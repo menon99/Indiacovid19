@@ -148,7 +148,7 @@
 				<div class = "row animated fadeInLeft" style = "font-weight: 500; text-align: center; margin-top: 3%; margin-bottom:2%; font-family: 'Source Sans Pro', sans-serif;">
 					<div class = "col-sm-2"></div>
 					<div class = "col-sm-8">
-						<button id = "containment-button" class = "btn btn-outline-danger" onclick = "caseStatusUpdate('containment',this)" style = "font-weight: 500;"><span style = "font-size: 20px;">View Containment Zones</span></button>
+						<button id = "containment-button" class = "btn btn-outline-danger" onclick = "caseStatusUpdate('containment',this)" style = "font-weight: 500;"><span style = "font-size: 20px;">View District Zones</span></button>
 					</div>
 					<div class = "col-sm-2"></div>
 				</div>
