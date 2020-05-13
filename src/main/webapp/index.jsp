@@ -322,7 +322,7 @@
 	            document.getElementById("contentbox").setAttribute("class","col-sm-12");
 	            document.getElementById("mapbox").setAttribute("class","col-sm-12");
 	            document.getElementById("mapbox").style.marginTop = "7%";
-	            document.getElementById("covid-table").style.marginLeft = "-10%";
+	            document.getElementById("covid-table").style.marginLeft = "-14%";
 	            document.getElementById("map").style.marginLeft = "5%";
 	            document.getElementById("info").style.marginLeft = "10%";
 	            document.getElementById("table-content").style.marginLeft = "10%";
