@@ -99,8 +99,6 @@ public class StateServlet extends HttpServlet {
 		String[] parts = state.toLowerCase().split(" ");
 		String jsonName = String.join("", parts) + ".json";
 
-		System.out.println("json name is " + jsonName);
-
 		ServletContext ctx = request.getServletContext();
 
 		String path = ctx.getRealPath("/resources/json/" + jsonName); // Deployment
