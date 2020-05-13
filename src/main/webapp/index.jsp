@@ -360,6 +360,7 @@
 		 	{title:"Active", field:"active",hozAlign:"center"},
 		 	{title:"Deaths", field:"deaths",hozAlign:"center"},
 		 	{title:"Recovered", field:"recovered",hozAlign:"center"},
+		 	{title:"Tested", field:"tested",hozAlign:"center"},
 	 	],
 	    rowClick:rowclickfunc,
 	    rowTap: (e,row) => {
