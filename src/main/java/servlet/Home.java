@@ -50,7 +50,7 @@ public class Home extends HttpServlet {
 		while(k != testingData.length()) {
 			
 			String state = testingData.getJSONObject(k).getString("state");
-			int totalTested = Integer.parseInt(testingData.getJSONObject(k).getString("totaltested"));
+			int totalTested = 0;
 			
 			while(k != testingData.length() - 1 && state.equalsIgnoreCase(testingData.getJSONObject(k + 1).getString("state"))) {
 				try {
