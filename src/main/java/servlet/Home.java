@@ -74,9 +74,12 @@ public class Home extends HttpServlet {
 		}
 		
 		JSONArray testedIndia = j1.getJSONArray("tested");
-		total = (long) Float.parseFloat(testedIndia.getJSONObject(testedIndia.length() - 1).getString("totalsamplestested"));
-		
-		tabledata.getJSONObject(0).put("tested", total); 
+		try {
+			total = (long) Float.parseFloat(testedIndia.getJSONObject(testedIndia.length() - 1).getString("totalsamplestested"));
+			tabledata.getJSONObject(0).put("tested", total); 
+		}catch(NumberFormatException e) {
+			tabledata.getJSONObject(0).put("tested", "-"); 
+		}
 		
 		ServletContext ctx = request.getServletContext();
 		
