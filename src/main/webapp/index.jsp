@@ -200,8 +200,8 @@
 				</div>
 			</div>
 		</div>
-		<div class = "row" style = "margin-left: 16%;" id = "table-content">
-			<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 2%">
+		<div class = "row" id = "table-content">
+			<div class = "row animated fadeInLeft" style = "margin-top: 5%; margin-left: 2%; width: 90%;">
 				<div class ="col-sm-1"></div>
 				<div class = "col-sm-2" style = "opacity: 1; border-radius: 10px;">
 				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #800000; opacity: 1; text-align: center; font-weight: bold; font-size: 23px;">Confirmed </h5>
@@ -220,12 +220,12 @@
 				    <h5 id = "span-static-death"  style = "font-family: 'Source Sans Pro', sans-serif; color: #333333; text-align: center; font-size: 26px;"></h5>
 				</div>
 				<div class = "col-sm-2" style = "opacity: 1; border-radius: 10px;">
-				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px; transform: translate(35%,0)">Tested </h5>
+				    <h5 style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-weight: bold; font-size: 23px;">Tested </h5>
 				    <h5 id = "span-static-testing"  style = "font-family: 'Source Sans Pro', sans-serif; color: #b366ff; text-align: center; font-size: 26px;"></h5>
 				</div>
 				<div class ="col-sm-1"></div>
 			</div>
-			<div id = "table-note" class = "animated fadeInLeft" style = "width: 100%; margin-top: 2%;">
+			<div id = "table-note" class = "animated fadeInLeft" style = "width: 100%; margin-top: 2%; text-align:center;">
 				<h5 style = "font-family: 'Source Sans Pro', sans-serif;">Note: Click on a state to view respective trend charts</h5>
 			</div>
 		</div>
@@ -513,7 +513,7 @@
          	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
          	 var x = Math.log10(max_confirmed);
          	 x=parseInt(x);
-         	 var y=5**x;
+         	 var y=4**x;
               var div = L.DomUtil.create('div', 'info legend'),
                   grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
                   labels = [];
@@ -597,7 +597,7 @@
     	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
     	    	 var x = Math.log10(max_confirmed);
     	    	 x=parseInt(x);
-    	    	 var y=5**x;
+    	    	 var y=6**x;
     	         var div = L.DomUtil.create('div', 'info legend'),
     	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
     	             labels = [];
@@ -629,7 +629,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=5**x;
+	    	 var y=4**x;
 	    	 
 	         return d > 7*y ? '#800026' :
 	             d > 6*y  ? '#BD0026' :
@@ -709,7 +709,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=5**x;
+	    	 var y=6**x;
 	    	 
 	         return d > 7*y ? '#330066' :
 	             d > 6*y  ? '#400080' :
@@ -983,7 +983,7 @@
     	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
     	 var x = Math.log10(max_confirmed);
     	 x=parseInt(x);
-    	 var y=5**x;
+    	 var y=4**x;
          var div = L.DomUtil.create('div', 'info legend'),
              grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
              labels = [];
@@ -1058,6 +1058,27 @@
 	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
 	         }
 		}
+		else if(case_status == "tested"){
+ 			var max_confirmed=0;
+	    	 for(i in tabledata.slice(1,tabledata.length)){
+	    		 if(max_confirmed<parseInt(tabledata[i].tested))
+	    			 max_confirmed = parseInt(tabledata[i].tested);
+	    	 }
+	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
+	    	 var x = Math.log10(max_confirmed);
+	    	 x=parseInt(x);
+	    	 var y=6**x;
+	         var div = L.DomUtil.create('div', 'info legend'),
+	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
+	             labels = [];
+
+	         // loop through our density intervals and generate a label with a colored square for each interval
+	         for (var i = 0; i < grades.length; i++) {
+	             div.innerHTML +=
+	                 '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+	                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+	         }
+ 		}
 
          return div;
      };
@@ -1273,13 +1294,14 @@
     	for(i in data.actual){
     		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
     	}
+    	var index = 30;
     	var arimaChart = new Chart(ctx,{
     		type: 'line',
     		data: {
     			label: dates_analysis,
     			datasets: [{
     				label: 'Before lockdown on 24th March',
-    				data: predict_coords,
+    				data: predict_coords.slice(0,30),
     				fill: false,
     				lineTension: 0.1,
     				borderWidth: 3,
@@ -1289,7 +1311,7 @@
     				pointRadiusOnHover: 3,
     			},{
     				label: 'Before lockdown on 14th April',
-    				data: predict_coords1,
+    				data: predict_coords1.slice(0,index),
     				fill: false,
     				lineTension: 0.1,
     				borderWidth: 3,
@@ -1355,8 +1377,8 @@
   		    				fontSize: 20,
   		    			},
   		    			ticks: {
-  	                        autoSkip: false,
-  	                      	stepSize: 50000,
+  	                        autoSkip: true,
+  	                        stepSize: 50000,
   	                        maxTicksLimit: 6
   	                    },
   		    		}],
