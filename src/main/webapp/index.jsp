@@ -1269,6 +1269,21 @@
    	     });
      }
      
+     const bsearch = (arr,target) =>{
+    	let index = arr.length;
+    	let left = 0, right = arr.length -1,mid;
+    	while(left <= right){
+    		mid  = parseInt((left + right)/2);
+    		if(arr[mid] <= target)
+    			left = mid + 1;
+    		else{
+    			index = mid;
+    			right = mid - 1;
+    		}
+    	}
+    	return index;
+     };
+     
      //arima graph
      $.getJSON("https://covid19-api-django.herokuapp.com/arima/india",function(data){
     	var dates_analysis = data.dates;
@@ -1294,14 +1309,16 @@
     	for(i in data.actual){
     		actual_coords[i] = {'x': data.dates[i], 'y' : data.actual[i] };
     	}
-    	var index = 30;
+    	
+    	const target = data.p2[data.p2.length-1]
+    	var index = bsearch(data.p1,target) + 1;
     	var arimaChart = new Chart(ctx,{
     		type: 'line',
     		data: {
     			label: dates_analysis,
     			datasets: [{
     				label: 'Before lockdown on 24th March',
-    				data: predict_coords.slice(0,30),
+    				data: predict_coords,
     				fill: false,
     				lineTension: 0.1,
     				borderWidth: 3,
