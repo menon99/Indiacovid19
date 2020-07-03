@@ -85,6 +85,12 @@ public class GetTrends {
 		abbr.put("Apr", "04");
 		abbr.put("May" , "05");
 		abbr.put("Jun", "06");
+		abbr.put("Jul", "07");
+		abbr.put("Aug", "08");
+		abbr.put("Sep", "09");
+		abbr.put("Oct", "10");
+		abbr.put("Nov", "11");
+		abbr.put("Dec", "12");
 		
 		for(int i = 0; i < j2.length(); i ++) {
 			
