@@ -513,7 +513,7 @@
          	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
          	 var x = Math.log10(max_confirmed);
          	 x=parseInt(x);
-         	 var y=4**x;
+         	 var y=5**x;
               var div = L.DomUtil.create('div', 'info legend'),
                   grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
                   labels = [];
@@ -576,7 +576,7 @@
      	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
      	    	 var x = Math.log10(max_confirmed);
      	    	 x=parseInt(x);
-     	    	 var y=3**x;
+     	    	 var y=4**x;
      	         var div = L.DomUtil.create('div', 'info legend'),
      	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
      	             labels = [];
@@ -629,7 +629,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=4**x;
+	    	 var y=5**x;
 	    	 
 	         return d > 7*y ? '#800026' :
 	             d > 6*y  ? '#BD0026' :
@@ -689,7 +689,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=3**x;
+	    	 var y=4**x;
 	    	 
 	         return d > 7*y ? '#404040' :
 	             d > 6*y  ? '#595959' :
@@ -983,7 +983,7 @@
     	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
     	 var x = Math.log10(max_confirmed);
     	 x=parseInt(x);
-    	 var y=4**x;
+    	 var y=5**x;
          var div = L.DomUtil.create('div', 'info legend'),
              grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
              labels = [];
@@ -1046,7 +1046,7 @@
 	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=5**x;
+	    	 var y=4**x;
 	         var div = L.DomUtil.create('div', 'info legend'),
 	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
 	             labels = [];
@@ -1395,7 +1395,7 @@
   		    			},
   		    			ticks: {
   	                        autoSkip: true,
-  	                        stepSize: 50000,
+  	                        stepSize: Math.round(predict_coords_current[predict_coords_current.length-1]['y']/5),
   	                        maxTicksLimit: 6
   	                    },
   		    		}],
