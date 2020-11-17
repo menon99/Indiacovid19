@@ -100,6 +100,7 @@ public class GetTrends {
 			
 			day.remove("status");
 			day.remove("date");
+			day.remove("dateymd");
 			
 			if(status.equalsIgnoreCase("Confirmed")) {
 				dates.put(date);
