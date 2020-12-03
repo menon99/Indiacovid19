@@ -297,7 +297,6 @@
  	     document.getElementById("pie-chart").innerHTML = "<canvas id = 'pie-chart-cases'></canvas>";
  	   
  	     document.getElementById("trends-title").innerHTML = "Trends - "+row._row.data.state;
- 	     console.log("desktop");
  	     cur_state = row._row.data.state;
 		 lineChart(row._row.data.state,data_cases);
 		 if(status == "1-Month")
@@ -555,7 +554,7 @@
      	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
      	    	 var x = Math.log10(max_confirmed);
      	    	 x=parseInt(x);
-     	    	 var y=5**x;
+     	    	 var y=Math.round(6.5**x);
      	         var div = L.DomUtil.create('div', 'info legend'),
      	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
      	             labels = [];
@@ -629,7 +628,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=5**x;
+	    	 var y=Math.round(6.5**x);
 	    	 
 	         return d > 7*y ? '#800026' :
 	             d > 6*y  ? '#BD0026' :
@@ -669,7 +668,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=5**x;
+	    	 var y=Math.round(6.5**x);
 	    	 
 	         return d > 7*y ? '#194d19' :
 	             d > 6*y  ? '#267326' :
@@ -815,6 +814,7 @@
             document.getElementById('Beginning').removeAttribute('class');
             document.getElementById('Beginning').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,0);
+            document.getElementById('trends-title').focus();
         }
         else if(e == '1-Month'){
             document.getElementById('Beginning').removeAttribute('class');
@@ -826,6 +826,7 @@
             document.getElementById('1-Month').removeAttribute('class');
             document.getElementById('1-Month').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,30);
+            document.getElementById('trends-title').focus();
         }
         else if(e == '1-Week'){
             document.getElementById('Beginning').removeAttribute('class');
@@ -837,6 +838,7 @@
             document.getElementById('1-Week').removeAttribute('class');
             document.getElementById('1-Week').setAttribute("class","btn btn-primary waves-effect waves-light");
             pieValues = getPieData(cur_state,7);
+            document.getElementById('trends-title').focus();
         }
         else if(e == '2-Weeks'){
             document.getElementById('Beginning').removeAttribute('class');
@@ -847,7 +849,8 @@
             document.getElementById('1-Month').setAttribute('class','btn btn-outline-primary waves-effect waves-light');
             document.getElementById('2-Weeks').removeAttribute('class');
             document.getElementById('2-Weeks').setAttribute("class","btn btn-primary waves-effect waves-light");
-            pieValues = getPieData(cur_state,14);// i need to do a small change in that linechart fn then, give a min
+            pieValues = getPieData(cur_state,14);
+            document.getElementById('trends-title').focus();
         }
   		document.getElementById("line-confirmed-class").innerHTML = "";
   	     document.getElementById("line-confirmed-class").innerHTML = "<canvas id = 'line-confirmed'></canvas>";
@@ -983,7 +986,7 @@
     	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
     	 var x = Math.log10(max_confirmed);
     	 x=parseInt(x);
-    	 var y=5**x;
+    	 var y=Math.round(6.5**x);
          var div = L.DomUtil.create('div', 'info legend'),
              grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
              labels = [];
@@ -1025,7 +1028,7 @@
 	    	 document.getElementsByClassName("leaflet-bottom leaflet-right")[0].style.marginRight = "25%";
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=5**x;
+	    	 var y=Math.round(6.5**x);
 	         var div = L.DomUtil.create('div', 'info legend'),
 	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
 	             labels = [];
@@ -1103,6 +1106,16 @@
   	   
     	
   	   var dates = ${dates}; //these are the dates u give from server
+  	   var i;
+  	   for(i=0;i<dates.length;i++){
+  		   var date = dates[i].split('/')[1];
+  		   var month = dates[i].split('/')[0];
+  		   var year = dates[i].split('/')[2];
+  		   if(month == "null"){
+  			   month = "09";
+  			   dates[i] = month+"/"+date+"/"+year;
+  		   }
+  	   }
   	   var dataset_y_confirmed = trimData(data_cases[state_name]['y-confirmed']);
   	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
   	   
