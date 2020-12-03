@@ -721,7 +721,7 @@
         	 }
         	 var x = Math.log10(max_confirmed);
         	 x=parseInt(x);
-        	 var y=3**x;
+        	 var y=5**x;
              var div = L.DomUtil.create('div', 'info legend'),
                  grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
                  labels = [];
@@ -741,7 +741,7 @@
     	    	 }
     	    	 var x = Math.log10(max_confirmed);
     	    	 x=parseInt(x);
-    	    	 var y=3**x;
+    	    	 var y=Math.round(4.5**x);
     	         var div = L.DomUtil.create('div', 'info legend'),
     	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
     	             labels = [];
@@ -761,7 +761,7 @@
     	    	 }
     	    	 var x = Math.log10(max_confirmed);
     	    	 x=parseInt(x);
-    	    	 var y=3**x;
+    	    	 var y=5**x;
     	         var div = L.DomUtil.create('div', 'info legend'),
     	             grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
     	             labels = [];
@@ -825,7 +825,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=3**x;
+	    	 var y=5**x;
 	    	 
 	         return d > 7*y ? '#800026' :
 	             d > 6*y  ? '#BD0026' :
@@ -845,7 +845,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=3**x;
+	    	 var y=Math.round(4.5**x);
 	    	 
 	         return d > 7*y ? '#000066' :
 	             d > 6*y  ? '#000099' :
@@ -865,7 +865,7 @@
 	    	 
 	    	 var x = Math.log10(max_confirmed);
 	    	 x=parseInt(x);
-	    	 var y=3**x;
+	    	 var y=5**x;
 	    	 
 	         return d > 7*y ? '#194d19' :
 	             d > 6*y  ? '#267326' :
@@ -1031,7 +1031,7 @@
     	 }
     	 var x = Math.log10(max_confirmed);
     	 x=parseInt(x);
-    	 var y=3**x;
+    	 var y=5**x;
          var div = L.DomUtil.create('div', 'info legend'),
              grades = [0, y, 2*y, 3*y, 4*y, 5*y, 6*y, 7*y],
              labels = [];
@@ -1063,8 +1063,17 @@
      }
        
   	   function lineChart(data_cases){
-  		 var dates=${dates};
-    	   
+  		   var dates=${dates};
+	  	   var i;
+	   	   for(i=0;i<dates.length;i++){
+	   		   var date = dates[i].split('/')[1];
+	   		   var month = dates[i].split('/')[0];
+	   		   var year = dates[i].split('/')[2];
+	   		   if(month == "null"){
+	   			   month = "09";
+	   			   dates[i] = month+"/"+date+"/"+year;
+	   		   }
+	   	   }
     	   var dataset_y_confirmed = trimData(data_cases['y-confirmed']);
     	   genericlinechart("line-confirmed",trimData(dates),dataset_y_confirmed,"#ff0000","Confirmed Cases","rgba(255,7,58,.12549)");
     	   
